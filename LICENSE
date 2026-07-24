@@ -1,0 +1,15 @@
+Copyright (c) 2026 Vincent Chalnot. All rights reserved.
+
+This repository's source is public for transparency and reference, but it
+is not open source: no license, express or implied, is granted to any
+person to use, copy, modify, merge, publish, distribute, sublicense,
+create derivative works from, or sell copies of this software, in whole or
+in part, for any purpose, without the prior written permission of the
+copyright holder. This includes the site's markup, layouts, styling, and
+copy; it does not extend to third-party assets or dependencies included
+here under their own separate licenses (see `package.json`).
+
+Unauthorized copying, modification, distribution, or use of this software,
+via any medium, is strictly prohibited.
+
+For licensing inquiries, contact: contact@keres.fr

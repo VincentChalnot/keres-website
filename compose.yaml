@@ -1,0 +1,55 @@
+# Development Compose file for the Keres marketing website (Hugo).
+#
+# Runs the Hugo dev server standalone, routed through the shared external
+# Traefik reverse proxy (TLS, real certs via DNS-01 ACME):
+#   - https://${SERVER_NAME}  → Hugo static site (dev, live reload)
+#
+# "Play now"/login/contact-form links are derived at build time from this
+# same SERVER_NAME (prefixed with "app.") — see
+# layouts/partials/platform-url.html — no separate env var links them. Run
+# keres-platform's own compose.yaml against the SAME SERVER_NAME to
+# reproduce the production topology locally and exercise those links.
+#
+# Prerequisites:
+#   1. External Traefik running on the TRAEFIK_NETWORK docker network.
+#   2. DNS for ${SERVER_NAME} resolving to 127.0.0.1.
+#
+# Usage:
+#   docker network create proxy 2>/dev/null || true
+#   cp .env.example .env
+#   docker compose up --build -d
+
+name: keres-website
+
+services:
+  hugo:
+    image: hugomods/hugo:ci-0.135.0
+    restart: unless-stopped
+    working_dir: /src
+    volumes:
+      - .:/src
+    command:
+      - "server"
+      - "--bind=0.0.0.0"
+      - "--port=80"
+      - "--baseURL=https://${SERVER_NAME:-local.playkeres.com}/"
+      - "--environment=development"
+      - "--buildDrafts"
+      - "--disableFastRender"
+      - "--liveReloadPort=443"
+    networks: [default, proxy]
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "${TRAEFIK_NETWORK:-proxy}"
+      traefik.http.routers.keres-web.rule: "Host(`${SERVER_NAME:-local.playkeres.com}`)"
+      traefik.http.routers.keres-web.entrypoints: "${TRAEFIK_ENTRYPOINT:-websecure}"
+      traefik.http.routers.keres-web.tls: "true"
+      traefik.http.routers.keres-web.tls.certresolver: "${CERT_RESOLVER:-infomaniak}"
+      traefik.http.routers.keres-web.service: "keres-web-svc"
+      traefik.http.services.keres-web-svc.loadbalancer.server.port: "80"
+
+networks:
+  default:
+  proxy:
+    external: true
+    name: "${TRAEFIK_NETWORK:-proxy}"

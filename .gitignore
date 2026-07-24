@@ -3,3 +3,6 @@
 /resources
 /.hugo_build.lock
 /hugo_stats.json
+
+# Local environment overrides (may contain secrets) — never commit.
+/.env
