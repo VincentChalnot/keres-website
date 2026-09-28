@@ -13,7 +13,9 @@
 [footer_legal]
   other = "Mentions légales"
 [footer_terms]
-  other = "Conditions générales de vente"
+  other = "Conditions générales d'utilisation"
+[footer_privacy]
+  other = "Politique de confidentialité"
 [footer_contact]
   other = "Contact"
 [newsletter_label]
@@ -139,13 +141,17 @@
 [legal_editor_name]
   other = "Vincent Chalnot"
 [legal_editor_desc]
-  other = "Développeur indépendant – Micro-entrepreneur"
+  other = "Entreprise individuelle – Activité libérale non réglementée"
 [legal_editor_address]
-  other = "Adresse : [Votre adresse postale]"
+  other = "Adresse : 7 rue de Bruxelles, 69100 Villeurbanne, France"
+[legal_editor_siren]
+  other = "SIREN : 889 048 229"
+[legal_editor_siret]
+  other = "SIRET (siège) : 889 048 229 00039"
+[legal_editor_ape]
+  other = "Code APE : 6202A – Conseil en systèmes et logiciels informatiques"
 [legal_editor_email]
   other = "E-mail :"
-[legal_editor_siret]
-  other = "SIRET : [Numéro SIRET]"
 [legal_director_title]
   other = "Directeur de la publication"
 [legal_director_text]
@@ -153,13 +159,31 @@
 [legal_hosting_title]
   other = "Hébergement"
 [legal_hosting_text]
-  other = "Ce site est hébergé par :"
-[legal_hosting_name]
-  other = "[Nom de l'hébergeur]"
-[legal_hosting_address]
-  other = "[Adresse de l'hébergeur]"
-[legal_hosting_website]
-  other = "[Site web de l'hébergeur]"
+  other = "Ce site et la plateforme de jeu associée sont hébergés et exploités à l'aide des prestataires suivants :"
+[legal_hosting_ionos_role]
+  other = "hébergement de la plateforme applicative"
+[legal_hosting_ionos_name]
+  other = "IONOS SE"
+[legal_hosting_ionos_address]
+  other = "Elgendorfer Straße 57, 56410 Montabaur, Allemagne"
+[legal_hosting_cloudflare_role]
+  other = "diffusion du site statique et réseau de diffusion de contenu (CDN)"
+[legal_hosting_cloudflare_name]
+  other = "Cloudflare, Inc."
+[legal_hosting_cloudflare_address]
+  other = "101 Townsend St, San Francisco, CA 94107, États-Unis"
+[legal_hosting_gcp_role]
+  other = "calcul pour l'intelligence artificielle du moteur de jeu"
+[legal_hosting_gcp_name]
+  other = "Google Cloud France"
+[legal_hosting_gcp_address]
+  other = "8 rue de Londres, 75009 Paris, France"
+[legal_hosting_scaleway_role]
+  other = "envoi des e-mails transactionnels"
+[legal_hosting_scaleway_name]
+  other = "Scaleway SAS"
+[legal_hosting_scaleway_address]
+  other = "8 rue de la Ville-l'Évêque, 75008 Paris, France"
 [legal_ip_title]
   other = "Propriété intellectuelle"
 [legal_ip_text1]
@@ -169,15 +193,17 @@
 [legal_gdpr_title]
   other = "Données personnelles et RGPD"
 [legal_gdpr_text1]
-  other = "Dans le cadre de l'utilisation du site Keres, des données personnelles peuvent être collectées (adresse e-mail lors de l'inscription ou de la connexion via un fournisseur d'identité tiers, historique des parties). Ces données sont traitées conformément au Règlement Général sur la Protection des Données (RGPD – Règlement UE 2016/679)."
+  other = "Dans le cadre de l'utilisation de la plateforme Keres, des données à caractère personnel sont susceptibles d'être collectées et traitées par Vincent Chalnot, responsable du traitement (voir la rubrique « Éditeur du site » ci-dessus)."
 [legal_gdpr_text2]
-  other = "Vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données, ainsi que d'un droit d'opposition et de limitation du traitement. Pour exercer ces droits, contactez-nous à l'adresse :"
+  other = "Le détail des données collectées, leur finalité, leur durée de conservation et les modalités d'exercice de vos droits sont décrits dans notre"
+[legal_gdpr_privacy_link]
+  other = "politique de confidentialité"
 [legal_gdpr_text3]
   other = "En cas de litige, vous pouvez également introduire une réclamation auprès de la"
 [legal_cookies_title]
   other = "Cookies"
 [legal_cookies_text]
-  other = "Ce site peut utiliser des cookies techniques strictement nécessaires au bon fonctionnement de la plateforme (session utilisateur, préférences d'affichage). Aucun cookie de traçage publicitaire n'est déposé sans votre consentement."
+  other = "La plateforme Keres utilise uniquement un cookie technique strictement nécessaire à l'authentification et au bon fonctionnement du service (session utilisateur). Aucun cookie de mesure d'audience ou de publicité n'est utilisé. Ce cookie étant strictement nécessaire, aucun consentement préalable ni bandeau de consentement n'est requis."
 [legal_links_title]
   other = "Liens hypertextes"
 [legal_links_text]
@@ -186,70 +212,102 @@
   other = "Droit applicable"
 [legal_law_text]
   other = "Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents."
-[terms_title]
-  other = "Conditions Générales de Vente"
-[terms_subtitle]
-  other = "En vigueur au 1er janvier 2025 – Applicables aux commandes de l'Édition Collector Keres."
-[terms_seller_title]
-  other = "Identification du vendeur"
-[terms_seller_text]
-  other = "Vincent Chalnot – Micro-entrepreneur – SIRET : [Numéro SIRET] – Adresse : [Votre adresse postale]"
-[terms_object_title]
+[cgu_title]
+  other = "Conditions Générales d'Utilisation"
+[cgu_subtitle]
+  other = "Dernière mise à jour : 28 septembre 2026 – Applicables à l'utilisation de la plateforme de jeu en ligne Keres."
+[cgu_object_title]
   other = "Objet"
-[terms_object_text]
-  other = "Les présentes Conditions Générales de Vente (CGV) régissent les ventes du jeu de plateau Keres – Édition Collector réalisées via le site keres.fr. Toute commande passée implique l'acceptation pleine et entière de ces CGV."
-[terms_product_title]
-  other = "Produit"
-[terms_product_text]
-  other = "L'Édition Collector Keres est un jeu de plateau physique fabriqué en série limitée, comprenant le plateau de jeu, les pièces gravées et le livret de règles. Les photographies et descriptions présentées sur le site sont aussi fidèles que possible au produit réel."
-[terms_price_title]
-  other = "Prix"
-[terms_price_text]
-  other = "Les prix sont indiqués en euros (€) toutes taxes comprises (TTC). Le vendeur se réserve le droit de modifier ses prix à tout moment ; les produits sont facturés au tarif en vigueur au moment de la validation de la commande."
-[terms_price_amount]
-  other = "Prix de l'Édition Collector : 45 € (frais de port en sus, calculés selon la destination)."
-[terms_order_title]
-  other = "Commande et pré-commande"
-[terms_order_text]
-  other = "La commande devient ferme après validation par le client et encaissement du paiement. Dans le cadre d'une pré-commande, le client est informé que le produit sera expédié à la date de fabrication communiquée sur le site, et qu'il peut annuler sa commande et être intégralement remboursé avant l'expédition."
-[terms_payment_title]
-  other = "Paiement"
-[terms_payment_text]
-  other = "Le paiement s'effectue en ligne par les moyens sécurisés proposés lors de la commande. Le paiement est exigible intégralement à la commande. Les données bancaires ne sont pas conservées par le vendeur."
-[terms_delivery_title]
-  other = "Livraison"
-[terms_delivery_text]
-  other = "Les commandes sont expédiées à l'adresse indiquée par le client lors de la commande. Les délais de livraison indicatifs sont communiqués sur le site et débutent à partir de la date d'expédition. Le vendeur ne peut être tenu responsable des retards imputables aux transporteurs ou à des événements indépendants de sa volonté (force majeure)."
-[terms_withdrawal_title]
-  other = "Droit de rétractation"
-[terms_withdrawal_text1]
-  other = "Conformément aux articles L.221-18 et suivants du Code de la consommation, le client dispose d'un délai de 14 jours à compter de la réception du produit pour exercer son droit de rétractation, sans avoir à motiver sa décision. Le produit doit être retourné en parfait état dans son emballage d'origine. Les frais de retour sont à la charge du client."
-[terms_withdrawal_text2]
-  other = "Pour exercer ce droit, contactez-nous à :"
-[terms_withdrawal_text3]
-  other = "Le remboursement sera effectué dans les 14 jours suivant la réception du retour."
-[terms_withdrawal_text4]
-  other = "Exception : le droit de rétractation ne s'applique pas aux produits personnalisés ou fabriqués sur mesure."
-[terms_warranty_title]
-  other = "Garanties légales"
-[terms_warranty_text]
-  other = "Tout produit vendu bénéficie de la garantie légale de conformité (articles L.217-4 et suivants du Code de la consommation) et de la garantie légale contre les vices cachés (articles 1641 et suivants du Code civil). En cas de défaut constaté, contactez-nous à"
-[terms_platform_title]
-  other = "Accès à la plateforme en ligne"
-[terms_platform_text]
-  other = "L'accès à la plateforme de jeu en ligne keres.fr est distinct de la vente du produit physique. La plateforme est fournie « en l'état », sans garantie de disponibilité permanente. Le vendeur se réserve le droit de modifier ou d'interrompre l'accès à la plateforme sans préavis."
-[terms_data_title]
-  other = "Données personnelles"
-[terms_data_text]
-  other = "Les données collectées lors d'une commande (nom, adresse, e-mail) sont utilisées exclusivement pour le traitement et le suivi de la commande. Elles ne sont pas transmises à des tiers à des fins commerciales. Vous disposez d'un droit d'accès, de rectification et de suppression de vos données en contactant :"
-[terms_law_title]
+[cgu_object_text]
+  other = "Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation de la plateforme de jeu en ligne Keres, éditée par Vincent Chalnot (voir nos mentions légales), accessible notamment depuis playkeres.com et app.playkeres.com. Le jeu contre l'ordinateur ou en mode « hot-seat » (à deux joueurs sur un même appareil) est accessible sans création de compte. La création d'un compte est nécessaire pour accéder aux fonctionnalités en ligne : recherche de partie, parties classées, amis et notifications. L'utilisation de la plateforme implique l'acceptation pleine et entière des présentes CGU."
+[cgu_account_title]
+  other = "Compte utilisateur"
+[cgu_account_text]
+  other = "La création d'un compte nécessite une adresse e-mail valide et un mot de passe, ou une connexion via un fournisseur d'identité tiers (Google, Discord). Vous êtes responsable de la confidentialité de vos identifiants et de toute activité effectuée depuis votre compte. Le nom d'utilisateur affiché publiquement peut être modifié une fois tous les douze mois."
+[cgu_conduct_title]
+  other = "Comportement des utilisateurs"
+[cgu_conduct_text]
+  other = "Vous vous engagez à utiliser la plateforme de bonne foi : ne pas recourir à une assistance extérieure non autorisée pour jouer à votre place, ne pas perturber le fonctionnement du service, et ne pas adopter de comportement abusif ou injurieux envers les autres joueurs. Tout manquement peut entraîner la suspension ou la suppression du compte concerné."
+[cgu_ip_title]
+  other = "Propriété intellectuelle"
+[cgu_ip_text]
+  other = "Le jeu Keres, ses règles, son moteur de jeu, son interface et l'ensemble des contenus de la plateforme sont la propriété exclusive de Vincent Chalnot, sauf mention contraire, et sont protégés par le droit d'auteur. Toute reproduction ou réutilisation non autorisée est interdite."
+[cgu_availability_title]
+  other = "Disponibilité du service"
+[cgu_availability_text]
+  other = "La plateforme est fournie « en l'état », gratuitement, sans garantie de disponibilité permanente. Vincent Chalnot se réserve le droit de modifier, suspendre ou interrompre tout ou partie du service à tout moment, notamment pour des raisons de maintenance, sans que cela n'ouvre droit à indemnité."
+[cgu_termination_title]
+  other = "Suppression de compte"
+[cgu_termination_text1]
+  other = "Vous pouvez demander la suppression de votre compte à tout moment en nous contactant via notre"
+[cgu_contact_link]
+  other = "formulaire de contact"
+[cgu_termination_text2]
+  other = ". Le traitement de vos données à la suite d'une suppression de compte, notamment la conservation anonymisée de l'historique de vos parties, est décrit dans notre"
+[cgu_privacy_link]
+  other = "politique de confidentialité"
+[cgu_liability_title]
+  other = "Responsabilité"
+[cgu_liability_text]
+  other = "La plateforme étant fournie gratuitement, la responsabilité de Vincent Chalnot ne saurait être engagée qu'en cas de faute prouvée, et dans les limites autorisées par la loi. Vincent Chalnot ne garantit pas que le service sera exempt d'erreurs ou d'interruptions."
+[cgu_law_title]
   other = "Droit applicable et litiges"
-[terms_law_text1]
-  other = "Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité. À défaut, le litige sera soumis aux tribunaux compétents du ressort du domicile du vendeur."
-[terms_law_text2]
-  other = "Conformément aux dispositions du Code de la consommation concernant la médiation de la consommation, le client peut recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige."
-[terms_law_text3]
+[cgu_law_text1]
+  other = "Les présentes CGU sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité."
+[cgu_law_text2]
+  other = "Conformément aux dispositions du Code de la consommation concernant la médiation de la consommation, vous pouvez recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige."
+[cgu_law_text3]
   other = "Pour en savoir plus :"
+[privacy_title]
+  other = "Politique de confidentialité"
+[privacy_subtitle]
+  other = "Dernière mise à jour : 28 septembre 2026"
+[privacy_controller_title]
+  other = "Responsable du traitement"
+[privacy_controller_text]
+  other = "Le responsable du traitement des données décrites ci-dessous est Vincent Chalnot. Son identité complète et ses coordonnées figurent dans nos"
+[privacy_legal_notice_link]
+  other = "mentions légales"
+[privacy_data_title]
+  other = "Données collectées"
+[privacy_data_text]
+  other = "Dans le cadre de la création d'un compte et de l'utilisation de la plateforme de jeu en ligne, nous collectons : votre adresse e-mail et, le cas échéant, les informations transmises par le fournisseur d'identité tiers utilisé pour vous connecter (Google, Discord) ; un nom d'utilisateur public ; l'historique de vos parties (coups joués, résultats, statistiques de classement) ; les messages que vous nous adressez via le formulaire de contact. La navigation sur le site ne collecte aucune autre donnée personnelle en dehors du cookie de session décrit ci-dessous."
+[privacy_cookies_title]
+  other = "Cookies"
+[privacy_cookies_text]
+  other = "La plateforme Keres utilise uniquement un cookie de session strictement nécessaire à l'authentification et au maintien de votre connexion. Aucun cookie de mesure d'audience, de publicité ou de traçage n'est déposé. Ce cookie étant strictement nécessaire au fonctionnement du service, aucun consentement préalable ni bandeau de consentement n'est requis."
+[privacy_purpose_title]
+  other = "Finalités et base légale"
+[privacy_purpose_text]
+  other = "Ces données sont traitées pour permettre la création et la gestion de votre compte, le déroulement des parties, le classement, la mise en relation avec d'autres joueurs, ainsi que pour répondre à vos demandes de contact. Ces traitements sont fondés sur l'exécution du contrat qui vous lie à Keres lors de la création de votre compte, ainsi que sur notre intérêt légitime à assurer le bon fonctionnement et la sécurité de la plateforme."
+[privacy_retention_title]
+  other = "Durée de conservation"
+[privacy_retention_text1]
+  other = "Vos données de compte sont conservées tant que votre compte reste actif."
+[privacy_retention_text2]
+  other = "Si vous supprimez votre compte, vos données personnelles sont effacées. Les parties que vous avez jouées sont en revanche conservées, mais sous une forme rendue définitivement anonyme : le lien entre votre compte et ces parties est irrémédiablement rompu, sans qu'aucune correspondance ne puisse être reconstituée. Ces données de parties anonymisées peuvent être utilisées à des fins d'analyse et d'entraînement de modèles d'intelligence artificielle liés au moteur de jeu."
+[privacy_recipients_title]
+  other = "Destinataires des données"
+[privacy_recipients_text1]
+  other = "Vos données peuvent être transmises aux prestataires techniques qui nous permettent d'opérer la plateforme (hébergement, calcul pour l'intelligence artificielle, envoi d'e-mails), énumérés dans nos"
+[privacy_recipients_text2]
+  other = "Ces prestataires n'utilisent vos données que pour l'exécution des services qu'ils nous fournissent."
+[privacy_rights_title]
+  other = "Vos droits"
+[privacy_rights_text1]
+  other = "Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données, ainsi que d'un droit d'opposition et de limitation du traitement."
+[privacy_rights_text2]
+  other = "Pour exercer ces droits, contactez-nous via notre"
+[privacy_contact_link]
+  other = "formulaire de contact"
+[privacy_rights_text3]
+  other = ". Nous nous engageons à répondre à votre demande dans un délai maximal de 30 jours."
+[privacy_rights_text4]
+  other = "En cas de litige, vous pouvez également introduire une réclamation auprès de la"
+[privacy_changes_title]
+  other = "Modification de la présente politique"
+[privacy_changes_text]
+  other = "Cette politique de confidentialité peut être mise à jour ponctuellement. La date de dernière mise à jour figure en haut de cette page."
 [lang_switch]
   other = "English"
 [skip_to_content]

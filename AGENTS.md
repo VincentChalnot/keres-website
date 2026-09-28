@@ -28,8 +28,8 @@ Pages:
   piece cards rendered via `layouts/partials/piece-card.html`)
 - `/contact` — contact form (`layouts/contact/single.html`) that POSTs
   JSON directly to the platform's `/api/contact` endpoint client-side
-- `/legal-notice`, `/terms-of-sale` — via `i18n_legal`/`i18n_terms`
-  shortcodes
+- `/legal-notice`, `/terms-of-use`, `/privacy-policy` — via `i18n_legal`/
+  `i18n_cgu`/`i18n_privacy` shortcodes
 
 ### The `platform-url.html` partial
 

@@ -13,7 +13,9 @@
 [footer_legal]
   other = "Legal Notice"
 [footer_terms]
-  other = "Terms of Sale"
+  other = "Terms of Use"
+[footer_privacy]
+  other = "Privacy Policy"
 [footer_contact]
   other = "Contact"
 [newsletter_label]
@@ -139,13 +141,17 @@
 [legal_editor_name]
   other = "Vincent Chalnot"
 [legal_editor_desc]
-  other = "Independent Developer – Micro-entrepreneur"
+  other = "Sole proprietorship – Unregulated liberal profession"
 [legal_editor_address]
-  other = "Address: [Your postal address]"
+  other = "Address: 7 rue de Bruxelles, 69100 Villeurbanne, France"
+[legal_editor_siren]
+  other = "SIREN: 889 048 229"
+[legal_editor_siret]
+  other = "SIRET (headquarters): 889 048 229 00039"
+[legal_editor_ape]
+  other = "APE code: 6202A – Computer systems and software consulting"
 [legal_editor_email]
   other = "Email:"
-[legal_editor_siret]
-  other = "SIRET: [SIRET Number]"
 [legal_director_title]
   other = "Publication Director"
 [legal_director_text]
@@ -153,13 +159,31 @@
 [legal_hosting_title]
   other = "Hosting"
 [legal_hosting_text]
-  other = "This site is hosted by:"
-[legal_hosting_name]
-  other = "[Hosting provider name]"
-[legal_hosting_address]
-  other = "[Hosting provider address]"
-[legal_hosting_website]
-  other = "[Hosting provider website]"
+  other = "This site and the associated game platform are hosted and operated using the following providers:"
+[legal_hosting_ionos_role]
+  other = "application platform hosting"
+[legal_hosting_ionos_name]
+  other = "IONOS SE"
+[legal_hosting_ionos_address]
+  other = "Elgendorfer Straße 57, 56410 Montabaur, Germany"
+[legal_hosting_cloudflare_role]
+  other = "static site delivery and content delivery network (CDN)"
+[legal_hosting_cloudflare_name]
+  other = "Cloudflare, Inc."
+[legal_hosting_cloudflare_address]
+  other = "101 Townsend St, San Francisco, CA 94107, USA"
+[legal_hosting_gcp_role]
+  other = "compute for the game engine's artificial intelligence"
+[legal_hosting_gcp_name]
+  other = "Google Cloud France"
+[legal_hosting_gcp_address]
+  other = "8 rue de Londres, 75009 Paris, France"
+[legal_hosting_scaleway_role]
+  other = "transactional email delivery"
+[legal_hosting_scaleway_name]
+  other = "Scaleway SAS"
+[legal_hosting_scaleway_address]
+  other = "8 rue de la Ville-l'Évêque, 75008 Paris, France"
 [legal_ip_title]
   other = "Intellectual Property"
 [legal_ip_text1]
@@ -169,15 +193,17 @@
 [legal_gdpr_title]
   other = "Personal Data and GDPR"
 [legal_gdpr_text1]
-  other = "As part of using the Keres site, personal data may be collected (email address during registration or login via a third-party identity provider, game history). This data is processed in accordance with the General Data Protection Regulation (GDPR – EU Regulation 2016/679)."
+  other = "As part of using the Keres platform, personal data may be collected and processed by Vincent Chalnot, the data controller (see the \"Website Publisher\" section above)."
 [legal_gdpr_text2]
-  other = "You have the right to access, rectify, delete and port your data, as well as the right to object and restrict processing. To exercise these rights, contact us at:"
+  other = "The details of the data collected, its purpose, its retention period and how to exercise your rights are described in our"
+[legal_gdpr_privacy_link]
+  other = "privacy policy"
 [legal_gdpr_text3]
   other = "In case of dispute, you may also file a complaint with the"
 [legal_cookies_title]
   other = "Cookies"
 [legal_cookies_text]
-  other = "This site may use technical cookies strictly necessary for the proper functioning of the platform (user session, display preferences). No advertising tracking cookies are deposited without your consent."
+  other = "The Keres platform only uses a technical cookie strictly necessary for authentication and the proper functioning of the service (user session). No audience-measurement or advertising cookies are used. As this cookie is strictly necessary, no prior consent or consent banner is required."
 [legal_links_title]
   other = "Hypertext Links"
 [legal_links_text]
@@ -186,70 +212,102 @@
   other = "Applicable Law"
 [legal_law_text]
   other = "These legal notices are governed by French law. In case of dispute, French courts shall have exclusive jurisdiction."
-[terms_title]
-  other = "Terms and Conditions of Sale"
-[terms_subtitle]
-  other = "Effective as of January 1, 2025 – Applicable to orders of the Keres Collector's Edition."
-[terms_seller_title]
-  other = "Seller Identification"
-[terms_seller_text]
-  other = "Vincent Chalnot – Micro-entrepreneur – SIRET: [SIRET Number] – Address: [Your postal address]"
-[terms_object_title]
+[cgu_title]
+  other = "Terms of Use"
+[cgu_subtitle]
+  other = "Last updated: September 28, 2026 – Applicable to the use of the Keres online game platform."
+[cgu_object_title]
   other = "Purpose"
-[terms_object_text]
-  other = "These Terms and Conditions of Sale (TCS) govern the sales of the Keres – Collector's Edition board game made through the site keres.fr. Placing an order implies full and unconditional acceptance of these TCS."
-[terms_product_title]
-  other = "Product"
-[terms_product_text]
-  other = "The Keres Collector's Edition is a physical board game manufactured in a limited series, including the game board, engraved pieces and the rulebook. The photographs and descriptions presented on the site are as faithful as possible to the actual product."
-[terms_price_title]
-  other = "Price"
-[terms_price_text]
-  other = "Prices are indicated in euros (€) including all taxes. The seller reserves the right to modify prices at any time; products are invoiced at the rate in effect at the time of order confirmation."
-[terms_price_amount]
-  other = "Collector's Edition price: 45 € (shipping costs additional, calculated based on destination)."
-[terms_order_title]
-  other = "Order and Pre-order"
-[terms_order_text]
-  other = "The order becomes firm after validation by the customer and payment receipt. In the context of a pre-order, the customer is informed that the product will be shipped on the manufacturing date communicated on the site, and may cancel the order and be fully refunded before shipment."
-[terms_payment_title]
-  other = "Payment"
-[terms_payment_text]
-  other = "Payment is made online through the secure means offered at checkout. Full payment is due upon ordering. Banking data is not retained by the seller."
-[terms_delivery_title]
-  other = "Delivery"
-[terms_delivery_text]
-  other = "Orders are shipped to the address provided by the customer at checkout. Indicative delivery times are communicated on the site and start from the shipping date. The seller cannot be held responsible for delays attributable to carriers or events beyond their control (force majeure)."
-[terms_withdrawal_title]
-  other = "Right of Withdrawal"
-[terms_withdrawal_text1]
-  other = "In accordance with Articles L.221-18 et seq. of the French Consumer Code, the customer has a period of 14 days from receipt of the product to exercise their right of withdrawal, without having to justify their decision. The product must be returned in perfect condition in its original packaging. Return shipping costs are borne by the customer."
-[terms_withdrawal_text2]
-  other = "To exercise this right, contact us at:"
-[terms_withdrawal_text3]
-  other = "The refund will be processed within 14 days of receiving the return."
-[terms_withdrawal_text4]
-  other = "Exception: the right of withdrawal does not apply to personalized or custom-made products."
-[terms_warranty_title]
-  other = "Legal Warranties"
-[terms_warranty_text]
-  other = "Any product sold benefits from the legal warranty of conformity (Articles L.217-4 et seq. of the French Consumer Code) and the legal warranty against hidden defects (Articles 1641 et seq. of the French Civil Code). In case of a defect found, contact us at"
-[terms_platform_title]
-  other = "Access to the Online Platform"
-[terms_platform_text]
-  other = "Access to the keres.fr online gaming platform is separate from the sale of the physical product. The platform is provided \"as is\", without guarantee of permanent availability. The seller reserves the right to modify or interrupt access to the platform without notice."
-[terms_data_title]
-  other = "Personal Data"
-[terms_data_text]
-  other = "Data collected during an order (name, address, email) is used exclusively for order processing and tracking. It is not transmitted to third parties for commercial purposes. You have the right to access, rectify and delete your data by contacting"
-[terms_law_title]
+[cgu_object_text]
+  other = "These Terms of Use govern access to and use of the Keres online game platform, published by Vincent Chalnot (see our legal notice), available notably from playkeres.com and app.playkeres.com. Playing against the computer or in \"hot-seat\" mode (two players on the same device) is available without creating an account. Creating an account is required to access online features: matchmaking, rated games, friends and notifications. Using the platform implies full and unconditional acceptance of these Terms of Use."
+[cgu_account_title]
+  other = "User Account"
+[cgu_account_text]
+  other = "Creating an account requires a valid email address and password, or signing in via a third-party identity provider (Google, Discord). You are responsible for keeping your credentials confidential and for any activity carried out from your account. Your publicly displayed username may be changed once every twelve months."
+[cgu_conduct_title]
+  other = "User Conduct"
+[cgu_conduct_text]
+  other = "You agree to use the platform in good faith: not to rely on unauthorized external assistance to play on your behalf, not to disrupt the operation of the service, and not to engage in abusive or insulting behavior towards other players. Any breach may result in the suspension or deletion of the account concerned."
+[cgu_ip_title]
+  other = "Intellectual Property"
+[cgu_ip_text]
+  other = "The game Keres, its game engine, its interface and all content on the platform are the exclusive property of Vincent Chalnot, unless otherwise stated, and are protected by copyright. Any unauthorized reproduction or reuse is prohibited."
+[cgu_availability_title]
+  other = "Service Availability"
+[cgu_availability_text]
+  other = "The platform is provided \"as is\", free of charge, without any guarantee of permanent availability. Vincent Chalnot reserves the right to modify, suspend or discontinue all or part of the service at any time, notably for maintenance purposes, without this giving rise to any compensation."
+[cgu_termination_title]
+  other = "Account Deletion"
+[cgu_termination_text1]
+  other = "You may request the deletion of your account at any time by contacting us via our"
+[cgu_contact_link]
+  other = "contact form"
+[cgu_termination_text2]
+  other = ". How your data is handled following account deletion, in particular the anonymized retention of your game history, is described in our"
+[cgu_privacy_link]
+  other = "privacy policy"
+[cgu_liability_title]
+  other = "Liability"
+[cgu_liability_text]
+  other = "As the platform is provided free of charge, Vincent Chalnot's liability can only be engaged in the event of proven fault, and within the limits permitted by law. Vincent Chalnot does not guarantee that the service will be free of errors or interruptions."
+[cgu_law_title]
   other = "Applicable Law and Disputes"
-[terms_law_text1]
-  other = "These TCS are governed by French law. In case of dispute, an amicable solution will be sought first. Failing that, the dispute will be submitted to the competent courts of the seller's domicile."
-[terms_law_text2]
-  other = "In accordance with the provisions of the French Consumer Code concerning consumer mediation, the customer may use a consumer mediator free of charge for the amicable resolution of a dispute."
-[terms_law_text3]
+[cgu_law_text1]
+  other = "These Terms of Use are governed by French law. In case of dispute, an amicable solution will be sought first."
+[cgu_law_text2]
+  other = "In accordance with the provisions of the French Consumer Code concerning consumer mediation, you may use a consumer mediator free of charge for the amicable resolution of a dispute."
+[cgu_law_text3]
   other = "To learn more:"
+[privacy_title]
+  other = "Privacy Policy"
+[privacy_subtitle]
+  other = "Last updated: September 28, 2026"
+[privacy_controller_title]
+  other = "Data Controller"
+[privacy_controller_text]
+  other = "The controller for the data described below is Vincent Chalnot. Their full identity and contact details are listed in our"
+[privacy_legal_notice_link]
+  other = "legal notice"
+[privacy_data_title]
+  other = "Data We Collect"
+[privacy_data_text]
+  other = "As part of creating an account and using the online game platform, we collect: your email address and, where applicable, the information provided by the third-party identity provider used to sign in (Google, Discord); a public username; your game history (moves played, results, rating statistics); and any messages you send us via the contact form. Browsing the site does not collect any other personal data beyond the session cookie described below."
+[privacy_cookies_title]
+  other = "Cookies"
+[privacy_cookies_text]
+  other = "The Keres platform only uses a session cookie strictly necessary for authentication and keeping you signed in. No audience-measurement, advertising or tracking cookies are deposited. As this cookie is strictly necessary for the service to function, no prior consent or consent banner is required."
+[privacy_purpose_title]
+  other = "Purposes and Legal Basis"
+[privacy_purpose_text]
+  other = "This data is processed to enable the creation and management of your account, the running of games, rating, matching you with other players, and responding to your contact requests. These processing activities are based on the performance of the contract formed when you create your account, as well as on our legitimate interest in ensuring the proper functioning and security of the platform."
+[privacy_retention_title]
+  other = "Retention Period"
+[privacy_retention_text1]
+  other = "Your account data is retained for as long as your account remains active."
+[privacy_retention_text2]
+  other = "If you delete your account, your personal data is erased. The games you have played, however, are retained, but in a permanently anonymized form: the link between your account and those games is irrevocably severed, with no recoverable mapping. This anonymized game data may be used for analysis and to train artificial intelligence models related to the game engine."
+[privacy_recipients_title]
+  other = "Data Recipients"
+[privacy_recipients_text1]
+  other = "Your data may be shared with the technical providers that allow us to operate the platform (hosting, artificial intelligence compute, email delivery), listed in our"
+[privacy_recipients_text2]
+  other = "These providers only use your data to perform the services they provide to us."
+[privacy_rights_title]
+  other = "Your Rights"
+[privacy_rights_text1]
+  other = "In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase and port your data, as well as the right to object and to restrict processing."
+[privacy_rights_text2]
+  other = "To exercise these rights, contact us via our"
+[privacy_contact_link]
+  other = "contact form"
+[privacy_rights_text3]
+  other = ". We commit to responding to your request within a maximum of 30 days."
+[privacy_rights_text4]
+  other = "In case of dispute, you may also file a complaint with the"
+[privacy_changes_title]
+  other = "Changes to This Policy"
+[privacy_changes_text]
+  other = "This privacy policy may be updated from time to time. The date of the last update appears at the top of this page."
 [lang_switch]
   other = "Français"
 [skip_to_content]

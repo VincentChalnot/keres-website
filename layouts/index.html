@@ -147,8 +147,11 @@
       {{ with .Site.GetPage "/legal-notice" }}
       <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_legal" }}</a>
       {{ end }}
-      {{ with .Site.GetPage "/terms-of-sale" }}
+      {{ with .Site.GetPage "/terms-of-use" }}
       <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_terms" }}</a>
+      {{ end }}
+      {{ with .Site.GetPage "/privacy-policy" }}
+      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_privacy" }}</a>
       {{ end }}
       {{ with .Site.GetPage "/contact" }}
       <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_contact" }}</a>
