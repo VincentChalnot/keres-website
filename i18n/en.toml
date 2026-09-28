@@ -287,7 +287,7 @@
 [privacy_retention_text1]
   other = "Your account data is retained for as long as your account remains active."
 [privacy_retention_text2]
-  other = "If you delete your account, your personal data is erased. The games you have played, however, are retained, but in a permanently anonymized form: the link between your account and those games is irrevocably severed, with no recoverable mapping. This anonymized game data may be used for analysis and to train artificial intelligence models related to the game engine."
+  other = "When your account is deleted at your request, your personal data is erased. The games you have played, however, are retained, but in a permanently anonymized form: the link between your account and those games is irrevocably severed, with no recoverable mapping. This anonymized game data may be used for analysis and to train artificial intelligence models related to the game engine."
 [privacy_recipients_title]
   other = "Data Recipients"
 [privacy_recipients_text1]
@@ -299,7 +299,7 @@
 [privacy_rights_text1]
   other = "In accordance with the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase and port your data, as well as the right to object and to restrict processing."
 [privacy_rights_text2]
-  other = "To exercise these rights, contact us via our"
+  other = "To exercise these rights, use the dedicated request buttons in your account's Settings → Privacy page (for data export or account deletion) or contact us via our"
 [privacy_contact_link]
   other = "contact form"
 [privacy_rights_text3]

@@ -287,7 +287,7 @@
 [privacy_retention_text1]
   other = "Vos données de compte sont conservées tant que votre compte reste actif."
 [privacy_retention_text2]
-  other = "Si vous supprimez votre compte, vos données personnelles sont effacées. Les parties que vous avez jouées sont en revanche conservées, mais sous une forme rendue définitivement anonyme : le lien entre votre compte et ces parties est irrémédiablement rompu, sans qu'aucune correspondance ne puisse être reconstituée. Ces données de parties anonymisées peuvent être utilisées à des fins d'analyse et d'entraînement de modèles d'intelligence artificielle liés au moteur de jeu."
+  other = "Si votre compte est supprimé à votre demande, vos données personnelles sont effacées. Les parties que vous avez jouées sont en revanche conservées, mais sous une forme rendue définitivement anonyme : le lien entre votre compte et ces parties est irrémédiablement rompu, sans qu'aucune correspondance ne puisse être reconstituée. Ces données de parties anonymisées peuvent être utilisées à des fins d'analyse et d'entraînement de modèles d'intelligence artificielle liés au moteur de jeu."
 [privacy_recipients_title]
   other = "Destinataires des données"
 [privacy_recipients_text1]
@@ -299,7 +299,7 @@
 [privacy_rights_text1]
   other = "Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données, ainsi que d'un droit d'opposition et de limitation du traitement."
 [privacy_rights_text2]
-  other = "Pour exercer ces droits, contactez-nous via notre"
+  other = "Pour exercer ces droits, utilisez les boutons de demande dédiés dans Paramètres → Confidentialité de votre compte (pour l'export de données ou la suppression de compte), ou contactez-nous via notre"
 [privacy_contact_link]
   other = "formulaire de contact"
 [privacy_rights_text3]
