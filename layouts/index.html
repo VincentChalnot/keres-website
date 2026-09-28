@@ -153,6 +153,9 @@
       {{ with .Site.GetPage "/privacy-policy" }}
       <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_privacy" }}</a>
       {{ end }}
+      {{ with .Site.GetPage "/trust" }}
+      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_trust" }}</a>
+      {{ end }}
       {{ with .Site.GetPage "/contact" }}
       <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_contact" }}</a>
       {{ end }}

@@ -16,6 +16,8 @@
   other = "Terms of Use"
 [footer_privacy]
   other = "Privacy Policy"
+[footer_trust]
+  other = "Our Commitments"
 [footer_contact]
   other = "Contact"
 [newsletter_label]
@@ -326,3 +328,27 @@
   other = "Your message has been sent. We will get back to you shortly."
 [contact_error]
   other = "An error occurred. Please try again later."
+[trust_title]
+  other = "Our Commitments"
+[trust_subtitle]
+  other = "Five promises we hold ourselves to, for as long as Keres exists."
+[trust_cookies_title]
+  other = "No imposed third-party cookies"
+[trust_cookies_text]
+  other = "Keres only uses a session cookie needed to keep you signed in. We will never add third-party tracking, advertising, or analytics cookies without offering you a choice first."
+[trust_data_title]
+  other = "Your data is never sold"
+[trust_data_text]
+  other = "We will never sell or transfer your personal data to a third party. Your data is only ever processed by the technical providers strictly necessary to run the service."
+[trust_ads_title]
+  other = "No advertising, except for our own projects"
+[trust_ads_text]
+  other = "Keres carries no third-party advertising, and never will. The only promotion you may ever see on this platform is for Vincent Chalnot's own other projects."
+[trust_changes_title]
+  other = "You'll know before anything changes"
+[trust_changes_text]
+  other = "If any of these three commitments were ever to change, we would notify every user in advance and give you the opportunity to opt out or delete your account before the change takes effect."
+[trust_opensource_title]
+  other = "Open-sourcing the code if the project is ever abandoned"
+[trust_opensource_text]
+  other = "The Keres engine is already open source (GPL-3.0). We commit to releasing the platform code — the web application you play on — under the GNU AGPL-3.0 licence if Keres is ever abandoned. That means either we announce the service is shutting down, in which case the code is published no later than the shutdown date, or playkeres.com stays unreachable for 90 consecutive days with no announced return. This commitment is written into the platform's licence file itself, so it doesn't depend on us being around to honour it. It covers code only: your personal data is never published, and the Keres name and logo remain protected."

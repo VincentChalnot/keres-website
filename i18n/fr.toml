@@ -16,6 +16,8 @@
   other = "Conditions générales d'utilisation"
 [footer_privacy]
   other = "Politique de confidentialité"
+[footer_trust]
+  other = "Nos engagements"
 [footer_contact]
   other = "Contact"
 [newsletter_label]
@@ -326,3 +328,27 @@
   other = "Votre message a bien été envoyé. Nous vous répondrons dans les meilleurs délais."
 [contact_error]
   other = "Une erreur est survenue. Merci de réessayer plus tard."
+[trust_title]
+  other = "Nos engagements"
+[trust_subtitle]
+  other = "Cinq promesses que nous nous engageons à tenir, aussi longtemps que Keres existera."
+[trust_cookies_title]
+  other = "Aucun cookie tiers imposé"
+[trust_cookies_text]
+  other = "Keres n'utilise qu'un cookie de session nécessaire pour vous garder connecté. Nous n'ajouterons jamais de cookie tiers de suivi, de publicité ou d'analyse sans vous le proposer au préalable."
+[trust_data_title]
+  other = "Vos données ne sont jamais vendues"
+[trust_data_text]
+  other = "Nous ne vendrons ni ne céderons jamais vos données personnelles à un tiers. Vos données ne sont traitées que par les prestataires techniques strictement nécessaires au fonctionnement du service."
+[trust_ads_title]
+  other = "Aucune publicité, à part pour nos propres projets"
+[trust_ads_text]
+  other = "Keres ne diffuse aucune publicité tierce, et n'en diffusera jamais. La seule promotion que vous pourrez voir sur cette plateforme concerne les autres projets personnels de Vincent Chalnot."
+[trust_changes_title]
+  other = "Vous serez prévenu avant tout changement"
+[trust_changes_text]
+  other = "Si l'un de ces trois engagements devait un jour changer, nous préviendrions chaque utilisateur à l'avance et vous laisserions la possibilité de vous désinscrire ou de supprimer votre compte avant que ce changement ne prenne effet."
+[trust_opensource_title]
+  other = "Passage en open source en cas d'abandon du projet"
+[trust_opensource_text]
+  other = "Le moteur de Keres est déjà open source (GPL-3.0). Nous nous engageons à publier le code de la plateforme — l'application web sur laquelle vous jouez — sous licence GNU AGPL-3.0 si Keres venait à être abandonné. Cela signifie soit que nous annonçons l'arrêt du service, auquel cas le code est publié au plus tard à la date d'arrêt, soit que playkeres.com reste inaccessible pendant 90 jours consécutifs sans annonce de reprise. Cet engagement est inscrit dans le fichier de licence de la plateforme elle-même : il ne dépend donc pas de notre capacité à l'honorer. Il ne concerne que le code : vos données personnelles ne sont jamais publiées, et le nom et le logo Keres restent protégés."
