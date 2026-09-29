@@ -352,3 +352,19 @@
   other = "Passage en open source en cas d'abandon du projet"
 [trust_opensource_text]
   other = "Le moteur de Keres est déjà open source (GPL-3.0). Nous nous engageons à publier le code de la plateforme — l'application web sur laquelle vous jouez — sous licence GNU AGPL-3.0 si Keres venait à être abandonné. Cela signifie soit que nous annonçons l'arrêt du service, auquel cas le code est publié au plus tard à la date d'arrêt, soit que playkeres.com reste inaccessible pendant 90 jours consécutifs sans annonce de reprise. Cet engagement est inscrit dans le fichier de licence de la plateforme elle-même : il ne dépend donc pas de notre capacité à l'honorer. Il ne concerne que le code : vos données personnelles ne sont jamais publiées, et le nom et le logo Keres restent protégés."
+[waitlist_title]
+  other = "Édition physique"
+[waitlist_intro]
+  other = "Une édition physique de Keres est en préparation : un vrai plateau, des pièces gravées, un livret de règles. Rejoignez la liste d'attente et nous vous préviendrons par e-mail dès qu'elle sera prête — sans paiement, sans engagement, juste une information."
+[waitlist_name_label]
+  other = "Votre nom (facultatif)"
+[waitlist_email_label]
+  other = "Votre e-mail"
+[waitlist_note_label]
+  other = "Autre chose ? (facultatif)"
+[waitlist_submit]
+  other = "Rejoindre la liste d'attente"
+[waitlist_success]
+  other = "Presque terminé ! Consultez votre boîte mail et cliquez sur le lien de confirmation pour valider votre inscription."
+[waitlist_error]
+  other = "Une erreur est survenue. Merci de réessayer plus tard."

@@ -9,6 +9,13 @@
 # layouts/partials/platform-url.html — no separate env var links them. Run
 # keres-platform's own compose.yaml against the SAME SERVER_NAME to
 # reproduce the production topology locally and exercise those links.
+# `--appendPort=false` is required for those links to actually work: Hugo's
+# `server` command appends its own `--port` to `.Site.BaseURL` by default,
+# which turned every platform-url.html-derived link (and any browser-side
+# fetch() to it, e.g. the contact/waitlist forms) into
+# "https://app.<domain>:80/...", a URL Traefik doesn't have a matching
+# HTTPS router for - a real CORS/connection failure at runtime, not just an
+# ugly link (caught testing T7's cross-origin waitlist POST).
 #
 # Prerequisites:
 #   1. External Traefik running on the TRAEFIK_NETWORK docker network.
@@ -32,6 +39,7 @@ services:
       - "server"
       - "--bind=0.0.0.0"
       - "--port=80"
+      - "--appendPort=false"
       - "--baseURL=https://${SERVER_NAME:-local.playkeres.com}/"
       - "--environment=development"
       - "--buildDrafts"

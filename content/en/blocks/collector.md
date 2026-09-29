@@ -5,8 +5,8 @@ image: /images/real_board_small.webp
 alt: "Keres Box"
 lightbox: /images/real_board_full.webp
 button:
-  url: "#"
-  label: "Pre-order Collector's Edition"
+  url: /physical-edition/
+  label: "Join the waitlist"
 ---
 
-Pre-order the physical edition and own a piece of strategy history.
+A physical edition is in the works. Join the waitlist to be the first to know when it's ready.
