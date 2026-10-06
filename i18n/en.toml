@@ -139,7 +139,7 @@
 [legal_editor_title]
   other = "Website Publisher"
 [legal_editor_text]
-  other = "The site keres.fr is published by:"
+  other = "The site playkeres.com is published by:"
 [legal_editor_name]
   other = "Vincent Chalnot"
 [legal_editor_desc]
@@ -152,8 +152,10 @@
   other = "SIRET (headquarters): 889 048 229 00039"
 [legal_editor_ape]
   other = "APE code: 6202A – Computer systems and software consulting"
-[legal_editor_email]
-  other = "Email:"
+[legal_editor_contact]
+  other = "Contact:"
+[legal_editor_contact_link]
+  other = "contact form"
 [legal_director_title]
   other = "Publication Director"
 [legal_director_text]

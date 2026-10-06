@@ -139,7 +139,7 @@
 [legal_editor_title]
   other = "Éditeur du site"
 [legal_editor_text]
-  other = "Le site keres.fr est édité par :"
+  other = "Le site playkeres.com est édité par :"
 [legal_editor_name]
   other = "Vincent Chalnot"
 [legal_editor_desc]
@@ -152,8 +152,10 @@
   other = "SIRET (siège) : 889 048 229 00039"
 [legal_editor_ape]
   other = "Code APE : 6202A – Conseil en systèmes et logiciels informatiques"
-[legal_editor_email]
-  other = "E-mail :"
+[legal_editor_contact]
+  other = "Contact :"
+[legal_editor_contact_link]
+  other = "formulaire de contact"
 [legal_director_title]
   other = "Directeur de la publication"
 [legal_director_text]
