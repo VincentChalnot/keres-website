@@ -96,7 +96,7 @@
 
   .piece-grid {
     @apply grid gap-5 my-5;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .piece-card {
@@ -129,10 +129,6 @@
     &.king { mask-image: url('/images/pieces/king.svg'); }
     &.paladin { mask-image: url('/images/pieces/paladin.svg'); }
     &.soldier { mask-image: url('/images/pieces/soldier.svg'); }
-  }
-
-  .board-start {
-    @apply max-w-[500px];
   }
 
   .lightbox {

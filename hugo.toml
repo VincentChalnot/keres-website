@@ -8,6 +8,20 @@ disableKinds = ["taxonomy", "term"]
 [build]
   writeStats = true
 
+  # Tailwind scans layouts/i18n (see tailwind.config.js `content`) but Hugo's
+  # PostCSS resource is cached on the CSS input only, so `hugo server` never
+  # re-ran Tailwind when a class was added to a template. Invalidate the
+  # css cache whenever any of those files (or the configs) change.
+  [[build.cachebusters]]
+    source = "(postcss|tailwind)\\.config\\.js"
+    target = "css"
+  [[build.cachebusters]]
+    source = "layouts/.*"
+    target = "css"
+  [[build.cachebusters]]
+    source = "i18n/.*"
+    target = "css"
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

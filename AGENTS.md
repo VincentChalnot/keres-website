@@ -55,6 +55,16 @@ always call the partial, so the domain stays defined exactly once.
   since Hugo serves `static/` at the site root. `static/_headers` sets
   aggressive caching for `/fonts/*` and `/images/*` — bump the filename
   (not just content) if an asset needs cache-busting on Cloudflare Pages.
+- **Game SVGs are generated, not hand-edited**: `static/logo.svg`,
+  `static/images/pieces/*.svg` and `static/images/movesets/*.svg` (move
+  diagrams + start position) come from
+  `node scripts/generate-board-svgs.mjs [path/to/keres-platform/assets]`
+  (default `../keres-platform/assets`; reads the platform's logo, piece
+  icons/texts, `template.svg` and `board.css` for tile size and colours).
+  Re-run it when the platform artwork changes and commit the output — the
+  site itself never reads from the platform. `favicon*.png`/`.ico` and
+  `apple-touch-icon.png` are rasters of `logo.svg` (ImageMagick) and must be
+  re-exported by hand.
 - **Tailwind** via Hugo's PostCSS pipeline (`assets/css/main.css`,
   `postcss.config.js`, `tailwind.config.js`) — do not add a separate build
   step; Hugo's resource pipeline (`resources.PostCSS`) handles it using
