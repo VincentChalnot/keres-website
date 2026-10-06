@@ -35,7 +35,7 @@
 [rules_objective_title]
   other = "Objectif du Jeu"
 [rules_objective_text]
-  other = "Victoire : La partie se termine immédiatement lorsqu'un joueur capture le Roi adverse."
+  other = "Victoire : La partie se termine immédiatement lorsqu'un joueur capture le Roi adverse, ou capture toutes les pièces adverses à l'exception de son Roi."
 [rules_basics_title]
   other = "Principes de Base"
 [rules_basics_1]
