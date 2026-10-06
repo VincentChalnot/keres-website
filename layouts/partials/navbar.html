@@ -26,14 +26,20 @@
 
       <div class="border-l border-keres-dark h-6 mx-1"></div>
 
-      {{ if eq .Lang "en" }}
-        {{ range where .Site.Home.AllTranslations "Lang" "fr" }}
-        <a href="{{ .RelPermalink }}" class="text-sm text-keres-secondary hover:text-keres-primary hover:no-underline transition-colors" title="Français">FR</a>
+      {{ $target := cond (eq .Lang "en") "fr" "en" }}
+      {{ $label := cond (eq $target "fr") "FR" "EN" }}
+      {{ $title := cond (eq $target "fr") "Français" "English" }}
+      {{ $href := "" }}
+      {{ range where .Translations "Lang" $target }}
+        {{ $href = .RelPermalink }}
+      {{ end }}
+      {{ if not $href }}
+        {{ range where .Site.Home.AllTranslations "Lang" $target }}
+          {{ $href = .RelPermalink }}
         {{ end }}
-      {{ else }}
-        {{ range where .Site.Home.AllTranslations "Lang" "en" }}
-        <a href="{{ .RelPermalink }}" class="text-sm text-keres-secondary hover:text-keres-primary hover:no-underline transition-colors" title="English">EN</a>
-        {{ end }}
+      {{ end }}
+      {{ if $href }}
+      <a href="{{ $href }}" class="text-sm text-keres-secondary hover:text-keres-primary hover:no-underline transition-colors" title="{{ $title }}">{{ $label }}</a>
       {{ end }}
     </div>
   </div>
