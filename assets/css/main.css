@@ -94,6 +94,10 @@
     @apply text-center text-keres-secondary mb-10 italic;
   }
 
+  .board-start {
+    margin-bottom: 1rem;
+  }
+
   .piece-grid {
     @apply grid gap-5 my-5;
     grid-template-columns: repeat(2, 1fr);
