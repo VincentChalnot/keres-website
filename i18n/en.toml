@@ -35,7 +35,7 @@
 [rules_objective_title]
   other = "Objective"
 [rules_objective_text]
-  other = "Victory: The game ends immediately when a player captures the opponent's King, or captures all of the opponent's pieces except their King."
+  other = "Victory: The game ends immediately when a player captures the opponent's King."
 [rules_basics_title]
   other = "Basic Principles"
 [rules_basics_1]
