@@ -33,11 +33,11 @@
       <strong>{{ i18n "rules_separation_title" }}</strong> {{ i18n "rules_separation_text" }}
     </div>
 
-    <h3>🎲 {{ i18n "rules_position_title" }}</h3>
+    <h3>{{ i18n "rules_position_title" }}</h3>
     <img src="/images/movesets/Start.svg" class="board-start" alt="Start position"/>
 
     <div style="page-break-after: always"></div>
-    <h3>♟️ {{ i18n "rules_pieces_title" }}</h3>
+    <h3>{{ i18n "rules_pieces_title" }}</h3>
 
     <div class="piece-grid">
       {{ partial "piece-card.html" (dict "key" "ballista" "name" (i18n "piece_ballista") "symbol" (i18n "piece_symbol_ballista") "image" "Ballista" "movement" (i18n "move_ballista") "note" (i18n "note_ballista")) }}
@@ -50,7 +50,7 @@
       {{ partial "piece-card.html" (dict "key" "knight" "name" (i18n "piece_knight") "symbol" (i18n "piece_symbol_knight") "image" "Knight" "movement" (i18n "move_knight") "note" (i18n "note_knight")) }}
     </div>
 
-    <h3>⭐ {{ i18n "rules_promotions_title" }}</h3>
+    <h3>{{ i18n "rules_promotions_title" }}</h3>
     <p>{{ i18n "rules_promotions_text" }}</p>
     <ul>
       <li><strong>{{ i18n "promo_soldier" }}</strong></li>
