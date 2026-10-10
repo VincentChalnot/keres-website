@@ -1,0 +1,135 @@
+/*
+ * Game screen: header, clocks, material bar, eval bar, board layout, fullscreen, move history, rules panel.
+ * Ported from platform/assets/app.scss; behaviour (container-query fullscreen stage) is unchanged.
+ * Board tile / piece colours come from tokens (--k-tile-*, --k-piece-*) — see `.board-svg`.
+ */
+@layer components {
+  /* ── Header: players + option badges above the board ─────────────────── */
+  .game-header { @apply flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 mb-2.5; }
+  .game-header__players { @apply flex flex-wrap items-center gap-x-2.5 gap-y-1.5; }
+  .game-header__seat { @apply inline-flex items-center gap-1.5; }
+  .game-header__name { @apply font-semibold; }
+  .game-header__name.is-engine { @apply italic text-soft; }
+  .game-header__name.is-anonymous { @apply text-muted; }
+  .game-header--compact { @apply justify-start mb-1.5 text-[0.95rem]; }
+
+  /* ── Player row: material bar + clock ─────────────────────────────────── */
+  .player-row { @apply flex items-center justify-between gap-3; }
+  .player-row .material-bar { @apply flex-1 min-w-0; }
+  .player-clock {
+    @apply shrink-0 min-w-[5.5em] px-[0.9em] py-[0.4em] rounded-[0.5em] text-center font-title text-[1.3rem] tabular;
+    @apply bg-surface text-soft border border-line transition-colors duration-200;
+  }
+  .player-clock.is-inactive { @apply bg-inactive text-soft/80; }
+  .player-clock.is-active { @apply bg-primary text-ink border-primary font-bold; }
+  .player-clock.is-low { @apply bg-danger text-white border-danger; }
+
+  /* ── Material difference (Lichess-style) ──────────────────────────────── */
+  .material-bar { @apply flex flex-wrap items-center gap-px min-h-[3.3em] px-7 pb-1.5; }
+  .material-piece { @apply inline-block align-middle shrink-0 w-[3em] h-[3em] overflow-visible; }
+  .material-score { @apply ml-[0.3em] pt-[0.7em] font-bold text-primary; }
+
+  /* ── Evaluation bar: black on top, white at the bottom ────────────────── */
+  .eval-bar {
+    @apply relative shrink-0 w-7 overflow-hidden rounded-sm bg-[#262421] border border-[rgb(128_128_128/0.6)];
+  }
+  .eval-bar.is-pending { @apply opacity-55; }
+  .eval-bar__white { @apply absolute inset-x-0 bottom-0 bg-[#f4f4f4] transition-[height] duration-[400ms] ease-in-out; height: 50%; }
+  .eval-bar__label { @apply absolute inset-x-0 text-center text-[0.65rem] font-bold leading-none py-1 select-none; }
+  .eval-bar__label.is-white-ahead { @apply bottom-0 text-[#262421]; }
+  .eval-bar__label.is-black-ahead { @apply top-0 text-[#f4f4f4]; }
+  .eval-bar.is-flipped .eval-bar__white { @apply top-0 bottom-auto; }
+  .eval-bar.is-flipped .eval-bar__label.is-white-ahead { @apply top-0 bottom-auto; }
+  .eval-bar.is-flipped .eval-bar__label.is-black-ahead { @apply top-auto bottom-0; }
+  .move-eval { @apply ml-1.5 text-[0.7rem] opacity-65; }
+
+  /* ── Board layout ─────────────────────────────────────────────────────── */
+  .game-container {
+    /* --board-aspect = viewBox width/height, published by SVGBoardView (changes with coordinate labels). */
+    --board-aspect: 1.2252;
+    /* Below this width the board stops shrinking to the viewport height (browser zoom keeps working). */
+    --board-min-width: 320px;
+    --board-max-height: calc(100dvh - var(--k-navbar-h));
+    @apply mx-auto max-w-[1200px] p-4;
+  }
+  /* Board + optional eval bar. The SVG must keep exactly the viewBox aspect (hit-testing maps client → viewBox),
+     so its size is derived from the height limit instead of being clamped with max-height. */
+  .board-with-eval {
+    --eval-bar-extra: 0px;
+    @apply flex items-stretch gap-2 mx-auto;
+    width: min(100%, calc(max(var(--board-min-width), calc(var(--board-max-height) * var(--board-aspect))) + var(--eval-bar-extra)));
+  }
+  .board-with-eval.has-eval-bar { --eval-bar-extra: 2.25rem; }
+  .board { @apply flex-1 min-w-0; }
+  .board svg { @apply block w-full h-auto select-none; touch-action: pinch-zoom; -webkit-tap-highlight-color: transparent; }
+  .game-stage { display: contents; }
+
+  /* Game over: desaturate, kill pointer events (also blocks :hover), stamp a translucent label. */
+  .board.game-over svg { filter: saturate(0.35) brightness(0.85); pointer-events: none; }
+  .board.game-over { @apply relative; container-type: inline-size; }
+  .board.game-over::after {
+    content: attr(data-game-over-label);
+    text-transform: uppercase;
+    @apply absolute inset-0 flex items-center justify-center font-extrabold pointer-events-none;
+    font-size: 8cqw; letter-spacing: 0.15em; margin-top: -1.6cqw;
+    color: rgb(255 255 255 / 0.55); text-shadow: 0 0 0.15em rgb(0 0 0 / 0.6);
+  }
+
+  /* SVG board colours, driven by tokens. Apply `.board-svg` on the <svg> (or a wrapper). */
+  .board-svg .tile { width: 100px; height: 80px; stroke: rgb(var(--k-tile-stroke)); stroke-width: 1px; }
+  .board-svg .tile--dark { fill: rgb(var(--k-tile-dark)); }
+  .board-svg .tile--light { fill: rgb(var(--k-tile-light)); }
+  .board-svg .coord-label { font: 16px sans-serif; fill: rgb(var(--k-tile-light)); pointer-events: none; user-select: none; }
+  .board-svg .piece--w { --piece-bg: rgb(var(--k-piece-light)); --piece-fg: rgb(var(--k-piece-dark)); }
+  .board-svg .piece--b { --piece-bg: rgb(var(--k-piece-dark)); --piece-fg: rgb(var(--k-piece-light)); }
+
+  /* ── Page fullscreen (toggled on <html> by PageFullscreen.ts) ─────────────
+     The stage becomes exactly one viewport; board + rows are sized in container units (cqw/cqh). */
+  html.is-game-fullscreen { --k-navbar-h: 0px; scrollbar-width: none; }
+  html.is-game-fullscreen .navbar, html.is-game-fullscreen .footer { display: none; }
+  html.is-game-fullscreen .container-page:has(> .guest-notice) { display: none; }
+  html.is-game-fullscreen .game-container { display: flex; flex-direction: column; max-width: none; padding: 0.5rem; }
+  html.is-game-fullscreen .game-stage {
+    --fs-row-h: clamp(2rem, 7dvh, 3.25rem);
+    --fs-gap: 0.25rem;
+    --eval-bar-extra: 0px;
+    --fs-w: min(100cqw, calc((100cqh - 2 * var(--fs-row-h) - 2 * var(--fs-gap)) * var(--board-aspect) + var(--eval-bar-extra)));
+    display: flex; flex-direction: column; justify-content: center; gap: var(--fs-gap);
+    order: -1; height: calc(100dvh - 1rem); margin-bottom: 0.5rem; container-type: size;
+  }
+  html.is-game-fullscreen .game-stage:has(.has-eval-bar) { --eval-bar-extra: 2.25rem; }
+  html.is-game-fullscreen .game-stage > .board-with-eval { flex: none; width: var(--fs-w); }
+  html.is-game-fullscreen .game-stage > .player-row { flex: none; width: var(--fs-w); height: var(--fs-row-h); margin-inline: auto; }
+  html.is-game-fullscreen .game-stage > .player-row .material-bar {
+    font-size: calc(var(--fs-row-h) / 3.3); min-height: 0; height: 100%; padding: 0 0.25rem; flex-wrap: nowrap; overflow: hidden;
+  }
+  html.is-game-fullscreen .game-stage > .player-row .material-piece { flex-shrink: 1; min-width: 1.2em; }
+  html.is-game-fullscreen .game-stage > .player-row .material-score { flex-shrink: 0; padding-top: 0; white-space: nowrap; }
+  html.is-game-fullscreen .game-stage > .player-row .player-clock {
+    min-width: 4.5em; padding: 0.15em 0.6em; font-size: clamp(0.9rem, calc(var(--fs-row-h) * 0.5), 1.3rem);
+  }
+
+  /* ── Move history ─────────────────────────────────────────────────────── */
+  .move-history { @apply max-w-[400px] shrink-0 mb-4; }
+  .move-history__box { @apply max-h-[400px] overflow-y-auto; }
+
+  /* ── Rules side panel (≥1100px) ───────────────────────────────────────── */
+  .rules-panel {
+    @apply hidden relative w-[280px] shrink-0 overflow-hidden bg-surface border-l border-line transition-[width] duration-200;
+  }
+  @media (min-width: 1100px) { .rules-panel { display: flex; flex-direction: column; } }
+  .rules-panel.is-collapsed { @apply w-9; }
+  .rules-panel.is-collapsed .rules-panel__content { @apply hidden; }
+  .rules-panel.is-collapsed .rules-panel__toggle { writing-mode: vertical-lr; @apply px-1.5 py-3; }
+  .rules-panel__toggle { @apply shrink-0 bg-brand text-fg border-0 cursor-pointer px-2.5 py-1.5 text-[0.85rem] text-center hover:bg-brand/80; }
+  .rules-panel__content { @apply flex-1 overflow-y-auto p-3 text-[0.85rem] text-fg; }
+  .rules-panel__content h4 { @apply text-[1.1rem] mb-2 text-primary; }
+  .rules-panel__hint { @apply text-subtle italic; }
+  .rules-panel__hovered { @apply min-h-[60px]; }
+  .rules-panel__piece { @apply mb-3 pb-2 border-b border-line/50; }
+  .rules-panel__piece-name { @apply font-bold text-primary mb-0.5; }
+  .rules-panel__piece-move { @apply text-[0.8rem] text-muted; }
+
+  /* Lobby hero image */
+  .hero-image { @apply max-w-full rounded-[0.6em]; }
+}

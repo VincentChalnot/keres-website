@@ -1,0 +1,49 @@
+@layer base {
+  @font-face {
+    font-family: 'Carolingia';
+    src: url('/fonts/carolingia.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'RomanSerif';
+    src: url('/fonts/RomanSerif.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  html {
+    @apply bg-canvas text-fg font-sans;
+    color-scheme: dark;
+  }
+  body {
+    @apply min-h-screen text-[1.1rem] leading-normal;
+  }
+
+  /* h1 is the hero / landing title; page titles use .page-title */
+  h1 {
+    @apply font-display text-h1 mt-12 mb-0 text-balance min-[600px]:text-h1-lg;
+  }
+  h2, h3, h4, h5, h6 {
+    @apply font-title text-h2 mb-2 text-balance;
+  }
+  h3 { @apply text-h3; }
+  h4 { @apply text-h4; }
+  h5 { @apply text-h5; }
+  h6 { @apply text-base; }
+
+  p { @apply mb-4; }
+  strong { @apply text-soft; }
+  small { @apply text-sm; }
+  hr { @apply my-5 border-0 border-t border-line h-0; }
+
+  a { @apply text-primary no-underline hover:underline; }
+  ul { @apply ml-5 mb-4; }
+  li { @apply mb-2; }
+  ::selection { @apply bg-primary text-ink; }
+  :focus-visible { @apply outline outline-2 outline-offset-2 outline-primary; }
+  [hidden] { display: none !important; }
+  img, svg { @apply max-w-full; }
+}

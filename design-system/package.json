@@ -1,0 +1,21 @@
+{
+  "name": "@keres/design-system",
+  "version": "0.1.0",
+  "description": "Shared Tailwind design system for the Keres website (Hugo) and platform (Symfony/Vite)",
+  "private": true,
+  "style": "dist/keres.css",
+  "files": ["tailwind.preset.js", "src", "dist"],
+  "scripts": {
+    "build": "tailwindcss -c tailwind.config.js -i src/keres.css -o dist/keres.css && cp dist/keres.css styleguide/keres.css",
+    "build:min": "tailwindcss -c tailwind.config.js -i src/keres.css -o dist/keres.min.css --minify",
+    "dev": "tailwindcss -c tailwind.config.js -i src/keres.css -o styleguide/keres.css --watch",
+    "styleguide": "node scripts/serve.mjs styleguide 4173"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -1,0 +1,134 @@
+/*
+ * Navigation: navbar (+ burger, notification bell, language switcher), tabs, side menu, pagination, footer.
+ *
+ * <nav class="navbar"><div class="container-page navbar__inner">
+ *   <div class="navbar__brand"><a class="navbar__logo">…</a><button class="navbar__burger">…</button></div>
+ *   <div class="navbar__menu [is-active]"><div class="navbar__start">…</div><div class="navbar__end">…</div></div>
+ * </div></nav>
+ * Desktop ≥1024px: the menu is always visible; below it is a vertical panel toggled by `.is-active`.
+ */
+@layer components {
+  .navbar {
+    @apply sticky top-0 z-navbar border-b border-line bg-canvas/70 backdrop-blur-[6px];
+  }
+  .navbar__inner { @apply flex flex-wrap items-center justify-between min-h-[calc(var(--k-navbar-h)-1px)]; }
+  .navbar__brand { @apply flex items-center justify-between w-full lg:w-auto min-h-[calc(var(--k-navbar-h)-1px)]; }
+  .navbar__logo { @apply flex items-center gap-[0.7rem] text-fg hover:no-underline; }
+  .navbar__logo-text { @apply font-display text-[2.4rem] leading-none pt-1.5 text-fg; }
+
+  .navbar__burger {
+    @apply relative w-12 h-12 -mr-3 lg:hidden bg-transparent border-0 cursor-pointer text-fg hover:text-primary;
+  }
+  .navbar__burger span {
+    @apply absolute left-1/2 w-4 h-0.5 bg-current rounded-sm transition-transform duration-150;
+    margin-left: -0.5rem;
+  }
+  .navbar__burger span:nth-child(1) { top: calc(50% - 6px); }
+  .navbar__burger span:nth-child(2), .navbar__burger span:nth-child(3) { top: calc(50% - 1px); }
+  .navbar__burger span:nth-child(4) { top: calc(50% + 4px); }
+  .navbar__burger.is-active span:nth-child(1), .navbar__burger.is-active span:nth-child(4) { @apply opacity-0; }
+  .navbar__burger.is-active span:nth-child(2) { transform: rotate(45deg); }
+  .navbar__burger.is-active span:nth-child(3) { transform: rotate(-45deg); }
+
+  .navbar__menu {
+    @apply hidden w-full flex-col py-2 border-t border-line bg-canvas max-h-[calc(100dvh-var(--k-navbar-h))] overflow-y-auto;
+    @apply lg:flex lg:flex-row lg:items-center lg:justify-between lg:flex-1 lg:w-auto lg:py-0 lg:border-0 lg:bg-transparent lg:overflow-visible lg:max-h-none;
+  }
+  .navbar__menu.is-active { @apply flex; }
+  .navbar__start, .navbar__end { @apply flex flex-col lg:flex-row lg:items-center lg:gap-1; }
+  .navbar__end { @apply lg:ml-auto lg:gap-3; }
+
+  /* One row style for links, buttons and the bell: same icon column, height, padding. */
+  .navbar__link {
+    @apply flex items-center gap-3 w-full min-h-12 px-4 py-3 text-fg bg-transparent border-0 cursor-pointer text-left;
+    @apply hover:text-primary hover:no-underline;
+    @apply lg:inline-flex lg:w-auto lg:min-h-0 lg:px-3 lg:py-2;
+  }
+  .navbar__link.is-active { @apply text-primary; }
+  .navbar__icon { @apply inline-flex items-center justify-center w-6 h-6 text-[1.1rem] shrink-0; }
+  .navbar__icon.is-mobile-only, .is-mobile-only { @apply lg:hidden; }
+  /* Mobile: buttons become plain rows so they line up with links */
+  .navbar__menu .btn.navbar__link { @apply h-auto w-full justify-start rounded-none border-0 bg-transparent text-fg text-base px-4 py-3 hover:bg-transparent hover:text-primary lg:text-sm lg:w-auto lg:rounded-full lg:border lg:px-3.5 lg:py-1 lg:h-8; }
+  .navbar__menu .btn.navbar__link.navbar__play { @apply text-primary lg:bg-primary lg:text-ink lg:border-transparent lg:hover:text-ink lg:hover:bg-primary-hover; }
+  .navbar__menu .btn.navbar__link.navbar__ghost { @apply lg:border-fg/60 lg:hover:border-fg lg:hover:text-fg; }
+  .navbar__user { @apply text-fg; }
+  .navbar__avatar { @apply w-7 h-7 rounded-full object-cover; }
+  .navbar__sep { @apply hidden lg:block h-6 w-px bg-line; }
+
+  /* ── Language switcher ─ inherits colour from its surface ────────────── */
+  .lang-switch { @apply inline-flex flex-wrap items-center justify-center gap-1 text-[0.85rem]; }
+  .lang-switch__item {
+    @apply px-[0.55rem] py-[0.1rem] rounded-full border border-transparent text-inherit leading-normal opacity-75 hover:opacity-100 hover:no-underline;
+  }
+  .lang-switch__item.is-current { @apply border-current font-bold opacity-100; }
+  .lang-switch--navbar { @apply text-[0.8rem] tracking-wider max-lg:justify-start max-lg:px-4 max-lg:py-2; }
+  .lang-switch--footer { @apply mb-3; }
+
+  /* ── Notification bell + dropdown panel ──────────────────────────────── */
+  .bell { @apply relative; }
+  .bell__toggle { @apply relative bg-transparent border-0 text-fg cursor-pointer hover:text-primary aria-expanded:text-primary; }
+  .bell__badge {
+    @apply absolute -top-[0.45rem] -right-[0.55rem] min-w-[1.15rem] px-[0.3rem] rounded-full bg-primary text-ink text-[0.7rem] font-bold leading-[1.15rem] text-center;
+  }
+  .bell__panel {
+    @apply absolute -right-4 top-[calc(100%+0.9rem)] z-dropdown w-[min(24rem,calc(100vw-2rem))] text-[0.95rem];
+    @apply rounded-md border border-line bg-sunken shadow-raised;
+    @apply max-lg:static max-lg:w-auto max-lg:mx-4 max-lg:mb-2;
+  }
+  .bell__header { @apply flex items-center justify-between px-3.5 py-2.5 border-b border-edge; }
+  .bell__list { @apply list-none m-0 p-0 max-h-[22rem] overflow-y-auto; }
+  .bell__footer { @apply block px-3.5 py-2.5 text-center border-t border-edge; }
+
+  /* Notification rows — shared by the bell dropdown and /notifications */
+  .notif { @apply flex items-start gap-1 m-0 border-b border-[#1f1f1f]; }
+  .notif.is-unread { @apply bg-primary/10 shadow-[inset_3px_0_0_rgb(var(--k-primary))]; }
+  .notif__link { @apply flex flex-1 gap-2.5 px-3.5 py-2.5 text-fg hover:bg-white/5 hover:no-underline; }
+  .notif__link .icon { @apply text-primary; }
+  .notif__body { @apply flex flex-col; }
+  .notif__text { @apply flex-1; }
+  .notif__time { @apply text-[0.8em] text-muted; }
+  .notif__action { @apply self-center mr-1.5 text-soft; }
+  .notif-list { @apply list-none m-0 p-0; }
+  .notif-empty { @apply m-0 p-3.5 text-muted; }
+
+  /* ── Tabs ─ <div class="tabs"><a class="tab is-active"> ─────────────── */
+  .tabs { @apply flex flex-wrap gap-1 mb-5 border-b border-edge; }
+  .tab {
+    @apply -mb-px px-4 py-2 border-b-2 border-transparent text-muted hover:text-fg hover:border-line hover:no-underline;
+  }
+  .tab.is-active, .tab[aria-current] { @apply border-primary text-primary; }
+  .tabs--pill { @apply border-0 gap-2; }
+  .tabs--pill .tab { @apply rounded-full border border-transparent mb-0; }
+  .tabs--pill .tab.is-active { @apply bg-primary text-ink; }
+
+  /* ── Side menu (settings, admin) ─────────────────────────────────────── */
+  .menu { @apply mb-4; }
+  .menu__label { @apply eyebrow px-3 mb-2 mt-3; }
+  .menu__list { @apply list-none m-0 p-0 flex flex-col gap-0.5; }
+  .menu__list li { @apply m-0; }
+  .menu__link {
+    @apply flex items-center gap-2 rounded-md px-3 py-2 text-fg hover:bg-white/5 hover:no-underline;
+  }
+  .menu__link.is-active, .menu__link[aria-current="page"] { @apply bg-primary text-ink; }
+
+  /* ── Pagination ───────────────────────────────────────────────────────── */
+  .pagination { @apply flex flex-wrap items-center justify-between gap-2 my-4 text-sm; }
+  .pagination__prev, .pagination__next {
+    @apply inline-flex items-center h-9 px-4 rounded-full border border-fg/60 text-fg hover:bg-fg/10 hover:no-underline;
+  }
+  .pagination__prev[disabled], .pagination__next[disabled], .pagination__prev.is-disabled, .pagination__next.is-disabled {
+    @apply opacity-40 pointer-events-none;
+  }
+  .pagination__list { @apply order-last flex w-full flex-wrap items-center justify-center gap-1 list-none m-0 p-0 sm:order-none sm:w-auto sm:flex-1; }
+  .pagination__list li { @apply m-0; }
+  .pagination__link {
+    @apply inline-flex items-center justify-center min-w-9 h-9 px-2 rounded-full border border-line text-fg hover:border-primary hover:text-primary hover:no-underline;
+  }
+  .pagination__link.is-current { @apply bg-primary border-primary text-ink font-bold; }
+  .pagination__ellipsis { @apply px-1 text-muted; }
+
+  /* ── Footer ───────────────────────────────────────────────────────────── */
+  .footer { @apply border-t border-line bg-transparent px-6 py-8 text-center text-fg; }
+  .footer a { @apply mx-3; }
+  .footer__meta { @apply text-xs text-muted; }
+}

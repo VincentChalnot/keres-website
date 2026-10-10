@@ -1,0 +1,76 @@
+/*
+ * Keres design tokens — the single source of truth for every colour, font,
+ * radius, shadow and layout metric shared by the website and the platform.
+ *
+ * Colours are stored as space-separated RGB triplets so Tailwind can apply
+ * opacity (`bg-primary/20`) and plain CSS can use `rgb(var(--k-primary) / .2)`.
+ * Components never hard-code a colour: they use these tokens (through the
+ * Tailwind names declared in tailwind.preset.js).
+ */
+:root {
+  /* ── Surfaces (darkest → lightest) ─────────────────────────────────── */
+  --k-canvas: 1 1 1;            /* page background            #010101 */
+  --k-sunken: 17 17 17;         /* wells, dropdown panels      #111111 */
+  --k-inactive: 20 20 20;       /* idle clock / muted banner   #141414 */
+  --k-surface: 26 26 26;        /* cards, modals, inputs       #1a1a1a */
+  --k-surface-hover: 38 38 38;  /* hovered rows / ghost hover  #262626 */
+
+  /* ── Lines ─────────────────────────────────────────────────────────── */
+  --k-line: 85 68 45;           /* brand brown, main borders   #55442d */
+  --k-edge: 42 42 42;           /* hairlines inside surfaces   #2a2a2a */
+
+  /* ── Text ──────────────────────────────────────────────────────────── */
+  --k-fg: 248 240 230;          /* body text (cream)           #f8f0e6 */
+  --k-soft: 225 196 153;        /* secondary text, <strong>    #e1c499 */
+  --k-muted: 163 163 163;       /* helper / meta text          #a3a3a3 */
+  --k-subtle: 119 119 119;      /* hints, placeholders         #777777 */
+  --k-ink: 26 18 8;             /* text on bright fills        #1a1208 */
+
+  /* ── Brand ─────────────────────────────────────────────────────────── */
+  --k-primary: 225 158 91;      /* the Keres orange            #e19e5b */
+  --k-primary-hover: 235 176 117;
+  --k-brand: 85 68 45;          /* brown fills (callouts, tags) #55442d */
+
+  /* ── Feedback colours ──────────────────────────────────────────────── */
+  --k-success: 72 199 142;      /* #48c78e */
+  --k-danger: 198 40 54;        /* #c62836 */
+  --k-danger-text: 245 132 143; /* readable red on dark surfaces */
+  --k-warning: 240 160 48;      /* #f0a030 */
+  --k-info: 62 142 208;         /* #3e8ed0 */
+
+  /* ── Board (SVG tiles + pieces) ────────────────────────────────────── */
+  --k-tile-dark: 81 58 39;      /* #513a27 */
+  --k-tile-light: 221 189 144;  /* #ddbd90 */
+  --k-tile-stroke: 41 26 17;    /* #291a11 */
+  --k-piece-light: 221 204 173; /* #ddccad */
+  --k-piece-dark: 29 22 16;     /* #1d1610 */
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+  --k-font-sans: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --k-font-display: "Carolingia", serif;   /* logo, hero, big numbers */
+  --k-font-title: "RomanSerif", serif;     /* headings */
+  --k-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* ── Shape & elevation ─────────────────────────────────────────────── */
+  --k-radius-sm: 0.25rem;
+  --k-radius-md: 0.5rem;
+  --k-radius-lg: 1rem;
+  --k-shadow-raised: 0 8px 24px rgb(0 0 0 / 0.6);
+  --k-shadow-modal: 0 20px 60px rgb(0 0 0 / 0.8);
+  --k-shadow-cta: 1px 1px 12px #000;
+
+  /* ── Layout ────────────────────────────────────────────────────────── */
+  --k-navbar-h: 4rem;           /* the board is sized to the space left under it */
+  --k-container: 1152px;
+  --k-container-narrow: 900px;
+  --k-hero-measure: 60ch;
+}
+
+@media print {
+  :root {
+    --k-canvas: 255 255 255;
+    --k-fg: 34 34 34;
+    --k-primary: 179 107 0;
+    --k-soft: 122 92 46;
+  }
+}

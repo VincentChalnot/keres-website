@@ -1,0 +1,86 @@
+/*
+ * Marketing / content blocks (website landing page, rules page, legal pages) and error pages.
+ */
+@layer components {
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .hero { @apply flex flex-col items-center text-center mb-8; }
+  .hero .btn { @apply shadow-cta; }
+  .hero__content { @apply max-w-hero px-8; }
+  .hero__baseline { @apply font-title text-2xl mt-0 mb-5; text-shadow: -1px 1px 4px #0a0a0a; }
+  .hero__img { @apply -z-10 pointer-events-none flex items-center; }
+  .hero__img img { @apply block w-full max-w-[1900px] min-h-[800px] object-cover; margin: -130px 0 -200px; }
+
+  /* ── Two-column section (text + image) ───────────────────────────────── */
+  .section-flex {
+    @apply flex gap-8 justify-between p-4 mx-auto max-w-section max-md:flex-col;
+  }
+  .section-flex :is(h2, h3, h4, h5, h6) { @apply mt-0; }
+  .section__img { @apply min-w-[30%] max-w-[30%] text-center max-md:max-w-full max-md:min-w-0; }
+  .section__img img { @apply block w-full h-auto rounded-2xl; }
+  .section__img .btn { @apply mx-auto mt-4; }
+
+  .intro { @apply text-center text-soft italic mb-10; }
+
+  /* ── Rules page: piece cards, icons, movement table ──────────────────── */
+  .piece-grid { @apply grid gap-5 my-5 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]; }
+  .piece-card { @apply rounded-[0.4em] border border-primary p-4; }
+  .piece-card__name { @apply text-center font-bold text-primary mb-2.5; }
+  .piece-card__desc { @apply text-center text-sm text-[#999] mt-2.5; }
+
+  .piece-icon {
+    @apply inline-block align-text-bottom w-[1.2em] aspect-square bg-fg;
+    mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+    -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;
+  }
+  .piece-icon--dark { @apply bg-brand; }
+  .piece-icon--primary { @apply bg-primary; }
+  .piece-icon--lg { @apply w-10; }
+  .piece-icon--ballista { -webkit-mask-image: url('/images/pieces/ballista.svg'); mask-image: url('/images/pieces/ballista.svg'); }
+  .piece-icon--rook { -webkit-mask-image: url('/images/pieces/rook.svg'); mask-image: url('/images/pieces/rook.svg'); }
+  .piece-icon--knight { -webkit-mask-image: url('/images/pieces/knight.svg'); mask-image: url('/images/pieces/knight.svg'); }
+  .piece-icon--guard { -webkit-mask-image: url('/images/pieces/guard.svg'); mask-image: url('/images/pieces/guard.svg'); }
+  .piece-icon--bishop { -webkit-mask-image: url('/images/pieces/bishop.svg'); mask-image: url('/images/pieces/bishop.svg'); }
+  .piece-icon--king { -webkit-mask-image: url('/images/pieces/king.svg'); mask-image: url('/images/pieces/king.svg'); }
+  .piece-icon--paladin { -webkit-mask-image: url('/images/pieces/paladin.svg'); mask-image: url('/images/pieces/paladin.svg'); }
+  .piece-icon--soldier { -webkit-mask-image: url('/images/pieces/soldier.svg'); mask-image: url('/images/pieces/soldier.svg'); }
+
+  .movement-table {
+    @apply my-2.5 mx-auto border-collapse bg-white font-bold text-brand text-center;
+    font-family: Tahoma, monospace, sans-serif;
+  }
+  .movement-table td { @apply aspect-square w-[2.6rem] border border-brand p-0 text-[1.7rem]; }
+  .movement-table--sm td { @apply w-8 text-[1.3rem]; }
+  .movement-table td:empty::before { content: '\00a0'; visibility: hidden; }
+  .movement-table tr:nth-child(odd) td:nth-child(even), .movement-table tr:nth-child(even) td:nth-child(odd) { @apply bg-soft; }
+  .movement-table .is-center { @apply bg-[#667eea] text-white border-2 border-[#764ba2]; }
+
+  /* ── Lightbox ─ toggle with .is-active ────────────────────────────────── */
+  .lightbox-trigger { @apply cursor-zoom-in; }
+  .lightbox-trigger img { @apply transition-opacity duration-200; }
+  .lightbox-trigger:hover img { @apply opacity-85; }
+  .lightbox { @apply hidden fixed inset-0 z-lightbox items-center justify-center p-4 bg-black/90; }
+  .lightbox.is-active { @apply flex; }
+  .lightbox__img { @apply max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-modal animate-pop; }
+  .lightbox__close {
+    @apply fixed top-4 right-5 z-[9001] bg-transparent border-0 text-fg text-[2.5rem] leading-none cursor-pointer opacity-70 hover:opacity-100 transition-opacity;
+  }
+
+  /* ── Error pages (403 / 404 / 500 …) ─────────────────────────────────── */
+  .error-page { @apply flex min-h-[60vh] items-center justify-center text-center; }
+  .error-page__content { @apply max-w-[40ch]; }
+  .error-page__code { @apply font-display text-[5rem] leading-none text-primary mb-[0.2em]; }
+  .error-page__message { @apply text-soft; }
+
+  /* ── Prose (markdown legal pages): extends @tailwindcss/typography `prose` ── */
+  .prose-keres {
+    @apply prose prose-invert max-w-none;
+    --tw-prose-body: rgb(var(--k-fg));
+    --tw-prose-headings: rgb(var(--k-fg));
+    --tw-prose-links: rgb(var(--k-primary));
+    --tw-prose-bold: rgb(var(--k-soft));
+    --tw-prose-bullets: rgb(var(--k-line));
+    --tw-prose-hr: rgb(var(--k-line));
+    --tw-prose-quotes: rgb(var(--k-soft));
+    --tw-prose-quote-borders: rgb(var(--k-primary));
+  }
+}

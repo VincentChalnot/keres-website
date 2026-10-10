@@ -1,0 +1,59 @@
+/*
+ * Buttons.   <a|button class="btn btn--primary">
+ * Variants: --primary --outline --light --danger --danger-soft --info --text --static
+ * Sizes:    --sm  --lg      Layout: --block   Group: .btn-group (wraps) / .btn-group--joined
+ * Toggle:   .btn--outline[aria-pressed="true"] looks like --primary (lobby presets, board toggles)
+ */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 select-none whitespace-nowrap cursor-pointer;
+    @apply h-10 px-5 rounded-full border border-transparent text-base font-medium leading-none;
+    @apply transition-colors duration-150 no-underline;
+    @apply hover:no-underline;
+  }
+  .btn:disabled, .btn[disabled], .btn.is-disabled { @apply opacity-50 cursor-not-allowed pointer-events-none; }
+  .btn.is-loading { @apply relative text-transparent pointer-events-none; }
+  .btn.is-loading::after {
+    content: ''; @apply absolute w-4 h-4 rounded-full border-2 border-ink border-r-transparent animate-spin;
+  }
+
+  .btn--primary { @apply bg-primary text-ink hover:bg-primary-hover; }
+  .btn--outline { @apply border-fg/60 text-fg hover:bg-fg/10 hover:border-fg; }
+  .btn--outline[aria-pressed="true"], .btn--outline.is-active { @apply bg-primary border-primary text-ink hover:bg-primary hover:border-primary; }
+  .btn--light { @apply bg-fg text-brand hover:bg-fg/85; }
+  .btn--danger { @apply bg-danger text-white hover:bg-danger/85; }
+  .btn--danger-soft { @apply bg-danger/15 text-danger-text border-danger/40 hover:bg-danger/25; }
+  .btn--info { @apply bg-info text-white hover:bg-info/85; }
+  .btn--text { @apply bg-transparent text-primary h-auto px-2 py-1 hover:bg-fg/10; }
+  .btn--static { @apply bg-surface text-muted border-edge pointer-events-none; }
+
+  .btn--sm { @apply h-8 px-3.5 text-sm; }
+  .btn--lg { @apply h-12 px-7 text-lg; }
+  .btn--block { @apply flex w-full; }
+  .btn--square { @apply rounded-md; }
+  .btn--icon { @apply px-0 w-10; }
+  .btn--icon.btn--sm { @apply w-8; }
+
+  /* Two-line preset button (lobby): label + value */
+  .btn--stack { @apply flex-col gap-0.5 h-auto min-w-[7.5rem] py-2 leading-tight; }
+  .btn__value { @apply text-[0.8em] opacity-80 tabular; }
+
+  .icon { @apply inline-flex items-center justify-center w-[1.5em] h-[1.5em] shrink-0; }
+
+  .btn-group { @apply flex flex-wrap items-center gap-2; }
+  .btn-group--center { @apply justify-center; }
+  .btn-group--end { @apply justify-end; }
+  .btn-group--joined { @apply gap-0 flex-nowrap; }
+  .btn-group--joined > .btn { @apply rounded-none -ml-px first:ml-0 first:rounded-l-full last:rounded-r-full; }
+  .btn-group--joined > .btn--square { @apply first:rounded-l-md last:rounded-r-md; }
+
+  /* Round close button for modals / dismissible alerts (Bulma .delete) */
+  .btn-close {
+    @apply relative inline-block w-6 h-6 rounded-full bg-fg/20 cursor-pointer border-0 p-0 hover:bg-fg/35;
+  }
+  .btn-close::before, .btn-close::after {
+    content: ''; @apply absolute left-1/2 top-1/2 w-[50%] h-0.5 bg-fg rounded-sm;
+  }
+  .btn-close::before { transform: translate(-50%, -50%) rotate(45deg); }
+  .btn-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+}

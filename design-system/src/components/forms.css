@@ -1,0 +1,69 @@
+/*
+ * Forms.  <div class="field"><label class="label">…</label><input class="input"><p class="help">…</p></div>
+ * Controls: .input .textarea .select .checkbox .radio  (+ .is-invalid / aria-invalid)
+ * Addons:   .input-group (joined input + button / static label)
+ */
+@layer components {
+  .field { @apply mb-4 min-w-0; }
+  .field--inline { @apply flex flex-wrap items-end gap-3; }
+  .field--grouped { @apply flex flex-wrap items-center gap-3; }
+
+  .label { @apply block mb-1.5 text-base font-semibold text-fg; }
+  .help { @apply block mt-1 text-sm text-muted; }
+  .help--danger { @apply text-danger-text; }
+
+  .input, .textarea, .select {
+    @apply block w-full rounded-md border border-line bg-surface px-3.5 py-2 text-base text-fg;
+    @apply placeholder:text-subtle transition-colors duration-150;
+    @apply hover:border-soft/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30;
+  }
+  .input { @apply h-10; }
+  .textarea { @apply min-h-[6rem] resize-y; }
+  .input:disabled, .textarea:disabled, .select:disabled, .input[readonly] { @apply opacity-60 cursor-not-allowed; }
+  .input.is-invalid, .textarea.is-invalid, .select.is-invalid, [aria-invalid="true"] { @apply border-danger focus:ring-danger/30; }
+  .input.is-valid { @apply border-success focus:ring-success/30; }
+  .input--sm, .select--sm { @apply h-8 text-sm px-3; }
+
+  .select {
+    @apply h-10 appearance-none pr-9 cursor-pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23e1c499' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m5 8 5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+  .select[multiple] { @apply h-auto py-2 pr-3.5 bg-none; }
+
+  .checkbox, .radio { @apply inline-flex items-center gap-2 cursor-pointer text-base; }
+  .checkbox input, .radio input, input[type="checkbox"].check, input[type="radio"].check {
+    @apply w-4 h-4 cursor-pointer accent-primary;
+  }
+  .checkboxes, .radios { @apply flex flex-col gap-2; }
+  .checkboxes--inline, .radios--inline { @apply flex-row flex-wrap gap-4; }
+
+  /* Joined input + button (search bars, "from … to …" date range) */
+  .input-group { @apply flex items-stretch; }
+  .input-group > * { @apply rounded-none -ml-px first:ml-0; }
+  .input-group > .input, .input-group > .select { @apply w-auto flex-1 min-w-0 focus:relative focus:z-10; }
+  .input-group > :first-child { @apply rounded-l-md; }
+  .input-group > :last-child { @apply rounded-r-md; }
+  .input-group > .btn { @apply h-10; }
+
+  /* Horizontal form row (label left, controls right) */
+  .field-row { @apply grid gap-2 md:grid-cols-[10rem_1fr] md:items-center mb-4; }
+  .field-row .label { @apply mb-0; }
+
+  /* Native <details> disclosure and <progress> */
+  .progress {
+    @apply block w-full h-3 appearance-none overflow-hidden rounded-full bg-surface border-0;
+  }
+  .progress::-webkit-progress-bar { @apply bg-surface; }
+  .progress::-webkit-progress-value { @apply bg-primary rounded-full; }
+  .progress::-moz-progress-bar { @apply bg-primary rounded-full; }
+  .progress--sm { @apply h-1.5; }
+  .progress:indeterminate {
+    background-image: linear-gradient(to right, rgb(var(--k-primary)) 30%, rgb(var(--k-surface)) 30%);
+    background-size: 150% 100%;
+    animation: k-progress-slide 1.4s linear infinite;
+  }
+  @keyframes k-progress-slide { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+}

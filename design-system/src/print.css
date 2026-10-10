@@ -1,0 +1,11 @@
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  h1, h2, h3, h4, h5, h6, p, li, strong, .piece-card__name { color: #000 !important; text-shadow: none !important; }
+  .card, .piece-card, .callout, .section, .container-page { background: none !important; box-shadow: none !important; color: #000 !important; border-color: #888 !important; }
+  .piece-icon { background-color: #000 !important; }
+  .piece-icon--dark { background-color: #fff !important; }
+  .piece-icon--primary { background-color: #b36b00 !important; }
+  nav, .navbar, .btn, .hero__img, .section__img, .game-container, .move-history, .no-print { display: none !important; }
+  a, a:visited, a:hover { color: #000 !important; text-decoration: underline !important; }
+  @page { margin: 1cm; }
+}

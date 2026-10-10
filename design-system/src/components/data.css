@@ -1,0 +1,58 @@
+/*
+ * Data display: tables, list rows, announcements, key/value.
+ */
+@layer components {
+  .table-wrap { @apply w-full overflow-x-auto; }
+  .table { @apply w-full border-collapse text-left text-base; }
+  .table th {
+    @apply px-3 py-2 border-b border-line text-sm font-semibold text-soft whitespace-nowrap;
+  }
+  .table td { @apply px-3 py-2.5 border-b border-edge align-middle; }
+  .table tbody tr:last-child td { @apply border-b-0; }
+  .table--hover tbody tr:hover { @apply bg-white/5; }
+  .table--compact th, .table--compact td { @apply px-2 py-1; }
+  .table--mono { @apply font-mono; }
+  .table--mono th { @apply text-white bg-transparent; }
+  .table .is-selected, .table tr.is-selected { @apply bg-primary/10; }
+
+  /* Datagrid (admin) toolbar */
+  .toolbar { @apply flex flex-wrap items-center justify-between gap-3 mb-3; }
+  .toolbar__group { @apply flex flex-wrap items-center gap-2; }
+
+  /* Row of a list: players/status on the left, action on the right (Bulma .box.game-row) */
+  .list-row { @apply flex items-center justify-between gap-4; }
+  .list-row__body { @apply flex-1 min-w-0; }
+  .list-row__action { @apply shrink-0; }
+  .list-row__meta { @apply flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-0 text-[0.9rem] text-muted; }
+
+  /* Friends list row */
+  .friend-row { @apply flex flex-wrap items-center gap-x-3 gap-y-1 mb-2 list-none; }
+  .friend-list { @apply list-none m-0 p-0; }
+
+  /* Settings: provider rows */
+  .provider-list { @apply list-none m-0 p-0; }
+  .provider-row { @apply flex items-center gap-2; }
+
+  /* Collapsible tree (admin opening explorer) */
+  .tree { @apply list-none m-0 p-0; }
+  .tree ul { @apply pl-4 ml-0; }
+
+  /* ── Announcements: newest first, older ones in a native <details> ──────── */
+  .announcements__rule { @apply my-5 border-line; }
+  .announcements__list { @apply list-none m-0 p-0; }
+  .announcements__item { @apply m-0 pt-2.5 pb-3 border-t border-line/80 first:border-t-0 first:pt-0; }
+  .announcements__date { @apply block text-xs tracking-wide text-soft opacity-80; }
+  .announcements__heading { @apply mt-0.5 mb-0.5 font-semibold text-fg overflow-wrap-anywhere; }
+  .announcements__body { @apply m-0 text-[0.9rem] leading-snug text-fg/80 overflow-wrap-anywhere; }
+  .announcements__more[open] > .announcements__list > .announcements__item:first-child { @apply border-t border-line/80 pt-2.5; }
+  .announcements__toggle {
+    @apply inline-block mt-1.5 py-1 text-[0.9rem] text-primary cursor-pointer list-none hover:underline;
+  }
+  .announcements__toggle::-webkit-details-marker { display: none; }
+  .announcements__toggle::before { content: '▸'; @apply inline-block mr-1.5 transition-transform duration-150; }
+  .announcements__more[open] > .announcements__toggle { @apply mb-1.5; }
+  .announcements__more[open] > .announcements__toggle::before { transform: rotate(90deg); }
+  .announcements__toggle-less { display: none; }
+  .announcements__more[open] .announcements__toggle-more { display: none; }
+  .announcements__more[open] .announcements__toggle-less { display: inline; }
+}

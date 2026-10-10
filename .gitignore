@@ -6,3 +6,8 @@
 
 # Local environment overrides (may contain secrets) — never commit.
 /.env
+
+# Design system build output
+/design-system/node_modules
+/design-system/dist
+/design-system/styleguide/keres.css

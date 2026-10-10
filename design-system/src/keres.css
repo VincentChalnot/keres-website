@@ -1,0 +1,22 @@
+/*
+ * Keres design system — entry point.
+ * Consumers either compile this file with their own Tailwind (so utilities are
+ * generated from their templates) or use the precompiled dist/keres.css.
+ * (@import must precede every other rule, hence the one-line tw/*.css files
+ * that carry the @tailwind layers in the right order.)
+ */
+@import "./tokens.css";
+@import "./tw/base.css";
+@import "./base.css";
+@import "./tw/components.css";
+@import "./components/buttons.css";
+@import "./components/forms.css";
+@import "./components/surfaces.css";
+@import "./components/feedback.css";
+@import "./components/navigation.css";
+@import "./components/data.css";
+@import "./components/marketing.css";
+@import "./components/game.css";
+@import "./tw/utilities.css";
+@import "./utilities.css";
+@import "./print.css";

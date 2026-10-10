@@ -1,0 +1,61 @@
+/*
+ * Surfaces & layout primitives.
+ *  .container-page  centred max-width wrapper (Bulma .container)
+ *  .section         vertical page padding   (Bulma .section)
+ *  .card            elevated panel          (Bulma .box)   → .card__title, .card--flush
+ *  .stat            big number + label      (Bulma .level-item with .heading + .title)
+ *  .tag             pill label / badge
+ *  .avatar          round image
+ * Grid/columns: use Tailwind (grid, grid-cols-*, gap-*) — no component needed.
+ */
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-container px-4 sm:px-6; }
+  .container-page--narrow { @apply max-w-section; }
+  .container-page--fluid { @apply max-w-none; }
+  .section { @apply py-8 sm:py-12; }
+  .section--tight { @apply py-4; }
+
+  .card { @apply mb-4 rounded-lg border border-line bg-surface p-5 text-fg; }
+  .card--flush { @apply p-0 overflow-hidden; }
+  .card--interactive { @apply transition-colors hover:border-primary/70; }
+  .card__title { @apply font-title text-xl mb-3 text-fg; }
+  .card__title--sm { @apply text-base; }
+
+  .page-title { @apply font-title text-4xl mb-2 mt-0 leading-tight text-balance; }
+  .page-subtitle { @apply text-lg text-soft mb-6; }
+  .eyebrow { @apply block text-xs font-semibold uppercase tracking-widest text-muted mb-1; }
+
+  .stat { @apply text-center; }
+  .stat__label { @apply eyebrow mb-0; }
+  .stat__value { @apply font-display text-4xl leading-tight text-fg mb-0; }
+  .stat__value--warning { @apply text-warning; }
+  .stat-row { @apply grid grid-cols-3 gap-4; }
+
+  .avatar { @apply inline-block rounded-full object-cover; width: var(--avatar, 2rem); height: var(--avatar, 2rem); }
+  .avatar--sm { --avatar: 1.75rem; }
+  .avatar--lg { --avatar: 4rem; }
+
+  /* ── Tags ─────────────────────────────────────────────────────────── */
+  .tag {
+    @apply inline-flex items-center gap-1 h-6 px-2.5 rounded-full text-xs font-semibold leading-none whitespace-nowrap;
+    @apply bg-surface-hover text-fg border border-transparent;
+  }
+  .tag--sm { @apply h-5 px-2 text-[0.7rem]; }
+  .tag--lg { @apply h-8 px-3.5 text-sm; }
+  .tag--square { @apply rounded-md; }
+  .tag--primary { @apply bg-primary text-ink; }
+  .tag--brand { @apply bg-brand text-fg; }            /* Bulma is-dark: black seat, "opponent's turn" */
+  .tag--white { @apply bg-white text-black; }          /* white seat */
+  .tag--light { @apply bg-fg text-brand; }
+  .tag--success { @apply bg-success text-ink; }
+  .tag--danger { @apply bg-danger text-white; }
+  .tag--info { @apply bg-info text-white; }
+  .tag--warning { @apply bg-warning text-ink; }
+  /* Soft = tinted background, readable on dark surfaces */
+  .tag--soft.tag--success { @apply bg-success/15 text-success border-success/30; }
+  .tag--soft.tag--danger { @apply bg-danger/15 text-danger-text border-danger/30; }
+  .tag--soft.tag--info { @apply bg-info/15 text-info border-info/30; }
+  .tag--soft.tag--warning { @apply bg-warning/15 text-warning border-warning/30; }
+  .tag--soft.tag--primary { @apply bg-primary/15 text-primary border-primary/30; }
+  .tag-group { @apply flex flex-wrap items-center gap-1.5; }
+}

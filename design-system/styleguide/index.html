@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keres Style Guide</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/keres.css">
+  <style>
+    /* Style-guide chrome only — never part of the design system. */
+    .sg-demo { border: 1px dashed rgb(var(--k-line)); border-radius: .75rem; padding: 1.25rem; margin: .75rem 0 2rem; }
+    .sg-demo--bare { padding: 0; overflow: hidden; }
+    .sg-label { font: 600 .7rem/1 var(--k-font-sans); letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--k-subtle)); margin: 1.5rem 0 .25rem; }
+    .sg-code { font: .8rem var(--k-font-mono); color: rgb(var(--k-soft)); background: rgb(var(--k-sunken)); border: 1px solid rgb(var(--k-edge)); border-radius: .4rem; padding: .15rem .4rem; }
+    .sg-nav a { display: block; padding: .3rem .75rem; font-size: .9rem; color: rgb(var(--k-muted)); border-radius: .4rem; }
+    .sg-nav a:hover { color: rgb(var(--k-fg)); background: rgb(255 255 255 / .05); text-decoration: none; }
+    .sg-nav b { display: block; margin: 1rem .75rem .25rem; font: 600 .65rem/1 var(--k-font-sans); letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--k-subtle)); }
+    .sg h2.sg-h2 { font-size: 2.25rem; margin: 0 0 .25rem; padding-top: 3rem; }
+    .sg h3.sg-h3 { font-size: 1.4rem; margin: 2rem 0 .25rem; color: rgb(var(--k-primary)); }
+    .sg-lede { color: rgb(var(--k-muted)); max-width: 70ch; font-size: 1rem; margin-bottom: 1rem; }
+    .sg-swatch { height: 4rem; border-radius: .5rem; border: 1px solid rgb(255 255 255 / .12); }
+    .sg-nav-static .navbar { position: static; }
+  </style>
+</head>
+<body>
+
+<!-- Icon sprite (the platform uses Font Awesome; the guide stays dependency-free) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6h10M11 12h10M11 18h10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-board" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-king" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2h2v2h2v2h-2v2.2c3.4.8 6 3.7 6 7.3V19H3v-3.5c0-3.6 2.6-6.5 6-7.3V6H9V4h2zM4 20h16v2H4z"/></symbol>
+</svg>
+
+<!-- ═════════════════════════ Top bar of the guide ═════════════════════════ -->
+<header class="border-b border-line bg-canvas/80 backdrop-blur sticky top-0 z-navbar">
+  <div class="flex items-center justify-between px-4 h-14">
+    <div class="flex items-center gap-3">
+      <img src="/logo.svg" alt="" width="28" height="28">
+      <span class="font-display text-3xl leading-none pt-1">Keres</span>
+      <span class="tag tag--primary tag--sm ml-1">Style guide</span>
+    </div>
+    <span class="hidden sm:block text-sm text-muted">One stylesheet for the website and the platform</span>
+  </div>
+</header>
+
+<div class="mx-auto flex max-w-[88rem]">
+  <aside class="sg-nav sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-56 shrink-0 overflow-y-auto border-r border-edge py-4 lg:block">
+    <b>Foundations</b>
+    <a href="#colors">Colours</a><a href="#typography">Typography</a><a href="#shape">Shape &amp; elevation</a>
+    <b>Components</b>
+    <a href="#buttons">Buttons</a><a href="#forms">Forms</a><a href="#surfaces">Cards &amp; stats</a><a href="#tags">Tags</a>
+    <a href="#feedback">Alerts &amp; modals</a><a href="#navbar">Navbar</a><a href="#nav-misc">Tabs, menu, pagination</a>
+    <a href="#data">Tables &amp; lists</a>
+    <b>Game</b>
+    <a href="#game">Game screen</a><a href="#pieces">Pieces &amp; rules</a>
+    <b>Site</b>
+    <a href="#marketing">Hero &amp; sections</a><a href="#errors">Error page</a><a href="#footer">Footer</a>
+    <b>Compositions</b>
+    <a href="#pages">Page layouts</a>
+  </aside>
+
+  <main class="sg min-w-0 flex-1 px-4 pb-24 sm:px-8">
+
+    <h1 class="!mt-10 !text-6xl sm:!text-8xl">Style guide</h1>
+    <p class="sg-lede">Every shared component of the Keres website and platform, on a single page. If something looks off here, it is off everywhere. Source: <span class="sg-code">design-system/src</span> — tokens in <span class="sg-code">tokens.css</span>, Tailwind names in <span class="sg-code">tailwind.preset.js</span>.</p>
+
+    <!-- ═══════════════════════════ FOUNDATIONS ═══════════════════════════ -->
+    <h2 class="sg-h2" id="colors">Colours</h2>
+    <p class="sg-lede">Semantic tokens only. Use the Tailwind name (<span class="sg-code">bg-surface</span>, <span class="sg-code">text-muted</span>, <span class="sg-code">border-line</span>); never a raw hex in a component.</p>
+
+    <h3 class="sg-h3">Surfaces &amp; lines</h3>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+      <div><div class="sg-swatch bg-canvas"></div><p class="mt-2 mb-0 text-sm"><b>canvas</b><br><span class="text-muted">#010101 · page</span></p></div>
+      <div><div class="sg-swatch bg-sunken"></div><p class="mt-2 mb-0 text-sm"><b>sunken</b><br><span class="text-muted">#111 · panels</span></p></div>
+      <div><div class="sg-swatch bg-inactive"></div><p class="mt-2 mb-0 text-sm"><b>inactive</b><br><span class="text-muted">#141414 · idle</span></p></div>
+      <div><div class="sg-swatch bg-surface"></div><p class="mt-2 mb-0 text-sm"><b>surface</b><br><span class="text-muted">#1a1a1a · cards</span></p></div>
+      <div><div class="sg-swatch bg-surface-hover"></div><p class="mt-2 mb-0 text-sm"><b>surface-hover</b><br><span class="text-muted">#262626</span></p></div>
+      <div><div class="sg-swatch bg-brand"></div><p class="mt-2 mb-0 text-sm"><b>brand</b><br><span class="text-muted">#55442d · fills</span></p></div>
+      <div><div class="sg-swatch bg-line"></div><p class="mt-2 mb-0 text-sm"><b>line</b><br><span class="text-muted">#55442d · borders</span></p></div>
+      <div><div class="sg-swatch bg-edge"></div><p class="mt-2 mb-0 text-sm"><b>edge</b><br><span class="text-muted">#2a2a2a · hairlines</span></p></div>
+    </div>
+
+    <h3 class="sg-h3">Text &amp; brand</h3>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+      <div><div class="sg-swatch bg-fg"></div><p class="mt-2 mb-0 text-sm"><b>fg</b><br><span class="text-muted">#f8f0e6 · body</span></p></div>
+      <div><div class="sg-swatch bg-soft"></div><p class="mt-2 mb-0 text-sm"><b>soft</b><br><span class="text-muted">#e1c499 · strong</span></p></div>
+      <div><div class="sg-swatch bg-muted"></div><p class="mt-2 mb-0 text-sm"><b>muted</b><br><span class="text-muted">#a3a3a3 · meta</span></p></div>
+      <div><div class="sg-swatch bg-subtle"></div><p class="mt-2 mb-0 text-sm"><b>subtle</b><br><span class="text-muted">#777 · hints</span></p></div>
+      <div><div class="sg-swatch bg-primary"></div><p class="mt-2 mb-0 text-sm"><b>primary</b><br><span class="text-muted">#e19e5b · accent</span></p></div>
+      <div><div class="sg-swatch bg-primary-hover"></div><p class="mt-2 mb-0 text-sm"><b>primary-hover</b><br><span class="text-muted">#ebb075</span></p></div>
+      <div><div class="sg-swatch bg-ink"></div><p class="mt-2 mb-0 text-sm"><b>ink</b><br><span class="text-muted">#1a1208 · on bright</span></p></div>
+    </div>
+
+    <h3 class="sg-h3">Feedback</h3>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+      <div><div class="sg-swatch bg-success"></div><p class="mt-2 mb-0 text-sm"><b>success</b><br><span class="text-muted">#48c78e</span></p></div>
+      <div><div class="sg-swatch bg-danger"></div><p class="mt-2 mb-0 text-sm"><b>danger</b><br><span class="text-muted">#c62836</span></p></div>
+      <div><div class="sg-swatch bg-danger-text"></div><p class="mt-2 mb-0 text-sm"><b>danger-text</b><br><span class="text-muted">#f5848f · on dark</span></p></div>
+      <div><div class="sg-swatch bg-warning"></div><p class="mt-2 mb-0 text-sm"><b>warning</b><br><span class="text-muted">#f0a030</span></p></div>
+      <div><div class="sg-swatch bg-info"></div><p class="mt-2 mb-0 text-sm"><b>info</b><br><span class="text-muted">#3e8ed0</span></p></div>
+    </div>
+
+    <h3 class="sg-h3">Board</h3>
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+      <div><div class="sg-swatch bg-tile-dark"></div><p class="mt-2 mb-0 text-sm"><b>tile-dark</b></p></div>
+      <div><div class="sg-swatch bg-tile-light"></div><p class="mt-2 mb-0 text-sm"><b>tile-light</b></p></div>
+      <div><div class="sg-swatch bg-tile-stroke"></div><p class="mt-2 mb-0 text-sm"><b>tile-stroke</b></p></div>
+      <div><div class="sg-swatch bg-piece-light"></div><p class="mt-2 mb-0 text-sm"><b>piece-light</b></p></div>
+      <div><div class="sg-swatch bg-piece-dark"></div><p class="mt-2 mb-0 text-sm"><b>piece-dark</b></p></div>
+    </div>
+
+    <h2 class="sg-h2" id="typography">Typography</h2>
+    <p class="sg-lede">Three families: <b>Carolingia</b> (<span class="sg-code">font-display</span>: logo, hero, big numbers), <b>RomanSerif</b> (<span class="sg-code">font-title</span>: headings) and the sans stack (<span class="sg-code">font-sans</span>: body, UI).</p>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">h1 · hero / landing title (bare element)</p>
+      <h1 class="!mt-0 !text-6xl sm:!text-8xl">Keres</h1>
+      <p class="sg-label">.page-title + .page-subtitle · page heading in the platform</p>
+      <h1 class="page-title !text-4xl !mt-0">Lobby</h1>
+      <p class="page-subtitle">Find an opponent or invite a friend.</p>
+      <p class="sg-label">h2 → h5 · RomanSerif (bare elements, used in content)</p>
+      <h2 class="!text-5xl">Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5>
+      <p class="sg-label">.card__title · .eyebrow · .stat__value</p>
+      <p class="card__title !mb-1">Card title</p>
+      <span class="eyebrow">Eyebrow label</span>
+      <p class="stat__value !mb-0">1 842</p>
+      <p class="sg-label">Body, links, emphasis</p>
+      <p>Body copy in the cream <span class="sg-code">fg</span> colour with a <a href="#typography">link</a>, some <strong>strong text</strong>, <small>small text</small> and <span class="text-muted">muted meta text</span>. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+      <ul><li>List item one</li><li>List item two</li></ul>
+      <hr>
+      <p class="intro !mb-0">.intro — centred italic lead used on the rules page.</p>
+    </div>
+
+    <h2 class="sg-h2" id="shape">Shape &amp; elevation</h2>
+    <div class="sg-demo grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div class="rounded-sm border border-line bg-surface p-4 text-sm">rounded-sm</div>
+      <div class="rounded-md border border-line bg-surface p-4 text-sm">rounded-md</div>
+      <div class="rounded-lg border border-line bg-surface p-4 text-sm">rounded-lg</div>
+      <div class="rounded-full border border-line bg-surface p-4 text-center text-sm">rounded-full</div>
+      <div class="rounded-md bg-surface p-4 text-sm shadow-raised">shadow-raised</div>
+      <div class="rounded-md bg-surface p-4 text-sm shadow-modal">shadow-modal</div>
+      <div class="rounded-md bg-surface p-4 text-sm shadow-cta">shadow-cta</div>
+    </div>
+
+    <!-- ═══════════════════════════ BUTTONS ═══════════════════════════ -->
+    <h2 class="sg-h2" id="buttons">Buttons</h2>
+    <p class="sg-lede">Pill-shaped by default. <span class="sg-code">.btn</span> + one variant; add <span class="sg-code">.btn--sm</span> / <span class="sg-code">.btn--lg</span> for size. Replaces Bulma <span class="sg-code">.button.is-rounded.is-*</span>.</p>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">Variants</p>
+      <div class="btn-group">
+        <button class="btn btn--primary">Primary</button>
+        <button class="btn btn--outline">Outline</button>
+        <button class="btn btn--light">Light</button>
+        <button class="btn btn--danger">Danger</button>
+        <button class="btn btn--danger-soft">Danger soft</button>
+        <button class="btn btn--info">Info</button>
+        <button class="btn btn--text">Text</button>
+        <button class="btn btn--static">Static</button>
+      </div>
+      <p class="sg-label">Sizes</p>
+      <div class="btn-group">
+        <button class="btn btn--primary btn--sm">Small</button>
+        <button class="btn btn--primary">Default</button>
+        <button class="btn btn--primary btn--lg">Large</button>
+        <button class="btn btn--outline btn--sm btn--square">Square</button>
+      </div>
+      <p class="sg-label">With icon · icon only · links</p>
+      <div class="btn-group">
+        <button class="btn btn--outline"><svg class="icon"><use href="#i-rotate"/></svg>Rotate opponent</button>
+        <button class="btn btn--primary btn--sm"><svg class="icon"><use href="#i-check"/></svg>Accept</button>
+        <button class="btn btn--outline btn--icon" aria-label="Settings"><svg class="icon"><use href="#i-gear"/></svg></button>
+        <a href="#buttons" class="btn btn--primary">Link as button</a>
+        <button class="btn btn--text btn--sm">Mark all read</button>
+      </div>
+      <p class="sg-label">States</p>
+      <div class="btn-group">
+        <button class="btn btn--primary" disabled>Disabled</button>
+        <button class="btn btn--outline" disabled>Disabled</button>
+        <button class="btn btn--primary is-loading">Loading</button>
+        <button class="btn btn--outline" aria-pressed="false" data-toggle>Toggle off</button>
+        <button class="btn btn--outline" aria-pressed="true" data-toggle>Toggle on</button>
+      </div>
+      <p class="sg-label">Stacked preset buttons (lobby) — <span class="sg-code">aria-pressed</span> drives the selected look, no class toggling</p>
+      <div class="btn-group" role="group">
+        <button class="btn btn--outline btn--stack" aria-pressed="false" data-preset><span>Bullet</span><span class="btn__value">1+0</span></button>
+        <button class="btn btn--outline btn--stack" aria-pressed="true" data-preset><span>Blitz</span><span class="btn__value">3+2</span></button>
+        <button class="btn btn--outline btn--stack" aria-pressed="false" data-preset><span>Rapid</span><span class="btn__value">10+5</span></button>
+        <button class="btn btn--outline btn--stack" aria-pressed="false" data-preset><span>Daily</span><span class="btn__value">24h / move</span></button>
+      </div>
+      <p class="sg-label">Joined group · full width · modal close</p>
+      <div class="btn-group">
+        <div class="btn-group btn-group--joined"><button class="btn btn--outline btn--sm">1</button><button class="btn btn--outline btn--sm">2</button><button class="btn btn--primary btn--sm">3</button></div>
+        <button class="btn-close" aria-label="Close"></button>
+      </div>
+      <div class="mt-3 max-w-sm"><a class="btn btn--light btn--block" href="#buttons"><svg class="icon"><use href="#i-link"/></svg>Continue with Google</a></div>
+    </div>
+
+    <!-- ═══════════════════════════ FORMS ═══════════════════════════ -->
+    <h2 class="sg-h2" id="forms">Forms</h2>
+    <p class="sg-lede">The Symfony form theme maps onto these classes (<span class="sg-code">form_row → .field</span>, <span class="sg-code">form_label → .label</span>, <span class="sg-code">form_errors → .help--danger</span>).</p>
+    <div class="sg-demo">
+      <div class="grid gap-x-6 md:grid-cols-2">
+        <div class="field"><label class="label" for="f1">Display name</label><input id="f1" class="input" placeholder="Magnus" value=""><p class="help">Shown on your profile and in games.</p></div>
+        <div class="field"><label class="label" for="f2">Email</label><input id="f2" class="input is-invalid" type="email" value="not-an-email"><p class="help help--danger">This value is not a valid email address.</p></div>
+        <div class="field"><label class="label" for="f3">Colour</label><select id="f3" class="select"><option>Random</option><option>White</option><option>Black</option></select></div>
+        <div class="field"><label class="label" for="f4">Disabled</label><input id="f4" class="input" value="locked" disabled></div>
+        <div class="field md:col-span-2"><label class="label" for="f5">Bio</label><textarea id="f5" class="textarea" placeholder="Tell us about yourself"></textarea></div>
+      </div>
+      <div class="grid gap-x-6 md:grid-cols-2">
+        <div class="field"><span class="label">Checkboxes</span>
+          <div class="checkboxes"><label class="checkbox"><input type="checkbox" checked> Email me when it is my turn</label><label class="checkbox"><input type="checkbox"> Weekly digest</label></div></div>
+        <div class="field"><span class="label">Radios</span>
+          <div class="radios"><label class="radio"><input type="radio" name="r" checked> Everyone</label><label class="radio"><input type="radio" name="r"> Friends only</label><label class="radio"><input type="radio" name="r"> Nobody</label></div></div>
+      </div>
+      <div class="grid gap-x-6 md:grid-cols-2">
+        <div class="field"><span class="label">Input group (search)</span>
+          <div class="input-group"><input class="input" placeholder="Search players…"><button class="btn btn--primary">Search</button></div></div>
+        <div class="field"><span class="label">Date range</span>
+          <div class="input-group"><input class="input" type="date"><span class="btn btn--static btn--square">to</span><input class="input" type="date"></div></div>
+      </div>
+      <div class="field"><span class="label">Progress</span>
+        <progress class="progress" max="100" value="60"></progress>
+        <progress class="progress progress--sm mt-3" max="100"></progress></div>
+      <div class="field--grouped"><button class="btn btn--primary">Save</button><button class="btn btn--outline">Cancel</button></div>
+    </div>
+
+    <h3 class="sg-h3">Composition · lobby “new seek” form</h3>
+    <div class="sg-demo">
+      <div class="card !mb-0">
+        <h3 class="card__title">New game</h3>
+        <div class="field"><span class="label">Format</span>
+          <div class="btn-group" role="group">
+            <button class="btn btn--outline btn--stack" aria-pressed="false" data-preset><span>Bullet</span><span class="btn__value">1+0</span></button>
+            <button class="btn btn--outline btn--stack" aria-pressed="true" data-preset><span>Blitz</span><span class="btn__value">3+2</span></button>
+            <button class="btn btn--outline btn--stack" aria-pressed="false" data-preset><span>Rapid</span><span class="btn__value">10+5</span></button>
+          </div>
+          <p class="help">Pick a preset or tune the time control below.</p></div>
+        <div class="grid gap-x-4 md:grid-cols-3">
+          <div class="field"><label class="label">Time control</label><select class="select"><option>Real time</option><option>Correspondence</option></select></div>
+          <div class="field"><label class="label">Minutes</label><input class="input" type="number" value="3"></div>
+          <div class="field"><label class="label">Increment (s)</label><input class="input" type="number" value="2"></div>
+          <div class="field"><label class="label">Colour</label><select class="select"><option>Random</option></select></div>
+          <div class="field"><label class="label">Mode</label><select class="select"><option>Rated</option><option>Casual</option></select></div>
+        </div>
+        <div class="field--grouped"><button class="btn btn--primary">Post a seek</button><button class="btn btn--outline">Invite a friend</button></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ SURFACES ═══════════════════════════ -->
+    <h2 class="sg-h2" id="surfaces">Cards &amp; stats</h2>
+    <div class="sg-demo">
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="card"><h3 class="card__title">Card</h3><p class="!mb-0">Default surface for grouped content (Bulma <span class="sg-code">.box</span>).</p></div>
+        <a href="#surfaces" class="card card--interactive hover:no-underline"><h3 class="card__title">Interactive card</h3><p class="!mb-0 text-fg">Border lights up on hover.</p></a>
+      </div>
+      <div class="card">
+        <h3 class="card__title">Statistics</h3>
+        <div class="stat-row">
+          <div class="stat"><p class="stat__label">Wins</p><p class="stat__value">128</p></div>
+          <div class="stat"><p class="stat__label">Losses</p><p class="stat__value">94</p></div>
+          <div class="stat"><p class="stat__label">Draws</p><p class="stat__value">12</p></div>
+        </div>
+        <p class="mb-0 mt-3 text-center">Win rate <strong>54.7%</strong> over 234 finished games</p>
+      </div>
+      <div class="card">
+        <div class="flex flex-wrap items-center gap-4">
+          <img class="avatar avatar--lg" src="/images/pieces/king.svg" alt="" style="background:rgb(var(--k-brand));padding:.5rem">
+          <div class="min-w-0 flex-1">
+            <h1 class="page-title !mb-0 !text-3xl">Magnus <span class="tag tag--soft tag--success ml-2">Online</span></h1>
+            <p class="mb-0 text-muted">@magnus · Member since March 2026</p>
+          </div>
+          <div class="btn-group"><button class="btn btn--primary">Add friend</button><button class="btn btn--danger-soft">Block</button></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sg-h2" id="tags">Tags</h2>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">Solid</p>
+      <div class="tag-group"><span class="tag">Default</span><span class="tag tag--primary">Primary</span><span class="tag tag--brand">Brand</span><span class="tag tag--white">White</span><span class="tag tag--light">Light</span><span class="tag tag--success">Success</span><span class="tag tag--danger">Danger</span><span class="tag tag--info">Info</span><span class="tag tag--warning">Warning</span></div>
+      <p class="sg-label">Soft (tinted)</p>
+      <div class="tag-group"><span class="tag tag--soft tag--primary">Your turn</span><span class="tag tag--soft tag--success">Win 12</span><span class="tag tag--soft tag--danger">Loss 3</span><span class="tag tag--soft tag--info">In progress</span><span class="tag tag--soft tag--warning">Draw</span></div>
+      <p class="sg-label">Sizes · square</p>
+      <div class="tag-group"><span class="tag tag--sm tag--light">Small</span><span class="tag tag--light">Default</span><span class="tag tag--lg tag--light">Large</span><span class="tag tag--square tag--brand">Square</span></div>
+    </div>
+
+    <!-- ═══════════════════════════ FEEDBACK ═══════════════════════════ -->
+    <h2 class="sg-h2" id="feedback">Alerts, callouts &amp; modals</h2>
+    <div class="sg-demo">
+      <div class="alert alert--success">Your settings have been saved.</div>
+      <div class="alert alert--danger">Invalid credentials. <a href="#feedback">Reset your password</a>.</div>
+      <div class="alert alert--info">Maintenance is scheduled for Sunday 02:00 UTC.</div>
+      <div class="alert alert--warning">Your correspondence game is about to time out.</div>
+      <div class="alert alert--brand">You are playing as a guest — <a href="#feedback">sign in</a> or <a href="#feedback">create an account</a> to keep your games.</div>
+      <div class="alert alert--info !mb-0">Dismissible alert<button class="btn-close alert__close" aria-label="Close" onclick="this.parentElement.remove()"></button></div>
+      <p class="sg-label">Callouts (rules page)</p>
+      <div class="callout">A stack may only move one tile per turn unless it contains a Knight.</div>
+      <div class="callout callout--warning !mb-0"><strong>Warning:</strong> capturing a King ends the game immediately.</div>
+    </div>
+
+    <h3 class="sg-h3">Modal</h3>
+    <div class="sg-demo">
+      <div class="btn-group">
+        <button class="btn btn--primary" data-open="modal-confirm">Confirm modal</button>
+        <button class="btn btn--outline" data-open="modal-unstack">Unstack modal</button>
+        <button class="btn btn--outline" data-open="modal-form">Modal with content</button>
+      </div>
+    </div>
+    <div class="modal" id="modal-confirm">
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__card">
+        <header class="modal__head"><p class="modal__title">Resign this game?</p></header>
+        <section class="modal__body"><p>You will lose the game immediately. This cannot be undone.</p></section>
+        <footer class="modal__foot"><button class="btn btn--danger" data-close>Resign</button><button class="btn btn--outline" data-close>Cancel</button></footer>
+      </div>
+    </div>
+    <div class="modal" id="modal-unstack">
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__card">
+        <header class="modal__head"><p class="modal__title">Move the whole stack?</p></header>
+        <section class="modal__body"><p>This tile holds a stack. Choose what to move.</p></section>
+        <footer class="modal__foot"><button class="btn btn--primary" data-close>Move stack</button><button class="btn btn--outline" data-close>Move top piece</button><button class="btn btn--text" data-close>Select instead</button></footer>
+      </div>
+    </div>
+    <div class="modal" id="modal-form">
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__card">
+        <header class="modal__head"><p class="modal__title">Send feedback</p><button class="btn-close" aria-label="Close" data-close></button></header>
+        <section class="modal__body">
+          <div class="field"><label class="label">Category</label><select class="select"><option>Bug</option><option>Idea</option></select></div>
+          <div class="field"><label class="label">Message</label><textarea class="textarea"></textarea></div>
+          <progress class="progress progress--sm"></progress>
+        </section>
+        <footer class="modal__foot"><button class="btn btn--primary" data-close>Send</button></footer>
+      </div>
+    </div>
+
+    <h3 class="sg-h3">Empty state · spinner</h3>
+    <div class="sg-demo"><p class="empty !mb-0">You have no games in progress.</p><p class="text-center"><span class="spinner"></span></p></div>
+
+    <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+    <h2 class="sg-h2" id="navbar">Navbar</h2>
+    <p class="sg-lede">Sticky in the app (static here so several can be shown). Resize below 1024px to see the burger menu. The notification panel is shown open.</p>
+
+    <p class="sg-label">Signed out</p>
+    <div class="sg-demo sg-demo--bare sg-nav-static">
+      <nav class="navbar" aria-label="Main">
+        <div class="container-page navbar__inner">
+          <div class="navbar__brand">
+            <a class="navbar__logo" href="#navbar" aria-label="Keres home"><img src="/logo.svg" alt="" width="32" height="32"><span class="navbar__logo-text">Keres</span></a>
+            <button class="navbar__burger" aria-label="Toggle menu" aria-expanded="false" data-burger><span></span><span></span><span></span><span></span></button>
+          </div>
+          <div class="navbar__menu">
+            <div class="navbar__start"><a href="#navbar" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-list"/></svg><span>Rules</span></a></div>
+            <div class="navbar__end">
+              <a href="#navbar" class="btn btn--primary btn--sm navbar__link navbar__play"><svg class="navbar__icon is-mobile-only"><use href="#i-king"/></svg><span>Play</span></a>
+              <span class="lang-switch lang-switch--navbar" role="group"><span class="lang-switch__item is-current">EN</span><a class="lang-switch__item" href="#navbar">FR</a></span>
+              <a href="#navbar" class="btn btn--outline btn--sm navbar__link navbar__ghost"><svg class="navbar__icon"><use href="#i-login"/></svg><span>Log in</span></a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <p class="sg-label">Signed in, notification panel open</p>
+    <div class="sg-demo sg-demo--bare sg-nav-static" style="min-height:26rem">
+      <nav class="navbar" aria-label="Main">
+        <div class="container-page navbar__inner">
+          <div class="navbar__brand">
+            <a class="navbar__logo" href="#navbar"><img src="/logo.svg" alt="" width="32" height="32"><span class="navbar__logo-text">Keres</span></a>
+            <button class="navbar__burger" aria-label="Toggle menu" aria-expanded="false" data-burger><span></span><span></span><span></span><span></span></button>
+          </div>
+          <div class="navbar__menu">
+            <div class="navbar__start">
+              <a href="#navbar" class="navbar__link is-active"><svg class="navbar__icon is-mobile-only"><use href="#i-chart"/></svg><span>Dashboard</span></a>
+              <a href="#navbar" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-users"/></svg><span>Friends</span></a>
+              <a href="#navbar" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-list"/></svg><span>Rules</span></a>
+            </div>
+            <div class="navbar__end">
+              <a href="#navbar" class="btn btn--primary btn--sm navbar__link navbar__play"><svg class="navbar__icon is-mobile-only"><use href="#i-king"/></svg><span>Play</span></a>
+              <div class="bell">
+                <button class="bell__toggle navbar__link" aria-haspopup="true" aria-expanded="true" aria-label="Notifications">
+                  <span class="navbar__icon relative"><svg class="w-full h-full"><use href="#i-bell"/></svg><span class="bell__badge">3</span></span>
+                  <span class="is-mobile-only">Notifications</span>
+                </button>
+                <div class="bell__panel">
+                  <div class="bell__header"><strong>Notifications</strong><button class="btn btn--text btn--sm">Mark all read</button></div>
+                  <ul class="bell__list">
+                    <li class="notif is-unread"><a class="notif__link" href="#navbar"><span class="icon"><svg class="w-full h-full"><use href="#i-king"/></svg></span><span class="notif__body"><span>It's your turn against Ada</span><span class="notif__time">2 min ago</span></span></a><button class="btn btn--text btn--sm notif__action" aria-label="Mark read"><svg class="icon"><use href="#i-check"/></svg></button></li>
+                    <li class="notif is-unread"><a class="notif__link" href="#navbar"><span class="icon"><svg class="w-full h-full"><use href="#i-users"/></svg></span><span class="notif__body"><span>Linus sent you a friend request</span><span class="notif__time">1 h ago</span></span></a><button class="btn btn--text btn--sm notif__action" aria-label="Mark read"><svg class="icon"><use href="#i-check"/></svg></button></li>
+                    <li class="notif"><a class="notif__link" href="#navbar"><span class="icon"><svg class="w-full h-full"><use href="#i-board"/></svg></span><span class="notif__body"><span>Your game against Grace is over</span><span class="notif__time">Yesterday</span></span></a></li>
+                  </ul>
+                  <a href="#navbar" class="bell__footer">See all notifications</a>
+                </div>
+              </div>
+              <a href="#navbar" class="navbar__link" aria-label="Settings"><svg class="navbar__icon"><use href="#i-gear"/></svg><span class="is-mobile-only">Settings</span></a>
+              <a href="#navbar" class="navbar__link navbar__user"><span class="navbar__icon"><svg class="w-full h-full"><use href="#i-user"/></svg></span><span>magnus</span></a>
+              <a href="#navbar" class="btn btn--outline btn--sm navbar__link navbar__ghost"><svg class="navbar__icon"><use href="#i-logout"/></svg><span>Log out</span></a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- ═══════════════════════════ NAV MISC ═══════════════════════════ -->
+    <h2 class="sg-h2" id="nav-misc">Tabs, menu &amp; pagination</h2>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">Tabs</p>
+      <div class="tabs"><a class="tab is-active" href="#nav-misc">In progress</a><a class="tab" href="#nav-misc">Finished</a></div>
+      <p class="sg-label">Pill tabs</p>
+      <div class="tabs tabs--pill"><a class="tab is-active" href="#nav-misc">All</a><a class="tab" href="#nav-misc">Rated</a><a class="tab" href="#nav-misc">Casual</a></div>
+      <p class="sg-label">Side menu (settings / admin)</p>
+      <div class="max-w-xs">
+        <aside class="menu"><p class="menu__label">Admin</p>
+          <ul class="menu__list">
+            <li><a class="menu__link is-active" href="#nav-misc"><svg class="icon"><use href="#i-chart"/></svg><span>Dashboard</span></a></li>
+            <li><a class="menu__link" href="#nav-misc"><svg class="icon"><use href="#i-users"/></svg><span>Users</span></a></li>
+            <li><a class="menu__link" href="#nav-misc"><svg class="icon"><use href="#i-board"/></svg><span>Games</span></a></li>
+            <li><a class="menu__link" href="#nav-misc"><svg class="icon"><use href="#i-shield"/></svg><span>Privacy</span></a></li>
+          </ul></aside>
+      </div>
+      <p class="sg-label">Pagination — datagrid</p>
+      <nav class="pagination" aria-label="pagination">
+        <a class="pagination__prev is-disabled" disabled>Previous</a>
+        <a class="pagination__next" href="#nav-misc">Next</a>
+        <ul class="pagination__list"><li><a class="pagination__link is-current" href="#nav-misc">1</a></li><li><a class="pagination__link" href="#nav-misc">2</a></li><li><a class="pagination__link" href="#nav-misc">3</a></li><li><span class="pagination__ellipsis">…</span></li><li><a class="pagination__link" href="#nav-misc">12</a></li></ul>
+      </nav>
+      <p class="sg-label">Pagination — simple (page X of Y)</p>
+      <nav class="pagination"><a class="pagination__prev" href="#nav-misc">Previous</a><span class="text-muted">Page 2 of 5</span><a class="pagination__next" href="#nav-misc">Next</a></nav>
+      <p class="sg-label">Language switcher</p>
+      <span class="lang-switch"><span class="lang-switch__item is-current">English</span><a class="lang-switch__item" href="#nav-misc">Français</a></span>
+    </div>
+
+    <!-- ═══════════════════════════ DATA ═══════════════════════════ -->
+    <h2 class="sg-h2" id="data">Tables &amp; lists</h2>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">Table (hover) in a card, scrolls horizontally on small screens</p>
+      <div class="card"><h3 class="card__title">Open seeks <span class="text-muted">(4)</span></h3>
+        <div class="table-wrap"><table class="table table--hover">
+          <thead><tr><th>Player</th><th>Time control</th><th>Mode</th><th>Colour</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Ada <span class="text-muted">(1612)</span></td><td>3+2</td><td>Rated</td><td>Random</td><td class="text-right"><button class="btn btn--primary btn--sm">Play</button></td></tr>
+            <tr><td>Linus <span class="text-muted">(1540)</span></td><td>10+5</td><td>Casual</td><td>White</td><td class="text-right"><button class="btn btn--primary btn--sm">Play</button></td></tr>
+            <tr><td>You</td><td>1+0</td><td>Rated</td><td>Random</td><td class="text-right"><button class="btn btn--danger-soft btn--sm">Cancel</button></td></tr>
+            <tr><td class="text-subtle">Grace</td><td class="text-subtle">24h</td><td class="text-subtle">Rated</td><td class="text-subtle">Black</td><td class="text-right text-subtle">Unavailable</td></tr>
+          </tbody></table></div></div>
+      <p class="sg-label">Admin datagrid: toolbar, status tags, actions</p>
+      <div class="card"><div class="toolbar"><div class="toolbar__group"><span class="tag tag--white tag--lg">1 248 results</span><button class="btn btn--outline btn--sm">Filters</button></div><div class="toolbar__group"><button class="btn btn--info btn--sm">Export</button></div></div>
+        <div class="table-wrap"><table class="table table--hover table--compact">
+          <thead><tr><th>#</th><th>Players</th><th>Result</th><th>Rated</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><a class="font-semibold" href="#data">4821</a></td><td class="whitespace-nowrap"><span class="inline-flex items-center gap-1.5"><span class="tag tag--white">W</span>Ada <span class="text-subtle">vs</span> <span class="tag tag--brand">B</span>Linus</span></td><td><span class="tag tag--soft tag--success">1-0</span></td><td><span class="tag tag--soft tag--info">Rated</span></td><td class="text-right"><div class="btn-group btn-group--joined"><a class="btn btn--info btn--sm" href="#data"><svg class="icon"><use href="#i-pen"/></svg></a></div></td></tr>
+            <tr><td><a class="font-semibold" href="#data">4820</a></td><td>Engine L3 <span class="text-subtle">vs</span> Grace</td><td><span class="tag">½-½</span></td><td><span class="tag">Casual</span></td><td></td></tr>
+            <tr><td><a class="font-semibold" href="#data">4819</a> <span class="tag tag--soft tag--danger">Deleted</span></td><td>Magnus <span class="text-subtle">vs</span> Ada</td><td><span class="tag tag--soft tag--info">In progress</span></td><td><span class="tag tag--soft tag--info">Rated</span></td><td></td></tr>
+          </tbody></table></div></div>
+    </div>
+
+    <h3 class="sg-h3">Game rows · friends · announcements · notifications</h3>
+    <div class="sg-demo">
+      <div class="card list-row">
+        <div class="list-row__body">
+          <div class="game-header game-header--compact">
+            <div class="game-header__players"><span class="game-header__seat"><span class="tag tag--white" title="White">W</span><a href="#data" class="game-header__name">Magnus</a></span><span class="text-muted">vs</span><span class="game-header__seat"><span class="tag tag--brand">B</span><span class="game-header__name is-engine">Engine L3</span></span></div>
+            <div class="tag-group"><span class="tag tag--sm tag--soft tag--info">Rated</span><span class="tag tag--sm">3+2</span></div>
+          </div>
+          <p class="list-row__meta"><span class="tag tag--primary">Your turn</span><span>12 min remaining</span><span>Last move Oct 10, 2026, 5:32 PM</span></p>
+        </div>
+        <a href="#data" class="btn btn--primary btn--sm list-row__action">Resume</a>
+      </div>
+      <div class="card list-row">
+        <div class="list-row__body">
+          <div class="game-header game-header--compact"><div class="game-header__players"><span class="game-header__seat"><span class="tag tag--white">W</span><span class="game-header__name">Ada</span></span><span class="text-muted">vs</span><span class="game-header__seat"><span class="tag tag--brand">B</span><span class="game-header__name is-anonymous">Guest</span></span></div></div>
+          <p class="list-row__meta"><span class="tag tag--light">You won</span><span>Finished Oct 9, 2026, 9:10 PM</span></p>
+        </div>
+        <a href="#data" class="btn btn--primary btn--sm list-row__action">View</a>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="card !mb-0"><h3 class="card__title">Friends</h3>
+          <ul class="friend-list">
+            <li class="friend-row"><span>Ada <span class="text-muted">@ada</span></span><span class="tag tag--sm tag--soft tag--success">Online</span><button class="btn btn--primary btn--sm">Challenge</button><button class="btn btn--outline btn--sm">Remove</button></li>
+            <li class="friend-row"><span>Linus <span class="text-muted">@linus</span></span><span class="tag tag--sm tag--light">Request sent</span></li>
+            <li class="text-muted">No pending requests.</li>
+          </ul></div>
+        <div class="card !mb-0"><h3 class="card__title">Announcements</h3>
+          <div class="announcements"><ul class="announcements__list">
+            <li class="announcements__item"><time class="announcements__date">Oct 8, 2026</time><p class="announcements__heading">Tournament weekend</p><p class="announcements__body">Join the first bot tournament on Saturday.</p></li>
+            <li class="announcements__item"><time class="announcements__date">Oct 1, 2026</time><p class="announcements__heading">New board theme</p><p class="announcements__body">Settings → Board lets you toggle coordinates and threats.</p></li></ul>
+            <details class="announcements__more"><summary class="announcements__toggle"><span class="announcements__toggle-more">Show 2 more</span><span class="announcements__toggle-less">Show less</span></summary>
+              <ul class="announcements__list"><li class="announcements__item"><time class="announcements__date">Sep 20, 2026</time><p class="announcements__heading">Welcome</p><p class="announcements__body">The platform is now open.</p></li></ul></details></div></div>
+      </div>
+      <div class="card mt-4 !mb-0"><h3 class="card__title">Notifications page</h3>
+        <ul class="notif-list">
+          <li class="notif is-unread"><a class="notif__link items-baseline" href="#data"><span class="icon"><svg class="w-full h-full"><use href="#i-king"/></svg></span><span class="notif__text">It's your turn against Ada</span><time class="notif__time">Oct 10, 5:32 PM</time></a><button class="btn btn--text btn--sm notif__action"><svg class="icon"><use href="#i-check"/></svg></button></li>
+          <li class="notif"><a class="notif__link items-baseline" href="#data"><span class="icon"><svg class="w-full h-full"><use href="#i-users"/></svg></span><span class="notif__text">Linus accepted your friend request</span><time class="notif__time">Oct 9, 8:01 PM</time></a></li>
+        </ul></div>
+    </div>
+
+    <!-- ═══════════════════════════ GAME ═══════════════════════════ -->
+    <h2 class="sg-h2" id="game">Game screen</h2>
+    <p class="sg-lede">Header, material bars, clocks (idle / active / low), evaluation bar, board, status banner, controls and move history. The board image is the real starting position.</p>
+    <div class="sg-demo">
+      <div class="game-container !p-0" style="--board-max-height:32rem">
+        <div class="game-header"><div class="game-header__players"><span class="game-header__seat"><span class="tag tag--white">W</span><a href="#game" class="game-header__name">Magnus</a></span><span class="text-muted">vs</span><span class="game-header__seat"><span class="tag tag--brand">B</span><span class="game-header__name is-engine">Engine L3</span></span></div><div class="tag-group"><span class="tag tag--soft tag--info">Rated</span><span class="tag">3+2</span></div></div>
+        <div class="game-stage">
+          <div class="player-row"><div class="material-bar"><svg class="material-piece" viewBox="-5 -15 100 85"><circle cx="45" cy="35" r="30" fill="rgb(var(--k-piece-dark))" stroke="rgb(var(--k-piece-light))"/></svg><svg class="material-piece" viewBox="-5 -15 100 85"><circle cx="45" cy="35" r="30" fill="rgb(var(--k-piece-dark))" stroke="rgb(var(--k-piece-light))"/></svg><span class="material-score">+3</span></div><div class="player-clock is-inactive">02:41</div></div>
+          <div class="board-with-eval has-eval-bar">
+            <div class="eval-bar" role="img" aria-label="Evaluation"><div class="eval-bar__white" style="height:62%"></div><span class="eval-bar__label is-white-ahead">+1.4</span></div>
+            <div class="board board-svg"><img src="/images/Start.svg" alt="Keres starting position" class="block w-full"></div>
+          </div>
+          <div class="player-row"><div class="material-bar"><span class="text-muted text-sm">no captures</span></div><div class="player-clock is-active">02:58</div></div>
+        </div>
+        <div class="status-banner status-banner--your-turn" role="status">Your turn</div>
+        <div class="btn-group">
+          <button class="btn btn--outline">Hide threats</button><button class="btn btn--outline">Hide coordinates</button>
+          <button class="btn btn--outline"><svg class="icon"><use href="#i-rotate"/></svg>Rotate opponent</button>
+          <button class="btn btn--outline">Fullscreen</button><button class="btn btn--light">Undo</button><button class="btn btn--danger">Resign</button>
+        </div>
+        <div class="move-history mt-5">
+          <span class="label">Move history</span>
+          <div class="btn-group mb-2"><button class="btn btn--outline btn--sm">Previous</button><button class="btn btn--outline btn--sm">Next</button></div>
+          <div class="move-history__box"><table class="table table--mono table--compact"><thead><tr><th>#</th><th>White</th><th>Black</th></tr></thead>
+            <tbody><tr><td>1</td><td>e2-e3 <span class="move-eval">+0.3</span></td><td>d7-d6 <span class="move-eval">+0.1</span></td></tr><tr><td>2</td><td>Nb1-c3</td><td>…</td></tr></tbody></table></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sg-h3">Clock &amp; banner states</h3>
+    <div class="sg-demo">
+      <div class="flex flex-wrap items-center gap-3"><div class="player-clock">05:00</div><div class="player-clock is-inactive">02:41</div><div class="player-clock is-active">02:58</div><div class="player-clock is-low">00:09</div></div>
+      <div class="status-banner status-banner--muted">Opponent's turn</div>
+      <div class="status-banner status-banner--your-turn !mt-0">Your turn</div>
+      <div class="status-banner status-banner--won !mt-0">You won by checkmate</div>
+      <div class="status-banner status-banner--lost !mt-0">You lost on time</div>
+      <div class="status-banner status-banner--drawn !mt-0">Draw by agreement</div>
+      <div class="status-banner status-banner--neutral !mt-0">Game aborted</div>
+      <p class="sg-label">Eval bar (white ahead / black ahead / flipped / pending)</p>
+      <div class="flex gap-4" style="height:8rem">
+        <div class="eval-bar"><div class="eval-bar__white" style="height:75%"></div><span class="eval-bar__label is-white-ahead">+2.1</span></div>
+        <div class="eval-bar"><div class="eval-bar__white" style="height:30%"></div><span class="eval-bar__label is-black-ahead">−1.6</span></div>
+        <div class="eval-bar is-flipped"><div class="eval-bar__white" style="height:75%"></div><span class="eval-bar__label is-white-ahead">+2.1</span></div>
+        <div class="eval-bar is-pending"><div class="eval-bar__white" style="height:50%"></div></div>
+      </div>
+    </div>
+
+    <h3 class="sg-h3">Rules side panel</h3>
+    <div class="sg-demo sg-demo--bare">
+      <div class="flex" style="min-height:14rem">
+        <div class="hidden min-w-0 flex-1 p-5 text-muted sm:block">(board)</div>
+        <div class="rules-panel !flex flex-col" id="rules-panel">
+          <button class="rules-panel__toggle" data-collapse="rules-panel">Rules</button>
+          <div class="rules-panel__content">
+            <div class="rules-panel__hovered"><h4>Knight</h4><p>Moves in an L shape and may jump over pieces.</p></div><hr>
+            <div class="rules-panel__piece"><div class="rules-panel__piece-name">Rook</div><div class="rules-panel__piece-move">Any distance orthogonally.</div></div>
+            <p class="rules-panel__hint">Hover a piece to see its rules.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sg-h2" id="pieces">Pieces &amp; rules</h2>
+    <div class="sg-demo">
+      <p class="sg-label !mt-0">Piece icons (CSS mask, 3 tints) </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <i class="piece-icon piece-icon--lg piece-icon--king"></i><i class="piece-icon piece-icon--lg piece-icon--paladin"></i><i class="piece-icon piece-icon--lg piece-icon--knight"></i><i class="piece-icon piece-icon--lg piece-icon--rook"></i><i class="piece-icon piece-icon--lg piece-icon--bishop"></i><i class="piece-icon piece-icon--lg piece-icon--guard"></i><i class="piece-icon piece-icon--lg piece-icon--ballista"></i><i class="piece-icon piece-icon--lg piece-icon--soldier"></i>
+        <span class="mx-2"></span>
+        <i class="piece-icon piece-icon--lg piece-icon--primary piece-icon--king"></i><i class="piece-icon piece-icon--lg piece-icon--dark piece-icon--king" style="background-color:rgb(var(--k-soft))"></i>
+      </div>
+      <p class="sg-label">Piece cards (rules page)</p>
+      <div class="piece-grid">
+        <div class="piece-card"><div class="piece-card__name"><i class="piece-icon piece-icon--primary piece-icon--knight"></i> Knight (N)</div><img class="mx-auto" src="/images/Knight.svg" alt="Knight moves"><p class="piece-card__desc">Moves in an L shape.<br><strong>Can jump over pieces.</strong></p></div>
+        <div class="piece-card"><div class="piece-card__name"><i class="piece-icon piece-icon--primary piece-icon--rook"></i> Rook (R)</div><div class="grid h-40 place-items-center text-muted">(moveset image)</div><p class="piece-card__desc">Any distance orthogonally.</p></div>
+      </div>
+      <p class="sg-label">Movement table</p>
+      <table class="movement-table"><tr><td></td><td>1</td><td></td><td>1</td><td></td></tr><tr><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td></td><td></td><td class="is-center">N</td><td></td><td></td></tr><tr><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td></td><td>1</td><td></td><td>1</td><td></td></tr></table>
+    </div>
+
+    <!-- ═══════════════════════════ MARKETING ═══════════════════════════ -->
+    <h2 class="sg-h2" id="marketing">Hero &amp; sections</h2>
+    <div class="sg-demo sg-demo--bare">
+      <div class="hero pt-6">
+        <h1 class="!mt-6 !text-6xl sm:!text-8xl">Keres</h1>
+        <div class="hero__content">
+          <p class="hero__baseline">A new abstract strategy game of stacking and tactics.</p>
+          <a href="#marketing" class="btn btn--primary btn--lg">Play now</a>
+        </div>
+      </div>
+      <div class="section-flex">
+        <div><h2>The concept</h2><p>Two armies, one board, and pieces that can carry each other. Stack, unstack and outmanoeuvre your opponent.</p><a class="btn btn--outline btn--sm" href="#marketing">Read the rules</a></div>
+        <div class="section__img"><a href="/images/Start.svg" class="lightbox-trigger" data-lightbox><img src="/images/Start.svg" alt="Starting position"></a></div>
+      </div>
+      <div class="section-flex">
+        <div class="section__img"><img src="/images/Knight.svg" alt="" style="background:rgb(var(--k-tile-light))"></div>
+        <div><h3>Collector's edition</h3><p class="mb-0">Lightbox: click the board image above to open it.</p></div>
+      </div>
+    </div>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true"><button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button><img class="lightbox__img" id="lightbox-img" src="" alt=""></div>
+
+    <h3 class="sg-h3">Prose (legal pages, Markdown)</h3>
+    <div class="sg-demo"><div class="prose-keres"><h2>Privacy policy</h2><p>We collect the minimum data necessary to run the service. <a href="#marketing">Contact us</a> for any GDPR request.</p><ul><li>Account data</li><li>Game history</li></ul><blockquote>Your games belong to you.</blockquote></div></div>
+
+    <h2 class="sg-h2" id="errors">Error page</h2>
+    <div class="sg-demo"><section class="error-page !min-h-0 py-8"><div class="error-page__content"><p class="error-page__code">404</p><h2>Page not found</h2><p class="error-page__message">The tile you are looking for is empty.</p><div class="btn-group btn-group--center"><a class="btn btn--primary" href="#errors">Back to the lobby</a></div></div></section></div>
+
+    <h2 class="sg-h2" id="footer">Footer</h2>
+    <div class="sg-demo sg-demo--bare"><footer class="footer"><p class="mb-2">&copy; Keres 2025-2026 <span class="footer__meta">v1.4.2</span></p><span class="lang-switch lang-switch--footer"><span class="lang-switch__item is-current">English</span><a class="lang-switch__item" href="#footer">Français</a></span><nav><a href="#footer">Legal notice</a><a href="#footer">Terms of use</a><a href="#footer">Privacy policy</a><a href="#footer">Contact</a><a href="#footer">Feedback</a></nav></footer></div>
+
+    <!-- ═══════════════════════════ PAGES ═══════════════════════════ -->
+    <h2 class="sg-h2" id="pages">Page layouts</h2>
+    <p class="sg-lede">Realistic compositions to check that everything sits together. Layout uses plain Tailwind grid utilities; Bulma's <span class="sg-code">columns</span> / <span class="sg-code">level</span> have no equivalent component.</p>
+
+    <h3 class="sg-h3">Settings (menu + form)</h3>
+    <div class="sg-demo"><div class="grid gap-6 md:grid-cols-[14rem_1fr]">
+      <aside class="menu"><ul class="menu__list">
+        <li><a class="menu__link is-active" href="#pages"><svg class="icon"><use href="#i-user"/></svg>Profile</a></li>
+        <li><a class="menu__link" href="#pages"><svg class="icon"><use href="#i-board"/></svg>Board</a></li>
+        <li><a class="menu__link" href="#pages"><svg class="icon"><use href="#i-bell"/></svg>Notifications</a></li>
+        <li><a class="menu__link" href="#pages"><svg class="icon"><use href="#i-shield"/></svg>Privacy</a></li>
+        <li><a class="menu__link" href="#pages"><svg class="icon"><use href="#i-link"/></svg>Connections</a></li></ul></aside>
+      <div class="card !mb-0"><h3 class="card__title">Profile</h3>
+        <div class="field"><label class="label">Username</label><input class="input" value="magnus"></div>
+        <div class="field"><label class="label">Display name</label><input class="input" value="Magnus C."><p class="help">Visible to other players.</p></div>
+        <div class="field"><label class="checkbox"><input type="checkbox" checked> Show me as online</label></div>
+        <button class="btn btn--primary">Save</button></div></div></div>
+
+    <h3 class="sg-h3">Login</h3>
+    <div class="sg-demo"><div class="mx-auto max-w-lg"><div class="card !mb-0"><h1 class="page-title !text-3xl">Sign in</h1><p class="page-subtitle">Choose a provider to continue.</p>
+      <a class="btn btn--light btn--block mb-3" href="#pages"><svg class="icon"><use href="#i-user"/></svg>Continue with Google</a>
+      <a class="btn btn--light btn--block" href="#pages"><svg class="icon"><use href="#i-user"/></svg>Continue with Discord</a></div></div></div>
+
+    <h3 class="sg-h3">Dashboard</h3>
+    <div class="sg-demo"><div class="grid gap-4 lg:grid-cols-[1fr_20rem]">
+      <div><h1 class="page-title">Dashboard</h1>
+        <div class="card list-row"><div class="list-row__body"><div class="game-header game-header--compact"><div class="game-header__players"><span class="game-header__seat"><span class="tag tag--white">W</span><span class="game-header__name">Magnus</span></span><span class="text-muted">vs</span><span class="game-header__seat"><span class="tag tag--brand">B</span><span class="game-header__name">Ada</span></span></div></div><p class="list-row__meta"><span class="tag tag--primary">Your turn</span><span>23 h remaining</span></p></div><a href="#pages" class="btn btn--primary btn--sm">Resume</a></div>
+        <div class="card list-row"><div class="list-row__body"><div class="game-header game-header--compact"><div class="game-header__players"><span class="game-header__seat"><span class="tag tag--white">W</span><span class="game-header__name">Linus</span></span><span class="text-muted">vs</span><span class="game-header__seat"><span class="tag tag--brand">B</span><span class="game-header__name">Magnus</span></span></div></div><p class="list-row__meta"><span class="tag tag--brand">Opponent's turn</span></p></div><a href="#pages" class="btn btn--primary btn--sm">Resume</a></div></div>
+      <div class="card"><h3 class="card__title">Statistics</h3><div class="stat-row"><div class="stat"><p class="stat__label">Wins</p><p class="stat__value">128</p></div><div class="stat"><p class="stat__label">Losses</p><p class="stat__value">94</p></div><div class="stat"><p class="stat__label">Draws</p><p class="stat__value">12</p></div></div><hr class="announcements__rule"><h4 class="card__title card__title--sm">Announcements</h4><div class="announcements"><ul class="announcements__list"><li class="announcements__item"><time class="announcements__date">Oct 8, 2026</time><p class="announcements__heading">Tournament weekend</p><p class="announcements__body">Join us on Saturday.</p></li></ul></div></div>
+    </div></div>
+
+    <h3 class="sg-h3">Admin dashboard</h3>
+    <div class="sg-demo"><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="card stat !mb-0"><p class="stat__label">Total players</p><p class="stat__value">1 248</p></div>
+      <div class="card stat !mb-0"><p class="stat__label">Connected (5 min)</p><p class="stat__value">37</p></div>
+      <div class="card stat !mb-0"><p class="stat__label">Finished games</p><p class="stat__value">9 402</p></div>
+      <div class="card stat !mb-0"><p class="stat__label">Stale games (24h+)</p><p class="stat__value stat__value--warning">5</p></div></div></div>
+
+  </main>
+</div>
+
+<script>
+  // Style-guide behaviour only. The apps ship their own TypeScript for these widgets;
+  // the contract is the same: toggle `.is-active` (modal, lightbox, burger/menu) or `aria-*`/`hidden`.
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.open).classList.add('is-active')));
+  document.querySelectorAll('.modal [data-close]').forEach(b => b.addEventListener('click', () => b.closest('.modal').classList.remove('is-active')));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal.is-active, .lightbox.is-active').forEach(m => m.classList.remove('is-active')); });
+  document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true')));
+  document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => { b.parentElement.querySelectorAll('[data-preset]').forEach(o => o.setAttribute('aria-pressed', o === b)); }));
+  document.querySelectorAll('[data-burger]').forEach(b => b.addEventListener('click', () => {
+    const open = !b.classList.contains('is-active');
+    b.classList.toggle('is-active', open); b.setAttribute('aria-expanded', open);
+    b.closest('.navbar__inner').querySelector('.navbar__menu').classList.toggle('is-active', open);
+  }));
+  document.querySelectorAll('[data-collapse]').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.collapse).classList.toggle('is-collapsed')));
+  const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('[data-lightbox]').forEach(t => t.addEventListener('click', e => { e.preventDefault(); lbImg.src = t.href; lb.classList.add('is-active'); }));
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.id === 'lightbox-close') lb.classList.remove('is-active'); });
+</script>
+</body>
+</html>
