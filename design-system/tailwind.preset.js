@@ -31,6 +31,9 @@ module.exports = {
         danger: { DEFAULT: rgb('danger'), text: rgb('danger-text') },
         warning: rgb('warning'),
         info: rgb('info'),
+        turn: { DEFAULT: rgb('turn'), text: rgb('turn-text') },
+        panel: rgb('panel'),
+        popover: rgb('popover'),
         tile: { dark: rgb('tile-dark'), light: rgb('tile-light'), stroke: rgb('tile-stroke') },
         piece: { light: rgb('piece-light'), dark: rgb('piece-dark') },
         // Legacy aliases used by the Hugo templates (bg-keres-primary …).
@@ -64,6 +67,7 @@ module.exports = {
       },
       borderRadius: {
         sm: 'var(--k-radius-sm)',
+        game: 'var(--k-radius-game)',
         md: 'var(--k-radius-md)',
         lg: 'var(--k-radius-lg)',
         rounded: '9999px',

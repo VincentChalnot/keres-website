@@ -1,10 +1,363 @@
 /*
- * Game screen: header, clocks, material bar, eval bar, board layout, fullscreen, move history, rules panel.
- * Ported from platform/assets/app.scss; behaviour (container-query fullscreen stage) is unchanged.
- * Board tile / piece colours come from tokens (--k-tile-*, --k-piece-*) — see `.board-svg`.
+ * Game screen — mirrors platform/templates/actions/_play_board.html.twig (redesign of Oct 2026).
+ *
+ *   .game-container (container query root, name `game`)
+ *     .game-layout            grid; direct children are placed by area
+ *       .player-card ×2       avatar, name, rating, clock, material   (areas top / bottom)
+ *       .game-info            status banner + option badges          (area info)
+ *       .game-board           board (+ eval bar)                     (area board)
+ *       .game-panel           moves, actions, piece info             (area panel)
+ *     .game-board__brand      maker's mark under the board (wide only)
+ *     .feedback-banner
+ *
+ * Three arrangements, chosen by the WIDTH OF .game-container (not the viewport), so they follow the
+ * container's padding, fullscreen mode and any future embedding:
+ *   stacked   < 68rem   rows: top card, board, bottom card, status, actions, piece info, moves
+ *   mid       ≥ 68rem   board | moves panel, slim player rows above/below the board
+ *   wide      ≥ 94rem   player cards | board | moves / actions / piece info
+ * Container queries cannot read CSS variables: keep 68rem and 94rem in sync with `--game-mid/--game-wide`
+ * (documented below) if they ever change.
+ *
+ * JS-driven states stay `is-*`: `.is-to-move` (card), `.is-flipped` (layout, eval bar), `.has-eval-bar`,
+ * `.is-current` (move), `.is-active` / `.is-inactive` (clock), `.game-over` (board), banner states.
  */
 @layer components {
-  /* ── Header: players + option badges above the board ─────────────────── */
+  .game-container {
+    /* viewBox width / height, published by SVGBoardView (changes with the coordinate labels). */
+    --board-aspect: 1.2252;
+    /* Below this width the board stops shrinking to the viewport height, so browser zoom still enlarges it. */
+    --board-min-width: 320px;
+    container: game / inline-size;
+    @apply mx-auto max-w-[1800px] p-4;
+  }
+
+  .game-layout {
+    --side-w: 15rem;
+    --panel-w: 20rem;
+    --gap: 1rem;
+    --eval-bar-extra: 0px;
+    /* Height the arrangement needs besides the board: two slim player rows on phones, no brand line. */
+    --board-reserved-h: 8rem;
+    /* Width left for the board (+ evaluation bar) once the side columns are placed. */
+    --board-avail-w: 100cqw;
+    /* The sticky navbar covers the top of the viewport; the container padding takes 1rem above and below. */
+    --board-max-height: calc(100dvh - var(--k-navbar-h) - 2rem - var(--board-reserved-h));
+    /* Never wider than its column nor taller than the viewport. The SVG keeps exactly the viewBox aspect
+       (hit-testing maps client → viewBox), so the size comes from the height limit, not from max-height. */
+    --board-w: min(var(--board-avail-w), calc(max(var(--board-min-width), calc(var(--board-max-height) * var(--board-aspect))) + var(--eval-bar-extra)));
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    /* Stacked: the piece info sits right under the board, where a hover or long press is looked at. */
+    grid-template-areas: "top" "board" "bottom" "info" "actions" "pieces" "moves";
+    gap: 0.6rem var(--gap);
+    justify-content: center;
+  }
+  .game-layout:has(.has-eval-bar) { --eval-bar-extra: 2.25rem; }
+
+  /* mid: board + moves panel; player rows above/below the board, status over the panel */
+  @container game (min-width: 68rem) {
+    .game-layout {
+      --board-reserved-h: 12rem;
+      --board-avail-w: calc(100cqw - var(--panel-w) - var(--gap));
+      grid-template-columns: var(--board-w) var(--panel-w);
+      grid-template-areas: "top info" "board panel" "bottom panel";
+      grid-template-rows: auto 1fr auto;
+    }
+  }
+  /* wide: cards | board | panel */
+  @container game (min-width: 94rem) {
+    .game-layout {
+      --board-reserved-h: 2.25rem;
+      --board-avail-w: calc(100cqw - var(--side-w) - var(--panel-w) - 2 * var(--gap));
+      grid-template-columns: var(--side-w) var(--board-w) var(--panel-w);
+      grid-template-areas: "top board moves" "info board actions" "bottom board pieces";
+      grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+      /* Exactly the board's height, so cards and panel blocks share it instead of stretching the rows. */
+      height: calc((var(--board-w) - var(--eval-bar-extra)) / var(--board-aspect));
+    }
+  }
+
+  /* Black's card is on top while White is at the bottom; app.ts flips both with the board. */
+  .player-card--black { grid-area: top; }
+  .player-card--white { grid-area: bottom; }
+  .game-layout.is-flipped .player-card--black { grid-area: bottom; }
+  .game-layout.is-flipped .player-card--white { grid-area: top; }
+
+  /* ── Board ────────────────────────────────────────────────────────────── */
+  .game-board { grid-area: board; @apply flex min-w-0 flex-col items-center; }
+  .board-with-eval { @apply flex items-stretch gap-2 max-w-full; width: var(--board-w); }
+  #board-container, .board { @apply min-w-0 flex-1; }
+  #board-container svg, .board svg { @apply block h-auto w-full select-none; touch-action: pinch-zoom; -webkit-tap-highlight-color: transparent; }
+  .board svg, .board img { @apply block w-full h-auto; }
+
+  /* Game over: desaturate and block pointer events (also kills :hover), stamp a translucent label. */
+  :is(#board-container, .board).game-over svg, :is(#board-container, .board).game-over img { filter: saturate(0.35) brightness(0.85); pointer-events: none; }
+  :is(#board-container, .board).game-over { @apply relative; container-type: inline-size; }
+  :is(#board-container, .board).game-over::after {
+    content: attr(data-game-over-label);
+    text-transform: uppercase;
+    @apply absolute inset-0 flex items-center justify-center font-extrabold pointer-events-none;
+    font-size: 8cqw; letter-spacing: 0.15em; margin-top: -1.6cqw;
+    color: rgb(255 255 255 / 0.55); text-shadow: 0 0 0.15em rgb(0 0 0 / 0.6);
+  }
+
+  /* Board SVG colours, token-driven. Put `.board-svg` on the <svg> (or a wrapper). */
+  .board-svg .tile { width: 100px; height: 80px; stroke: rgb(var(--k-tile-stroke)); stroke-width: 1px; }
+  .board-svg .tile--dark { fill: rgb(var(--k-tile-dark)); }
+  .board-svg .tile--light { fill: rgb(var(--k-tile-light)); }
+  .board-svg .coord-label { font: 16px sans-serif; fill: rgb(var(--k-tile-light)); pointer-events: none; user-select: none; }
+  .board-svg .piece--w, .p-w { --piece-bg: rgb(var(--k-piece-light)); --piece-fg: rgb(var(--k-piece-dark)); }
+  .board-svg .piece--b, .p-b { --piece-bg: rgb(var(--k-piece-dark)); --piece-fg: rgb(var(--k-piece-light)); }
+
+  /* Maker's mark under the board (wide arrangement only). */
+  .game-board__brand {
+    @apply hidden items-center gap-2.5 h-7 mt-2 font-display text-2xl leading-none text-soft/75;
+    width: min(60%, 24rem);
+  }
+  .game-board__brand::before, .game-board__brand::after {
+    content: ''; @apply flex-1 h-px;
+    background: linear-gradient(to right, transparent, rgb(var(--k-soft) / 0.45));
+  }
+  .game-board__brand::after { background: linear-gradient(to left, transparent, rgb(var(--k-soft) / 0.45)); }
+  .game-board__brand img { @apply w-[1.1rem] h-[1.1rem] opacity-80; }
+  .game-board__brand span { @apply pt-1.5; }
+  @container game (min-width: 94rem) {
+    /* The board column sits 2.5rem left of the layout's centre (15rem cards vs 20rem panel). */
+    .game-board__brand { display: flex; margin: 0.5rem auto 0; transform: translateX(-2.5rem); }
+  }
+
+  /* ── Evaluation bar: black on top, white at the bottom; `.is-flipped` mirrors it with the board ── */
+  .eval-bar {
+    @apply relative shrink-0 w-7 overflow-hidden rounded-sm border border-[rgb(128_128_128/0.6)];
+    background: rgb(var(--k-eval-black));
+  }
+  .eval-bar[hidden] { display: none; }
+  .eval-bar.is-pending { @apply opacity-55; }
+  .eval-bar__white { @apply absolute inset-x-0 bottom-0 transition-[height] duration-[400ms] ease-in-out; height: 50%; background: rgb(var(--k-eval-white)); }
+  .eval-bar__label { @apply absolute inset-x-0 select-none py-1 text-center text-[0.65rem] font-bold leading-none; }
+  .eval-bar__label.is-white-ahead { @apply bottom-0; color: rgb(var(--k-eval-black)); }
+  .eval-bar__label.is-black-ahead { @apply top-0; color: rgb(var(--k-eval-white)); }
+  .eval-bar.is-flipped .eval-bar__white { @apply top-0 bottom-auto; }
+  .eval-bar.is-flipped .eval-bar__label.is-white-ahead { @apply top-0 bottom-auto; }
+  .eval-bar.is-flipped .eval-bar__label.is-black-ahead { @apply top-auto bottom-0; }
+  .move-eval { @apply ml-1.5 text-[0.7rem] opacity-65; }
+
+  /* ── Player card: avatar, name, rating, clock, material ───────────────── */
+  .player-card {
+    @apply grid min-w-0 items-center rounded-game border bg-panel px-2.5 py-1.5 gap-x-3 transition-[border-color,box-shadow] duration-200;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "identity clock" "material material";
+    border-color: var(--k-game-border);
+  }
+  .player-card.is-to-move { @apply border-turn/55; box-shadow: inset 3px 0 0 rgb(var(--k-turn)); }
+  @container game (min-width: 68rem) {
+    .player-card { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "identity material clock"; }
+  }
+  @container game (min-width: 94rem) {
+    .player-card {
+      @apply relative flex flex-col items-stretch justify-evenly gap-y-1.5 overflow-hidden px-4 py-2.5;
+    }
+    .player-card.is-to-move { box-shadow: inset 0 3px 0 rgb(var(--k-turn)); }
+    .player-card > .player-card__identity, .player-card > .player-clock { @apply flex-none; }
+  }
+
+  .player-card__identity { grid-area: identity; @apply flex min-w-0 items-center gap-2.5; }
+  @container game (min-width: 94rem) { .player-card__identity { @apply w-full flex-col gap-2; } }
+
+  .player-card__avatar {
+    @apply grid shrink-0 place-items-center w-9 h-9 overflow-hidden rounded-full border-2 border-soft/55 font-title text-[1.1rem] text-soft transition-[border-color,box-shadow] duration-200;
+    background: radial-gradient(circle at 35% 30%, #2b2620, #0d0c0a);
+  }
+  .player-card__avatar img { @apply w-full h-full object-cover; }
+  .is-to-move .player-card__avatar { @apply border-turn; box-shadow: 0 0 0.6rem rgb(var(--k-turn) / 0.45); }
+  @container game (min-width: 94rem) { .player-card__avatar { width: min(100%, 6rem); height: auto; aspect-ratio: 1; font-size: 2.2rem; } }
+
+  .player-card__who { @apply flex min-w-0 flex-col leading-tight; }
+  @container game (min-width: 94rem) { .player-card__who { @apply w-full items-center text-center; } }
+  .player-card__name { @apply truncate font-title text-[1.1rem] text-fg; }
+  .player-card__name.is-engine { @apply text-soft; }
+  a.player-card__name:hover { @apply text-primary; }
+  @container game (min-width: 94rem) {
+    /* Long names wrap instead of truncating. */
+    .player-card__name { @apply overflow-visible whitespace-normal text-[1.3rem]; text-overflow: clip; overflow-wrap: anywhere; }
+  }
+  .player-card__meta { @apply flex items-center gap-1.5 text-[0.8rem] text-fg/65 tabular; }
+  .player-card__color { @apply w-[0.7rem] h-[0.7rem] rounded-full border border-soft/60; }
+  .player-card__color.is-white { @apply bg-piece-light; }
+  .player-card__color.is-black { @apply bg-piece-dark; }
+  .player-card__rating::before { content: '·'; @apply mr-1.5 text-fg/40; }
+  .player-card__rating.is-provisional { @apply text-fg/45; }
+  .player-card__delta { @apply font-semibold; }
+  .player-card__delta.is-gain { @apply text-success; }
+  .player-card__delta.is-loss { @apply text-danger-text; }
+
+  /* "To move" marker: a dot next to the name, or at the card's corner when wide. */
+  .player-card__turn { @apply shrink-0 ml-auto w-[0.55rem] h-[0.55rem] rounded-full bg-turn invisible; box-shadow: 0 0 0.5rem rgb(var(--k-turn)); }
+  .is-to-move .player-card__turn { @apply visible; }
+  @container game (min-width: 94rem) { .player-card__turn { @apply absolute top-3 right-3 w-3 h-3; } }
+
+  .player-clock {
+    grid-area: clock;
+    @apply flex items-center justify-center gap-[0.5em] min-w-[5.5em] px-[0.7em] py-[0.2em] rounded-game border bg-[#0b0a09] font-title text-[1.2rem] text-soft/70 tabular transition-colors duration-200;
+    border-color: var(--k-game-border);
+  }
+  .player-clock[hidden] { display: none; }
+  .player-clock.is-active { @apply border-turn bg-turn/10 text-turn-text; }
+  .player-clock.is-low { @apply border-danger bg-danger/20 text-danger-text; }
+  @container game (min-width: 94rem) { .player-clock { @apply px-[0.5em] py-[0.35em] text-[1.6rem]; } }
+  .player-clock__icon { @apply text-[0.7em] opacity-80; }
+
+  /* ── Material difference (Lichess-style) inside the card ──────────────── */
+  .material-bar { grid-area: material; @apply flex min-w-0 flex-wrap items-center text-[0.55rem]; }
+  .material-bar:empty { display: none; }
+  @container game (min-width: 94rem) {
+    .material-bar { @apply min-h-0 overflow-y-auto pt-1.5 text-[0.7rem] justify-center; scrollbar-width: thin; border-top: 1px solid var(--k-game-border); }
+  }
+  .material-piece { @apply block h-auto overflow-visible max-w-[2.75rem]; flex: 0 0 4.5em; }
+  @container game (min-width: 94rem) { .material-piece { max-width: 25%; flex: 0 1 4.5em; } }
+  .material-score { @apply shrink-0 self-center ml-[0.3em] whitespace-nowrap text-[1.6em] font-bold text-primary; }
+
+  /* ── Status line + option badges ──────────────────────────────────────── */
+  .game-info { grid-area: info; @apply flex min-w-0 flex-col justify-center gap-2; }
+  .game-info__badges { @apply flex flex-wrap justify-center gap-1.5; }
+  .game-info__badges .tag { @apply rounded-game; }
+
+  /* Whose turn / waiting / final result. JS sets exactly one state class. */
+  .status-banner { @apply rounded-game border border-transparent px-[0.8em] py-[0.55em] text-center text-[0.95rem] transition-colors duration-200; }
+  .status-banner.is-muted { @apply bg-panel text-muted; border-color: var(--k-game-border); }
+  .status-banner.is-your-turn { @apply border-turn bg-turn/15 font-bold text-turn-text; }
+  .status-banner.is-won { @apply border-success bg-success font-bold text-[#0a2418]; }
+  .status-banner.is-lost { @apply border-danger bg-danger font-bold text-white; }
+  .status-banner.is-drawn { @apply border-warning bg-warning font-bold text-[#231503]; }
+  .status-banner.is-neutral-result { @apply border-soft bg-soft font-bold text-ink; }
+
+  /* ── Moves panel ─ stacked & wide: wrappers vanish, each block is a card in its own cell.
+        mid: one card beside the board, as tall as the board and the player row under it. ── */
+  .game-panel { grid-area: panel; @apply min-w-0; display: contents; }
+  .game-panel__inner { display: contents; }
+  @container game (min-width: 68rem) and (max-width: 93.99rem) {
+    .game-panel { @apply relative block min-h-[30rem]; }
+    .game-panel__inner { @apply absolute inset-0 flex flex-col overflow-hidden rounded-game border bg-panel; border-color: var(--k-game-border); }
+  }
+
+  .game-moves { grid-area: moves; @apply flex min-h-0 flex-col overflow-hidden rounded-game border bg-panel; border-color: var(--k-game-border); }
+  @container game (min-width: 68rem) and (max-width: 93.99rem) {
+    .game-moves { @apply flex-auto rounded-none border-0 bg-transparent; }
+  }
+  .game-panel__header { @apply flex items-center justify-between gap-2 py-1.5 pr-1.5 pl-3.5; border-bottom: 1px solid var(--k-game-border); }
+  .game-panel__title { @apply m-0 font-sans text-[0.95rem] uppercase tracking-[0.12em] text-soft; }
+  .game-panel__tools { @apply flex items-center gap-[0.15rem]; }
+
+  .icon-button {
+    @apply inline-grid place-items-center w-[2.1rem] h-[2.1rem] p-0 rounded-game border border-transparent bg-transparent text-[0.95rem] text-soft cursor-pointer transition-colors duration-150;
+  }
+  .icon-button:hover:not(:disabled), .icon-button[aria-expanded="true"] { @apply bg-soft/10 text-fg; border-color: var(--k-game-border); }
+  .icon-button:disabled { @apply opacity-30 cursor-default; }
+  .icon-button:focus-visible, .game-button:focus-visible, .move-list__move:focus-visible { @apply outline outline-2 outline-turn; outline-offset: 1px; }
+
+  /* Flat, squared action button of the game page. */
+  .game-button {
+    @apply inline-flex items-center justify-center gap-[0.55em] px-4 py-[0.6em] rounded-game border border-soft/45 bg-soft/5 text-[0.85rem] uppercase tracking-[0.08em] text-fg cursor-pointer transition-colors duration-150;
+  }
+  .game-button:hover:not(:disabled) { @apply bg-soft/15 border-soft; }
+  .game-button:disabled { @apply opacity-50 cursor-default; }
+  .game-button.is-danger { border-color: rgb(var(--k-danger-strong) / 0.6); background: rgb(var(--k-danger-deep) / 0.35); color: rgb(var(--k-danger-ink)); }
+  .game-button.is-danger:hover:not(:disabled) { background: rgb(var(--k-danger-deep) / 0.6); border-color: rgb(var(--k-danger-strong)); }
+  .game-button.is-small { @apply px-3 py-[0.45em] text-xs; }
+  .game-button.is-hidden { display: none; }
+
+  /* Display settings popover (gear button). */
+  .board-settings { @apply relative; }
+  .board-settings__menu {
+    @apply absolute right-0 z-30 flex w-[17rem] flex-col gap-2 rounded-game border border-soft/30 bg-popover p-3.5 text-[0.9rem] shadow-raised;
+    top: calc(100% + 0.4rem);
+  }
+  .board-settings__menu[hidden] { display: none; }
+  .board-settings__menu p { @apply m-0; }
+  .board-settings__title { @apply text-xs uppercase tracking-[0.1em] text-soft; }
+  .board-settings__hint, .board-settings__status { @apply text-[0.8rem] leading-snug text-fg/60; }
+  .board-settings__status:empty { display: none; }
+
+  /* A checkbox drawn as an on/off switch (role="switch"). */
+  .switch-row { @apply flex cursor-pointer items-center justify-between gap-3; }
+  .switch-row input, input.switch {
+    @apply relative m-0 h-[1.2rem] w-[2.2rem] shrink-0 cursor-pointer appearance-none rounded-2xl transition-colors duration-150;
+    background: rgb(var(--k-track));
+  }
+  .switch-row input::after, input.switch::after {
+    content: ''; @apply absolute left-[0.15rem] top-[0.15rem] h-[0.9rem] w-[0.9rem] rounded-full bg-fg transition-transform duration-150;
+  }
+  .switch-row input:checked, input.switch:checked { @apply bg-turn; }
+  .switch-row input:checked::after, input.switch:checked::after { transform: translateX(1rem); }
+  .switch-row input:focus-visible, input.switch:focus-visible { @apply outline outline-2 outline-offset-2 outline-turn; }
+
+  /* ── Move list: one row per full move, each half-move a button ────────── */
+  .move-list { @apply relative min-h-20 max-h-64 flex-auto overflow-y-auto; scrollbar-width: thin; scrollbar-color: rgb(var(--k-soft) / 0.35) transparent; }
+  @container game (min-width: 68rem) { .move-list { @apply max-h-none min-h-0; } }
+  .move-list__rows { @apply m-0 list-none py-1 px-0; }
+  .move-list__row { @apply m-0 grid items-center px-2; grid-template-columns: 2.6rem 1fr 1fr; }
+  .move-list__row:nth-child(even) { @apply bg-soft/[0.035]; }
+  .move-list__number { @apply pl-1.5 text-[0.85rem] text-fg/40 tabular; }
+  .move-list__move { @apply flex min-w-0 items-baseline rounded-[3px] border-0 bg-transparent px-[0.45rem] py-[0.2rem] text-left font-mono text-[0.95rem] text-fg cursor-pointer hover:bg-soft/10; }
+  .move-list__move.is-current { @apply bg-turn/20 text-turn-text; }
+  .move-list__empty { @apply m-0 px-4 py-3 text-[0.9rem] italic text-fg/45; }
+  .move-nav { @apply grid grid-cols-4 gap-1 px-2 py-1.5; border-top: 1px solid var(--k-game-border); }
+  .move-nav .icon-button { @apply w-full; }
+
+  .game-actions {
+    grid-area: actions;
+    @apply grid gap-2 self-center rounded-game border bg-panel px-3 py-2.5;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    border-color: var(--k-game-border);
+  }
+  .game-actions.is-hidden { display: none; }
+  @container game (min-width: 68rem) and (max-width: 93.99rem) {
+    .game-actions { @apply self-auto rounded-none border-0 bg-transparent; border-top: 1px solid var(--k-game-border); }
+  }
+
+  /* Inspected piece or stack (hover, selection, long press). Stacked/mid: figure left, text right. Wide: figure on top. */
+  .piece-info { grid-area: pieces; @apply flex min-h-0 flex-col overflow-hidden rounded-game border bg-panel px-3.5 pb-3 pt-2.5; border-color: var(--k-game-border); }
+  @container game (min-width: 68rem) and (max-width: 93.99rem) {
+    .piece-info { @apply flex-none rounded-none border-0 bg-transparent; border-top: 1px solid var(--k-game-border); }
+  }
+  .piece-info__title { @apply mb-1.5 mt-0 font-sans text-[0.8rem] uppercase tracking-[0.12em] text-soft; }
+  .piece-info__body { @apply flex min-h-0 flex-auto items-start gap-3 text-[0.85rem] leading-snug; }
+  @container game (min-width: 94rem) { .piece-info__body { @apply flex-col items-stretch gap-2.5; } }
+  .piece-info__hint { @apply m-0 italic text-fg/50; }
+  .piece-info__figure { @apply w-[6.5rem] shrink-0 rounded-game; aspect-ratio: 1; background: radial-gradient(circle at 50% 45%, rgb(var(--k-soft) / 0.08), transparent 70%); }
+  .piece-info__figure svg { @apply block h-full w-full overflow-visible; }
+  @container game (min-width: 94rem) { .piece-info__figure { @apply min-h-0 w-auto max-h-52 self-center; flex: 1 1 13rem; } }
+  .piece-info__details, .piece-info__hint { @apply min-w-0; flex: 1 1 0; }
+  @container game (min-width: 94rem) { .piece-info__details, .piece-info__hint { flex: none; } }
+  .piece-info__name { @apply m-0 font-semibold text-fg; }
+  .piece-info__name + .piece-info__movement + .piece-info__name { @apply mt-1.5; }
+  .piece-info__layer { @apply text-xs font-normal uppercase tracking-[0.06em] text-soft/80; }
+  .piece-info__movement { @apply m-0 list-none p-0 text-fg/70; }
+  .piece-info__movement li { @apply m-0; }
+
+  /* ── Feedback banner (signed-in players) ──────────────────────────────── */
+  .feedback-banner {
+    @apply mx-auto mt-8 flex w-full max-w-[60rem] cursor-pointer items-center gap-4 rounded-game border border-soft/30 px-5 py-3.5 text-left text-fg transition-[border-color,transform,box-shadow] duration-200;
+    background: radial-gradient(circle at 0% 50%, rgb(var(--k-turn) / 0.18), transparent 45%), linear-gradient(100deg, #191510, #0e0d0b 70%);
+  }
+  .feedback-banner:hover { @apply border-soft shadow-raised; transform: translateY(-1px); }
+  .feedback-banner:focus-visible { @apply outline outline-2 outline-offset-2 outline-turn; }
+  .feedback-banner__avatar { @apply h-14 w-14 shrink-0 rounded-full border-2 border-soft object-cover; box-shadow: 0 0 0 3px rgb(var(--k-turn) / 0.35); }
+  .feedback-banner__text { @apply flex min-w-0 flex-1 flex-col; }
+  .feedback-banner__title { @apply font-title text-[1.3rem] leading-tight text-soft; }
+  .feedback-banner__subtitle { @apply text-[0.9rem] text-fg/70; }
+  .feedback-banner__cta { @apply inline-flex shrink-0 items-center gap-[0.5em] rounded-game border border-turn/70 px-[0.9em] py-[0.5em] text-[0.8rem] uppercase tracking-[0.08em] text-turn-text max-sm:hidden; }
+
+  /* ── Page fullscreen (toggled on <html> by PageFullscreen.ts) ─────────────
+     Chrome disappears; the height budget grows to the whole viewport, so board and columns simply refit. */
+  html.is-game-fullscreen { --k-navbar-h: 0px; scrollbar-width: none; }
+  html.is-game-fullscreen :is(.navbar, .footer, .feedback-banner) { display: none; }
+  html.is-game-fullscreen .container-page:has(> .guest-game-notice) { display: none; }
+  html.is-game-fullscreen .game-container { max-width: none; padding-block: 0.5rem; }
+  html.is-game-fullscreen .game-layout { --board-max-height: calc(100dvh - 1rem - var(--board-reserved-h)); }
+
+  /* ── Compact game header: players + badges on a games-list card ───────── */
   .game-header { @apply flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 mb-2.5; }
   .game-header__players { @apply flex flex-wrap items-center gap-x-2.5 gap-y-1.5; }
   .game-header__seat { @apply inline-flex items-center gap-1.5; }
@@ -13,123 +366,5 @@
   .game-header__name.is-anonymous { @apply text-muted; }
   .game-header--compact { @apply justify-start mb-1.5 text-[0.95rem]; }
 
-  /* ── Player row: material bar + clock ─────────────────────────────────── */
-  .player-row { @apply flex items-center justify-between gap-3; }
-  .player-row .material-bar { @apply flex-1 min-w-0; }
-  .player-clock {
-    @apply shrink-0 min-w-[5.5em] px-[0.9em] py-[0.4em] rounded-[0.5em] text-center font-title text-[1.3rem] tabular;
-    @apply bg-surface text-soft border border-line transition-colors duration-200;
-  }
-  .player-clock.is-inactive { @apply bg-inactive text-soft/80; }
-  .player-clock.is-active { @apply bg-primary text-ink border-primary font-bold; }
-  .player-clock.is-low { @apply bg-danger text-white border-danger; }
-
-  /* ── Material difference (Lichess-style) ──────────────────────────────── */
-  .material-bar { @apply flex flex-wrap items-center gap-px min-h-[3.3em] px-7 pb-1.5; }
-  .material-piece { @apply inline-block align-middle shrink-0 w-[3em] h-[3em] overflow-visible; }
-  .material-score { @apply ml-[0.3em] pt-[0.7em] font-bold text-primary; }
-
-  /* ── Evaluation bar: black on top, white at the bottom ────────────────── */
-  .eval-bar {
-    @apply relative shrink-0 w-7 overflow-hidden rounded-sm bg-[#262421] border border-[rgb(128_128_128/0.6)];
-  }
-  .eval-bar.is-pending { @apply opacity-55; }
-  .eval-bar__white { @apply absolute inset-x-0 bottom-0 bg-[#f4f4f4] transition-[height] duration-[400ms] ease-in-out; height: 50%; }
-  .eval-bar__label { @apply absolute inset-x-0 text-center text-[0.65rem] font-bold leading-none py-1 select-none; }
-  .eval-bar__label.is-white-ahead { @apply bottom-0 text-[#262421]; }
-  .eval-bar__label.is-black-ahead { @apply top-0 text-[#f4f4f4]; }
-  .eval-bar.is-flipped .eval-bar__white { @apply top-0 bottom-auto; }
-  .eval-bar.is-flipped .eval-bar__label.is-white-ahead { @apply top-0 bottom-auto; }
-  .eval-bar.is-flipped .eval-bar__label.is-black-ahead { @apply top-auto bottom-0; }
-  .move-eval { @apply ml-1.5 text-[0.7rem] opacity-65; }
-
-  /* ── Board layout ─────────────────────────────────────────────────────── */
-  .game-container {
-    /* --board-aspect = viewBox width/height, published by SVGBoardView (changes with coordinate labels). */
-    --board-aspect: 1.2252;
-    /* Below this width the board stops shrinking to the viewport height (browser zoom keeps working). */
-    --board-min-width: 320px;
-    --board-max-height: calc(100dvh - var(--k-navbar-h));
-    @apply mx-auto max-w-[1200px] p-4;
-  }
-  /* Board + optional eval bar. The SVG must keep exactly the viewBox aspect (hit-testing maps client → viewBox),
-     so its size is derived from the height limit instead of being clamped with max-height. */
-  .board-with-eval {
-    --eval-bar-extra: 0px;
-    @apply flex items-stretch gap-2 mx-auto;
-    width: min(100%, calc(max(var(--board-min-width), calc(var(--board-max-height) * var(--board-aspect))) + var(--eval-bar-extra)));
-  }
-  .board-with-eval.has-eval-bar { --eval-bar-extra: 2.25rem; }
-  .board { @apply flex-1 min-w-0; }
-  .board svg { @apply block w-full h-auto select-none; touch-action: pinch-zoom; -webkit-tap-highlight-color: transparent; }
-  .game-stage { display: contents; }
-
-  /* Game over: desaturate, kill pointer events (also blocks :hover), stamp a translucent label. */
-  .board.game-over svg { filter: saturate(0.35) brightness(0.85); pointer-events: none; }
-  .board.game-over { @apply relative; container-type: inline-size; }
-  .board.game-over::after {
-    content: attr(data-game-over-label);
-    text-transform: uppercase;
-    @apply absolute inset-0 flex items-center justify-center font-extrabold pointer-events-none;
-    font-size: 8cqw; letter-spacing: 0.15em; margin-top: -1.6cqw;
-    color: rgb(255 255 255 / 0.55); text-shadow: 0 0 0.15em rgb(0 0 0 / 0.6);
-  }
-
-  /* SVG board colours, driven by tokens. Apply `.board-svg` on the <svg> (or a wrapper). */
-  .board-svg .tile { width: 100px; height: 80px; stroke: rgb(var(--k-tile-stroke)); stroke-width: 1px; }
-  .board-svg .tile--dark { fill: rgb(var(--k-tile-dark)); }
-  .board-svg .tile--light { fill: rgb(var(--k-tile-light)); }
-  .board-svg .coord-label { font: 16px sans-serif; fill: rgb(var(--k-tile-light)); pointer-events: none; user-select: none; }
-  .board-svg .piece--w { --piece-bg: rgb(var(--k-piece-light)); --piece-fg: rgb(var(--k-piece-dark)); }
-  .board-svg .piece--b { --piece-bg: rgb(var(--k-piece-dark)); --piece-fg: rgb(var(--k-piece-light)); }
-
-  /* ── Page fullscreen (toggled on <html> by PageFullscreen.ts) ─────────────
-     The stage becomes exactly one viewport; board + rows are sized in container units (cqw/cqh). */
-  html.is-game-fullscreen { --k-navbar-h: 0px; scrollbar-width: none; }
-  html.is-game-fullscreen .navbar, html.is-game-fullscreen .footer { display: none; }
-  html.is-game-fullscreen .container-page:has(> .guest-notice) { display: none; }
-  html.is-game-fullscreen .game-container { display: flex; flex-direction: column; max-width: none; padding: 0.5rem; }
-  html.is-game-fullscreen .game-stage {
-    --fs-row-h: clamp(2rem, 7dvh, 3.25rem);
-    --fs-gap: 0.25rem;
-    --eval-bar-extra: 0px;
-    --fs-w: min(100cqw, calc((100cqh - 2 * var(--fs-row-h) - 2 * var(--fs-gap)) * var(--board-aspect) + var(--eval-bar-extra)));
-    display: flex; flex-direction: column; justify-content: center; gap: var(--fs-gap);
-    order: -1; height: calc(100dvh - 1rem); margin-bottom: 0.5rem; container-type: size;
-  }
-  html.is-game-fullscreen .game-stage:has(.has-eval-bar) { --eval-bar-extra: 2.25rem; }
-  html.is-game-fullscreen .game-stage > .board-with-eval { flex: none; width: var(--fs-w); }
-  html.is-game-fullscreen .game-stage > .player-row { flex: none; width: var(--fs-w); height: var(--fs-row-h); margin-inline: auto; }
-  html.is-game-fullscreen .game-stage > .player-row .material-bar {
-    font-size: calc(var(--fs-row-h) / 3.3); min-height: 0; height: 100%; padding: 0 0.25rem; flex-wrap: nowrap; overflow: hidden;
-  }
-  html.is-game-fullscreen .game-stage > .player-row .material-piece { flex-shrink: 1; min-width: 1.2em; }
-  html.is-game-fullscreen .game-stage > .player-row .material-score { flex-shrink: 0; padding-top: 0; white-space: nowrap; }
-  html.is-game-fullscreen .game-stage > .player-row .player-clock {
-    min-width: 4.5em; padding: 0.15em 0.6em; font-size: clamp(0.9rem, calc(var(--fs-row-h) * 0.5), 1.3rem);
-  }
-
-  /* ── Move history ─────────────────────────────────────────────────────── */
-  .move-history { @apply max-w-[400px] shrink-0 mb-4; }
-  .move-history__box { @apply max-h-[400px] overflow-y-auto; }
-
-  /* ── Rules side panel (≥1100px) ───────────────────────────────────────── */
-  .rules-panel {
-    @apply hidden relative w-[280px] shrink-0 overflow-hidden bg-surface border-l border-line transition-[width] duration-200;
-  }
-  @media (min-width: 1100px) { .rules-panel { display: flex; flex-direction: column; } }
-  .rules-panel.is-collapsed { @apply w-9; }
-  .rules-panel.is-collapsed .rules-panel__content { @apply hidden; }
-  .rules-panel.is-collapsed .rules-panel__toggle { writing-mode: vertical-lr; @apply px-1.5 py-3; }
-  .rules-panel__toggle { @apply shrink-0 bg-brand text-fg border-0 cursor-pointer px-2.5 py-1.5 text-[0.85rem] text-center hover:bg-brand/80; }
-  .rules-panel__content { @apply flex-1 overflow-y-auto p-3 text-[0.85rem] text-fg; }
-  .rules-panel__content h4 { @apply text-[1.1rem] mb-2 text-primary; }
-  .rules-panel__hint { @apply text-subtle italic; }
-  .rules-panel__hovered { @apply min-h-[60px]; }
-  .rules-panel__piece { @apply mb-3 pb-2 border-b border-line/50; }
-  .rules-panel__piece-name { @apply font-bold text-primary mb-0.5; }
-  .rules-panel__piece-move { @apply text-[0.8rem] text-muted; }
-
-  /* Lobby hero image */
   .hero-image { @apply max-w-full rounded-[0.6em]; }
 }

@@ -45,6 +45,20 @@
   --k-piece-light: 221 204 173; /* #ddccad */
   --k-piece-dark: 29 22 16;     /* #1d1610 */
 
+  /* ── Game screen ───────────────────────────────────────────────────── */
+  --k-turn: 31 171 163;         /* side to move (teal)         #1faba3 */
+  --k-turn-text: 80 215 207;    /* teal readable on dark panels */
+  --k-panel: 18 17 15;          /* player cards, moves panel   #12110f */
+  --k-popover: 26 24 20;        /* floating menus              #1a1814 */
+  --k-track: 58 53 45;          /* switch track (off)          #3a352d */
+  --k-eval-black: 38 36 33;     /* evaluation bar, black side  #262421 */
+  --k-eval-white: 244 244 244;  /* evaluation bar, white side  #f4f4f4 */
+  --k-danger-strong: 226 87 76; /* destructive game actions    #e2574c */
+  --k-danger-deep: 143 29 29;   /* …their fill                 #8f1d1d */
+  --k-danger-ink: 246 211 205;  /* …their text                 #f6d3cd */
+  --k-game-border: rgb(var(--k-soft) / 0.16);  /* hairline around game panels */
+  --k-radius-game: 4px;         /* the game screen uses squarer corners */
+
   /* ── Typography ────────────────────────────────────────────────────── */
   --k-font-sans: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
   --k-font-display: "Carolingia", serif;   /* logo, hero, big numbers */

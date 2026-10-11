@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keres game view (frame)</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/keres.css">
+  <style>.inv{filter:invert(.85)}</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6h10M11 12h10M11 18h10"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-board" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-king" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2h2v2h2v2h-2v2.2c3.4.8 6 3.7 6 7.3V19H3v-3.5c0-3.6 2.6-6.5 6-7.3V6H9V4h2zM4 20h16v2H4z"/></symbol>
+  <symbol id="i-updown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4v16M4 8l4-4 4 4M16 20V4m-4 12 4 4 4-4"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-first" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></symbol>
+  <symbol id="i-last" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5l11 7L4 19z"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 1 3 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4M5 4h13l-2 4 2 4H5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M9 14h.01M15 14h.01M2 13v3M22 13v3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+</svg>
+
+
+<nav class="navbar" aria-label="Main">
+  <div class="container-page navbar__inner">
+    <div class="navbar__brand">
+      <a class="navbar__logo" href="#"><img src="/logo.svg" alt="" width="32" height="32"><span class="navbar__logo-text">Keres</span></a>
+      <button class="navbar__burger" aria-label="Toggle menu" aria-expanded="false" id="burger"><span></span><span></span><span></span><span></span></button>
+    </div>
+    <div class="navbar__menu" id="menu">
+      <div class="navbar__start">
+        <a href="#" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-chart"/></svg><span>Dashboard</span></a>
+        <a href="#" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-users"/></svg><span>Friends</span></a>
+        <a href="#" class="navbar__link"><svg class="navbar__icon is-mobile-only"><use href="#i-list"/></svg><span>Rules</span></a>
+      </div>
+      <div class="navbar__end">
+        <a href="#" class="btn btn--primary btn--sm navbar__link navbar__play"><svg class="navbar__icon is-mobile-only"><use href="#i-king"/></svg><span>Play</span></a>
+        <a href="#" class="navbar__link" aria-label="Notifications"><span class="navbar__icon relative"><svg class="w-full h-full"><use href="#i-bell"/></svg><span class="bell__badge">2</span></span><span class="is-mobile-only">Notifications</span></a>
+        <a href="#" class="navbar__link"><svg class="navbar__icon"><use href="#i-gear"/></svg><span class="is-mobile-only">Settings</span></a>
+        <a href="#" class="navbar__link navbar__user"><span class="navbar__icon"><svg class="w-full h-full"><use href="#i-user"/></svg></span><span>magnus</span></a>
+        <a href="#" class="btn btn--outline btn--sm navbar__link navbar__ghost"><svg class="navbar__icon"><use href="#i-logout"/></svg><span>Log out</span></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="game-container" id="game-container">
+  <div class="game-layout" id="game-layout">
+
+    <section class="player-card player-card--black" id="player-card-black" data-color="black" aria-label="Black">
+        <div class="player-card__identity">
+          <span class="player-card__avatar" aria-hidden="true"><svg class="w-1/2 h-1/2"><use href="#i-robot"/></svg></span>
+          <div class="player-card__who">
+            <span class="player-card__name is-engine" data-name="black">Engine L3</span>
+            <span class="player-card__meta"><span class="player-card__color is-black" aria-hidden="true"></span><span>Black</span><span class="player-card__rating">1650</span></span>
+          </div>
+          <span class="player-card__turn"></span>
+        </div>
+        <div class="player-clock" id="clock-black"><svg class="player-clock__icon" width="14" height="14"><use href="#i-clock"/></svg><span class="player-clock__time">02:41</span></div>
+        <div class="material-bar" id="material-black"><svg class="material-piece" viewBox="-5 -15 100 85" aria-hidden="true"><ellipse cx="45" cy="35" rx="42" ry="30" fill="rgb(var(--k-piece-light))" stroke="rgb(var(--k-tile-stroke))" stroke-width="3"/><image href="/images/pieces/soldier.svg" x="15" y="5" width="60" height="60"/></svg><svg class="material-piece" viewBox="-5 -15 100 85" aria-hidden="true"><ellipse cx="45" cy="35" rx="42" ry="30" fill="rgb(var(--k-piece-light))" stroke="rgb(var(--k-tile-stroke))" stroke-width="3"/><image href="/images/pieces/soldier.svg" x="15" y="5" width="60" height="60"/></svg><svg class="material-piece" viewBox="-5 -15 100 85" aria-hidden="true"><ellipse cx="45" cy="35" rx="42" ry="30" fill="rgb(var(--k-piece-light))" stroke="rgb(var(--k-tile-stroke))" stroke-width="3"/><image href="/images/pieces/knight.svg" x="15" y="5" width="60" height="60"/></svg><span class="material-score">+4</span></div>
+      </section>
+
+    <section class="player-card player-card--white" id="player-card-white" data-color="white" aria-label="White">
+        <div class="player-card__identity">
+          <span class="player-card__avatar" aria-hidden="true"><img src="/images/pieces/king.svg" alt="" style="padding:.4rem;filter:invert(.8)"></span>
+          <div class="player-card__who">
+            <a class="player-card__name" href="#" data-name="white">Magnus</a>
+            <span class="player-card__meta"><span class="player-card__color is-white" aria-hidden="true"></span><span>White</span><span class="player-card__rating">1842</span><span class="player-card__delta is-gain">+12</span></span>
+          </div>
+          <span class="player-card__turn"></span>
+        </div>
+        <div class="player-clock" id="clock-white"><svg class="player-clock__icon" width="14" height="14"><use href="#i-clock"/></svg><span class="player-clock__time">02:58</span></div>
+        <div class="material-bar" id="material-white"></div>
+      </section>
+
+    <div class="game-info">
+      <div class="status-banner is-your-turn" id="game-status-banner" role="status" aria-live="polite">Your turn</div>
+      <div class="game-info__badges" id="badges">
+        <span class="tag tag--soft tag--info">Rated</span><span class="tag">3+2</span><span class="tag">Real time</span>
+      </div>
+    </div>
+
+    <div class="game-board">
+      <div class="board-with-eval has-eval-bar" id="board-with-eval">
+        <div class="eval-bar" id="eval-bar" role="img" aria-label="Evaluation"><div class="eval-bar__white" style="height:62%"></div><span class="eval-bar__label is-white-ahead">+1.4</span></div>
+        <div class="board board-svg" id="board-container" data-game-over-label="Game over"><img id="board-img" src="/images/Start.svg" alt="Board"></div>
+      </div>
+    </div>
+
+    <aside class="game-panel" aria-labelledby="game-panel-title">
+      <div class="game-panel__inner">
+        <div class="game-moves">
+          <header class="game-panel__header">
+            <h2 class="game-panel__title" id="game-panel-title">Moves</h2>
+            <div class="game-panel__tools">
+              <button type="button" class="icon-button" id="flip-btn" title="Flip board" aria-label="Flip board"><svg width="16" height="16"><use href="#i-updown"/></svg></button>
+              <button type="button" class="icon-button" id="fs-btn" title="Fullscreen" aria-label="Fullscreen"><svg width="16" height="16"><use href="#i-expand"/></svg></button>
+              <div class="board-settings">
+                <button type="button" class="icon-button" id="settings-btn" title="Display settings" aria-label="Display settings" aria-expanded="false"><svg width="16" height="16"><use href="#i-sliders"/></svg></button>
+                <div class="board-settings__menu" id="settings-menu" hidden>
+                  <p class="board-settings__title">Display</p>
+                  <label class="switch-row"><span>Coordinates</span><input type="checkbox" role="switch" checked></label>
+                  <label class="switch-row"><span>Threats</span><input type="checkbox" role="switch" checked></label>
+                  <label class="switch-row"><span>Rotate opponent pieces</span><input type="checkbox" role="switch"></label>
+                  <p class="board-settings__hint">Applies to this game only.</p>
+                  <button type="button" class="game-button is-small">Save as default</button>
+                  <p class="board-settings__status" role="status"></p>
+                </div>
+              </div>
+            </div>
+          </header>
+          <div class="move-list" id="move-list" tabindex="-1"><ol class="move-list__rows" id="move-rows">
+          <li class="move-list__row"><span class="move-list__number">1.</span><button type="button" class="move-list__move">e2-e3<span class="move-eval">+0.3</span></button><button type="button" class="move-list__move">d7-d6<span class="move-eval">+0.1</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">2.</span><button type="button" class="move-list__move">Nb1-c3<span class="move-eval">+0.4</span></button><button type="button" class="move-list__move">Ng8-f6<span class="move-eval">+0.2</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">3.</span><button type="button" class="move-list__move">d2-d4<span class="move-eval">+0.6</span></button><button type="button" class="move-list__move">e7-e5<span class="move-eval">+0.5</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">4.</span><button type="button" class="move-list__move">d4xe5<span class="move-eval">+0.9</span></button><button type="button" class="move-list__move">d6xe5<span class="move-eval">+0.4</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">5.</span><button type="button" class="move-list__move">Qd1xd8+<span class="move-eval">+1.2</span></button><button type="button" class="move-list__move">Ke8xd8<span class="move-eval">+1.1</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">6.</span><button type="button" class="move-list__move">Bc1-g5<span class="move-eval">+1.4</span></button><button type="button" class="move-list__move">Bf8-e7<span class="move-eval">+1.3</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">7.</span><button type="button" class="move-list__move">0-0-0+<span class="move-eval">+1.5</span></button><button type="button" class="move-list__move">Nb8-d7<span class="move-eval">+1.2</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">8.</span><button type="button" class="move-list__move">f2-f4<span class="move-eval">+1.7</span></button><button type="button" class="move-list__move">h7-h6<span class="move-eval">+1.4</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">9.</span><button type="button" class="move-list__move">Bg5xf6<span class="move-eval">+1.9</span></button><button type="button" class="move-list__move">Be7xf6<span class="move-eval">+1.5</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">10.</span><button type="button" class="move-list__move">e3-e4<span class="move-eval">+2.0</span></button><button type="button" class="move-list__move">c7-c6<span class="move-eval">+1.6</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">11.</span><button type="button" class="move-list__move">Nc3-d5<span class="move-eval">+2.2</span></button><button type="button" class="move-list__move">c6xd5<span class="move-eval">+1.9</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">12.</span><button type="button" class="move-list__move">e4xd5<span class="move-eval">+2.3</span></button><button type="button" class="move-list__move">Kd8-c7<span class="move-eval">+2.0</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">13.</span><button type="button" class="move-list__move">Rd1-e1<span class="move-eval">+2.4</span></button><button type="button" class="move-list__move">Rh8-e8<span class="move-eval">+2.1</span></button></li>
+          <li class="move-list__row"><span class="move-list__number">14.</span><button type="button" class="move-list__move is-current">Re1-e4<span class="move-eval">+2.6</span></button><span></span></li>
+          </ol></div>
+          <nav class="move-nav" aria-label="History">
+            <button type="button" class="icon-button" aria-label="First"><svg width="16" height="16"><use href="#i-first"/></svg></button>
+            <button type="button" class="icon-button" aria-label="Previous"><svg width="16" height="16"><use href="#i-prev"/></svg></button>
+            <button type="button" class="icon-button" aria-label="Next" disabled><svg width="16" height="16"><use href="#i-next"/></svg></button>
+            <button type="button" class="icon-button" aria-label="Last" disabled><svg width="16" height="16"><use href="#i-last"/></svg></button>
+          </nav>
+        </div>
+
+        <div class="game-actions" id="game-actions">
+          <button type="button" class="game-button"><svg width="16" height="16"><use href="#i-undo"/></svg><span>Undo</span></button>
+          <button type="button" class="game-button is-danger"><svg width="16" height="16"><use href="#i-flag"/></svg><span>Resign</span></button>
+        </div>
+
+        <section class="piece-info" aria-labelledby="piece-info-title">
+          <h3 class="piece-info__title" id="piece-info-title">Piece</h3>
+          <div class="piece-info__body" id="piece-info-body">
+            <div class="piece-info__figure"><svg viewBox="-5 -25 110 110" aria-hidden="true">
+              <ellipse cx="45" cy="35" rx="42" ry="30" fill="rgb(var(--k-piece-light))" stroke="rgb(var(--k-tile-stroke))" stroke-width="2"/><image href="/images/pieces/knight.svg" x="15" y="5" width="60" height="60"/>
+              <ellipse cx="45" cy="15" rx="42" ry="30" fill="rgb(var(--k-piece-light))" stroke="rgb(var(--k-tile-stroke))" stroke-width="2"/><image href="/images/pieces/paladin.svg" x="15" y="-15" width="60" height="60"/></svg></div>
+            <div class="piece-info__details">
+              <p class="piece-info__name">Paladin <span class="piece-info__layer">Top</span></p>
+              <ul class="piece-info__movement"><li>Moves up to 2 tiles in any direction.</li><li>Cannot capture alone.</li></ul>
+              <p class="piece-info__name">Knight <span class="piece-info__layer">Bottom</span></p>
+              <ul class="piece-info__movement"><li>Moves in an L shape and jumps over pieces.</li></ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </aside>
+  </div>
+
+  <div class="game-board__brand" aria-hidden="true"><img src="/logo.svg" alt="" width="20" height="20"><span>Keres</span></div>
+
+  <button type="button" class="feedback-banner" id="feedback-banner">
+    <img class="feedback-banner__avatar" src="/logo.svg" alt="" width="64" height="64" style="padding:.6rem;background:rgb(var(--k-brand))">
+    <span class="feedback-banner__text"><span class="feedback-banner__title">Help us improve Keres</span><span class="feedback-banner__subtitle">Found a bug or have an idea? Tell us in one minute.</span></span>
+    <span class="feedback-banner__cta">Send feedback<svg width="14" height="14"><use href="#i-arrow"/></svg></span>
+  </button>
+</div>
+
+<footer class="footer"><p class="mb-2">&copy; Keres 2025-2026 <span class="footer__meta">v1.4.2</span></p><nav><a href="#">Legal notice</a><a href="#">Terms of use</a><a href="#">Privacy policy</a><a href="#">Contact</a><a href="#">Feedback</a></nav></footer>
+
+<script src="game-frame.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keres Game View — responsive lab</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/keres.css">
+  <style>
+    /* Lab chrome only — never part of the design system. */
+    .lab-seg { display: inline-flex; border: 1px solid rgb(var(--k-line)); border-radius: 9999px; overflow: hidden; }
+    .lab-seg button { padding: .25rem .7rem; font-size: .8rem; color: rgb(var(--k-muted)); background: transparent; border: 0; cursor: pointer; }
+    .lab-seg button + button { border-left: 1px solid rgb(var(--k-line)); }
+    .lab-seg button[aria-pressed="true"] { background: rgb(var(--k-primary)); color: rgb(var(--k-ink)); font-weight: 600; }
+    .lab-seg button:not([aria-pressed="true"]):hover { color: rgb(var(--k-fg)); background: rgb(255 255 255 / .06); }
+    .lab-group { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
+    .lab-group > b { font: 600 .65rem/1 var(--k-font-sans); letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--k-subtle)); min-width: 5.5rem; }
+    .lab-chip { font-size: .8rem; padding: .3rem .75rem; border-radius: 9999px; border: 1px solid rgb(var(--k-line)); background: transparent; color: rgb(var(--k-fg)); cursor: pointer; white-space: nowrap; }
+    .lab-chip small { color: rgb(var(--k-subtle)); margin-left: .35rem; font-size: .7rem; }
+    .lab-chip:hover { border-color: rgb(var(--k-primary)); }
+    .lab-chip[aria-pressed="true"] { background: rgb(var(--k-primary)); border-color: rgb(var(--k-primary)); color: rgb(var(--k-ink)); }
+    .lab-chip[aria-pressed="true"] small { color: rgb(var(--k-ink) / .7); }
+    .lab-chip--mark { border-style: dashed; }
+    .lab-stage { background: repeating-conic-gradient(rgb(255 255 255 / .025) 0 25%, transparent 0 50%) 0 0 / 24px 24px; border: 1px dashed rgb(var(--k-line)); border-radius: .75rem; padding: 1rem; overflow: auto; }
+    .lab-device { margin: 0 auto; border-radius: .5rem; box-shadow: 0 0 0 1px rgb(var(--k-line)), 0 12px 40px rgb(0 0 0 / .6); overflow: hidden; background: rgb(var(--k-canvas)); position: relative; }
+    .lab-device iframe { border: 0; display: block; transform-origin: 0 0; background: rgb(var(--k-canvas)); }
+    .lab-mode { display: inline-block; padding: .1rem .55rem; border-radius: 9999px; font: 600 .7rem/1.5 var(--k-font-sans); text-transform: uppercase; letter-spacing: .08em; }
+    .lab-mode--stacked { background: rgb(var(--k-info) / .2); color: rgb(var(--k-info)); }
+    .lab-mode--mid { background: rgb(var(--k-warning) / .2); color: rgb(var(--k-warning)); }
+    .lab-mode--wide { background: rgb(var(--k-success) / .2); color: rgb(var(--k-success)); }
+    .lab-readout { font: .8rem var(--k-font-mono); color: rgb(var(--k-muted)); }
+    .lab-readout b { color: rgb(var(--k-fg)); font-weight: 500; }
+    .sg-code { font: .8rem var(--k-font-mono); color: rgb(var(--k-soft)); background: rgb(var(--k-sunken)); border: 1px solid rgb(var(--k-edge)); border-radius: .4rem; padding: .15rem .4rem; }
+    input[type=range] { accent-color: rgb(var(--k-primary)); }
+    .lab-num { width: 5rem; height: 2rem; font-size: .85rem; padding: 0 .5rem; }
+  </style>
+</head>
+<body>
+<header class="border-b border-line bg-canvas/80 backdrop-blur sticky top-0 z-navbar">
+  <div class="flex items-center justify-between gap-4 px-4 h-14">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3 text-fg hover:no-underline"><img src="/logo.svg" alt="" width="28" height="28"><span class="font-display text-3xl leading-none pt-1">Keres</span></a>
+      <span class="tag tag--primary tag--sm">Game view lab</span>
+    </div>
+    <a href="/" class="text-sm">← Style guide</a>
+  </div>
+</header>
+
+<main class="px-4 pb-16 sm:px-8 max-w-[110rem] mx-auto">
+  <h1 class="!mt-8 !text-5xl sm:!text-7xl">Game view</h1>
+  <p class="text-muted max-w-[75ch] text-base">The game page in an iframe, so every <em>viewport</em> breakpoint is real. The layout switches on the width of <span class="sg-code">.game-container</span> (container queries): <b class="text-info">stacked</b> below 68rem, <b class="text-warning">mid</b> (board | moves panel) from 68rem, <b class="text-success">wide</b> (cards | board | panel) from 94rem — about 1120px and 1536px of viewport once the 1rem padding is counted.</p>
+
+  <!-- Viewport -->
+  <section class="card" aria-label="Viewport">
+    <div class="lab-group mb-3"><b>Mode</b>
+      <span class="lab-seg" id="view-mode"><button aria-pressed="true" data-v="single">Single viewport</button><button aria-pressed="false" data-v="compare">Compare all</button></span>
+      <span class="lab-seg" id="fit-mode"><button aria-pressed="true" data-v="fit">Fit to page</button><button aria-pressed="false" data-v="100">100%</button></span>
+    </div>
+    <div class="lab-group mb-3"><b>Devices</b><div class="lab-group" id="presets"></div></div>
+    <div class="lab-group mb-3"><b>Thresholds</b><div class="lab-group" id="marks"></div></div>
+    <div class="lab-group" id="custom"><b>Custom</b>
+      <label class="lab-readout">W <input class="input lab-num" id="w" type="number" min="280" max="3000" value="1440"></label>
+      <label class="lab-readout">H <input class="input lab-num" id="h" type="number" min="300" max="2400" value="900"></label>
+      <input id="slider" type="range" min="280" max="2560" value="1440" style="flex:1;min-width:10rem" aria-label="Viewport width">
+      <button class="btn btn--outline btn--sm" id="rotate">Rotate ⟲</button>
+    </div>
+  </section>
+
+  <!-- State -->
+  <section class="card" aria-label="State">
+    <div class="lab-group mb-3"><b>Status</b><span class="lab-seg" data-key="status">
+      <button data-v="your-turn" aria-pressed="true">Your turn</button><button data-v="muted">Opponent</button><button data-v="won">Won</button><button data-v="lost">Lost</button><button data-v="drawn">Draw</button><button data-v="neutral">Aborted</button></span></div>
+    <div class="lab-group mb-3"><b>Side to move</b><span class="lab-seg" data-key="toMove"><button data-v="white" aria-pressed="true">White</button><button data-v="black">Black</button></span>
+      <b style="min-width:auto">Board</b><span class="lab-seg" data-key="flipped" data-bool><button data-v="false" aria-pressed="true">White at bottom</button><button data-v="true">Flipped</button></span>
+      <b style="min-width:auto">Eval bar</b><span class="lab-seg" data-key="evalBar" data-bool><button data-v="true" aria-pressed="true">On</button><button data-v="false">Off</button></span></div>
+    <div class="lab-group mb-3"><b>Players</b><span class="lab-seg" data-key="names"><button data-v="short" aria-pressed="true">Short names</button><button data-v="long">Very long names</button></span>
+      <span class="lab-seg" data-key="ratings" data-bool><button data-v="true" aria-pressed="true">Ratings</button><button data-v="false">No ratings (guest)</button></span>
+      <b style="min-width:auto">Clocks</b><span class="lab-seg" data-key="clocks"><button data-v="normal" aria-pressed="true">Running</button><button data-v="low">Low time</button><button data-v="hidden">None</button></span></div>
+    <div class="lab-group mb-3"><b>Content</b><b style="min-width:auto">Captures</b><span class="lab-seg" data-key="material"><button data-v="none">None</button><button data-v="few" aria-pressed="true">Few</button><button data-v="many">Many</button></span>
+      <b style="min-width:auto">Moves</b><span class="lab-seg" data-key="moves"><button data-v="none">None</button><button data-v="few">2</button><button data-v="many" aria-pressed="true">Many</button></span>
+      <b style="min-width:auto">Badges</b><span class="lab-seg" data-key="badges"><button data-v="none">None</button><button data-v="normal" aria-pressed="true">3</button><button data-v="many">6</button></span></div>
+    <div class="lab-group"><b>Panel</b><b style="min-width:auto">Piece info</b><span class="lab-seg" data-key="pieceInfo"><button data-v="hint">Hint</button><button data-v="piece">Piece</button><button data-v="stack" aria-pressed="true">Stack</button></span>
+      <b style="min-width:auto">Settings menu</b><span class="lab-seg" data-key="settingsOpen" data-bool><button data-v="false" aria-pressed="true">Closed</button><button data-v="true">Open</button></span>
+      <b style="min-width:auto">Feedback</b><span class="lab-seg" data-key="feedback" data-bool><button data-v="true" aria-pressed="true">Signed in</button><button data-v="false">Guest</button></span>
+      <b style="min-width:auto">Spectator</b><span class="lab-seg" data-key="spectator" data-bool><button data-v="false" aria-pressed="true">No</button><button data-v="true">Yes</button></span>
+      <b style="min-width:auto">Fullscreen</b><span class="lab-seg" data-key="fullscreen" data-bool><button data-v="false" aria-pressed="true">Off</button><button data-v="true">On</button></span>
+      <b style="min-width:auto">Mobile menu</b><span class="lab-seg" data-key="menuOpen" data-bool><button data-v="false" aria-pressed="true">Closed</button><button data-v="true">Open</button></span></div>
+  </section>
+
+  <!-- Readout + stage -->
+  <div class="flex flex-wrap items-center justify-between gap-3 my-3" id="readout-bar">
+    <div class="lab-readout" id="readout"></div>
+    <div class="lab-readout" id="scale-note"></div>
+  </div>
+  <div class="lab-stage" id="stage"></div>
+</main>
+
+<script>
+const PRESETS = [
+  ['Phone S', 360, 640], ['Phone', 390, 844], ['Phone L', 430, 932], ['Tablet', 768, 1024], ['Tablet ⟲', 1024, 768],
+  ['Laptop', 1280, 800], ['Desktop', 1440, 900], ['Desktop L', 1600, 900], ['Full HD', 1920, 1080], ['QHD', 2560, 1300],
+];
+const MARKS = [['mid − 1px', 1119, 900], ['mid starts', 1120, 900], ['wide − 1px', 1535, 900], ['wide starts', 1536, 900]];
+const state = { toMove: 'white', flipped: false, evalBar: true, status: 'your-turn', material: 'few', clocks: 'normal', names: 'short', ratings: true, badges: 'normal', feedback: true, fullscreen: false, pieceInfo: 'stack', moves: 'many', settingsOpen: false, spectator: false, menuOpen: false };
+const view = { mode: 'single', fit: 'fit', w: 1440, h: 900 };
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const stage = $('#stage'), frames = new Map();   // contentWindow -> {el, label}
+
+function chip(parent, label, w, h, mark) {
+  const b = document.createElement('button');
+  b.className = 'lab-chip' + (mark ? ' lab-chip--mark' : ''); b.dataset.w = w; b.dataset.h = h;
+  b.innerHTML = `${label}<small>${w}×${h}</small>`;
+  b.addEventListener('click', () => { view.w = w; view.h = h; view.mode = 'single'; sync(); });
+  parent.append(b);
+}
+PRESETS.forEach(p => chip($('#presets'), ...p)); MARKS.forEach(p => chip($('#marks'), ...p, true));
+
+function makeFrame(label, w, h, scale) {
+  const wrap = document.createElement('figure'); wrap.style.margin = '0';
+  const dev = document.createElement('div'); dev.className = 'lab-device';
+  dev.style.width = w * scale + 'px'; dev.style.height = h * scale + 'px';
+  const f = document.createElement('iframe'); f.src = 'game-frame.html'; f.title = label; f.width = w; f.height = h;
+  f.style.width = w + 'px'; f.style.height = h + 'px'; f.style.transform = `scale(${scale})`;
+  f.addEventListener('load', () => { const win = f.contentWindow; if (!win) return; frames.set(win, { cap, label, w, h }); win.postMessage({ type: 'keres-state', state }, '*'); });
+  dev.append(f);
+  const cap = document.createElement('figcaption'); cap.className = 'lab-readout'; cap.style.margin = '0 0 .4rem'; cap.dataset.cap = '';
+  cap.innerHTML = `<b>${label}</b> ${w}×${h}`;
+  wrap.append(cap, dev);
+  return wrap;
+}
+
+function render() {
+  stage.innerHTML = ''; frames.clear();
+  const avail = stage.clientWidth - 32;
+  if (view.mode === 'single') {
+    const scale = view.fit === 'fit' ? Math.min(1, avail / view.w) : 1;
+    stage.style.display = 'block';
+    stage.append(makeFrame(`${view.w}px`, view.w, view.h, scale));
+    $('#scale-note').textContent = scale < 1 ? `shown at ${Math.round(scale * 100)}% — the page inside renders at its real ${view.w}px width` : 'shown at 100%';
+  } else {
+    stage.style.display = 'grid'; stage.style.gridTemplateColumns = 'repeat(auto-fill, minmax(18rem, 1fr))'; stage.style.gap = '1.5rem';
+    const all = [...PRESETS.filter(p => p[0] !== 'Tablet ⟲'), ...MARKS.filter(m => m[0] === 'mid starts' || m[0] === 'wide starts')];
+    const cols = Math.max(1, Math.floor(avail / 300));
+    const cell = (avail - (cols - 1) * 24) / cols;
+    all.forEach(([label, w, h]) => { const s = Math.min(1, cell / w); const fig = makeFrame(label, w, h, s); fig.style.minWidth = 0; stage.append(fig); });
+    $('#scale-note').textContent = 'every frame scaled to fit its cell; layout inside is the real one for that width';
+  }
+  updateChips();
+}
+
+function updateChips() {
+  $$('.lab-chip').forEach(c => c.setAttribute('aria-pressed', view.mode === 'single' && +c.dataset.w === view.w && +c.dataset.h === view.h));
+  $$('#view-mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === view.mode));
+  $$('#fit-mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === view.fit));
+  $('#w').value = view.w; $('#h').value = view.h; $('#slider').value = view.w;
+  $('#custom').style.opacity = view.mode === 'single' ? 1 : .4;
+}
+function sync() { render(); }
+
+function broadcast() { for (const win of frames.keys()) win.postMessage({ type: 'keres-state', state }, '*'); }
+
+// Controls
+$$('[data-key]').forEach(group => group.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const key = group.dataset.key; state[key] = 'bool' in group.dataset || group.hasAttribute('data-bool') ? b.dataset.v === 'true' : b.dataset.v;
+  group.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); broadcast();
+}));
+function syncControls() {
+  $$('[data-key]').forEach(g => g.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(state[g.dataset.key]) === b.dataset.v)));
+}
+$$('#view-mode button').forEach(b => b.addEventListener('click', () => { view.mode = b.dataset.v; sync(); }));
+$$('#fit-mode button').forEach(b => b.addEventListener('click', () => { view.fit = b.dataset.v; sync(); }));
+$('#w').addEventListener('change', e => { view.w = +e.target.value; sync(); });
+$('#h').addEventListener('change', e => { view.h = +e.target.value; sync(); });
+$('#slider').addEventListener('input', e => { view.w = +e.target.value; view.mode = 'single'; const f = stage.querySelector('iframe'); if (f && view.mode === 'single') { sync(); } });
+$('#rotate').addEventListener('click', () => { [view.w, view.h] = [view.h, view.w]; sync(); });
+addEventListener('resize', () => { clearTimeout(window.__t); window.__t = setTimeout(render, 150); });
+
+// Metrics coming back from the frames
+const latest = new Map();
+addEventListener('message', e => {
+  const m = e.data; if (!m) return;
+  if (m.type === 'keres-state-changed') { Object.assign(state, m.state); syncControls(); broadcast(); return; }
+  if (m.type !== 'keres-metrics') return;
+  const info = frames.get(e.source); if (!info) return;
+  latest.set(e.source, m);
+  info.cap.innerHTML = `<b>${info.label}</b> ${info.w}×${info.h} <span class="lab-mode lab-mode--${m.mode}">${m.mode}</span> board ${m.board[0]}×${m.board[1]}px${m.overflowX ? ' <span class="text-danger-text">⚠ horizontal overflow</span>' : ''}`;
+  if (view.mode === 'single') {
+    $('#readout').innerHTML = `viewport <b>${m.viewport[0]}×${m.viewport[1]}</b> · container <b>${m.container}px</b> (${(m.container / 16).toFixed(1)}rem) · layout <span class="lab-mode lab-mode--${m.mode}">${m.mode}</span> · board <b>${m.board[0]}×${m.board[1]}px</b> · page height <b>${m.scrollH}px</b>${m.overflowX ? ' · <span class="text-danger-text">⚠ horizontal overflow</span>' : ''}`;
+  } else $('#readout').textContent = 'Compare mode — each caption shows the layout chosen at that width.';
+});
+render(); syncControls();
+</script>
+</body>
+</html>

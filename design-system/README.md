@@ -20,6 +20,7 @@ npm run dev          # rebuild the style guide CSS on change
 | `src/base.css` | Fonts, element defaults (h1–h6, links, lists…). |
 | `src/components/*.css` | Components (`@layer components`, built with `@apply` on token-based utilities). |
 | `styleguide/index.html` | Static demo page: tokens, every component and state, realistic page compositions. |
+| `styleguide/game.html` + `game-frame.html` | **Game view lab**: the full game page in a resizable iframe (device presets, breakpoint thresholds, compare-all mode) with switches for every state. |
 
 ### Conventions
 
@@ -88,10 +89,17 @@ Recommended: own repo published as an npm package, consumed with the preset + `@
 | `navbar*`, `site-navbar*` | `navbar`, `navbar__brand/__logo/__burger/__menu/__start/__end/__link/__icon` |
 | `notification-bell*` / `notification-list*` | `bell*` / `notif*` |
 | `language-switcher*` | `lang-switch*` |
-| `game-status-banner is-*` | `status-banner status-banner--*` |
-| `player-info-row` | `player-row` |
+| `game-status-banner is-*` | `status-banner is-*` (states unchanged) |
+| `player-card*`, `game-layout`, `game-board`, `game-panel`, `move-list*`, `piece-info*`, `icon-button`, `game-button`, `switch-row`, `board-settings*`, `feedback-banner` | same names (ported 1:1 from `app.scss` at platform `main` 2009497) |
+| `.site-navbar-height` var | `--k-navbar-h` |
+| `#board-container` colours (`board.css`) | `.board-svg` + `--k-tile-*` / `--k-piece-*` tokens |
+| teal `$keres-teal`, `$game-surface`… | `--k-turn`, `--k-panel`… (`turn`, `panel` in Tailwind) |
 | `has-text-grey(-light)` / `has-text-centered` / `is-size-7` | `text-muted` / `text-subtle` / `text-center` / `text-xs` |
 | `is-hidden`, `is-flex`, `mt-3`… | `hidden`, `flex`, `mt-3` (Tailwind) |
 
 Not covered (kept as is): the e-mail templates (inline styles by necessity), the SVG sprite / board geometry and the Three.js view.
-`#board-container` becomes `.board` (+ `.board-svg` for the tile and piece colours, now token-driven).
+The game page keeps `#board-container` working (`.board` is the class equivalent).
+
+### Game page responsiveness
+
+The layout is driven by **container queries** on `.game-container` (not viewport media queries): stacked `< 68rem`, board + moves panel `≥ 68rem`, player cards | board | panel `≥ 94rem`. Container queries cannot read CSS variables, so the two thresholds are literals in `game.css` (documented at the top of the file) — change them together with the lab's labels. The board size comes from `--board-w`, which also accounts for the navbar height, the evaluation bar and the viewBox aspect ratio (`--board-aspect`, set by `SVGBoardView`).
