@@ -97,7 +97,7 @@
 [piece_knight]
   other = "Knight"
 [piece_symbol_ballista]
-  other = "B"
+  other = "L"
 [piece_symbol_rook]
   other = "R"
 [piece_symbol_bishop]
@@ -139,7 +139,7 @@
 [promo_soldier]
   other = "Soldier (S) → Paladin (P)"
 [promo_ballista]
-  other = "Ballista (B) → Rook (R)"
+  other = "Ballista (L) → Rook (R)"
 [legal_title]
   other = "Legal Notice"
 [legal_subtitle]
