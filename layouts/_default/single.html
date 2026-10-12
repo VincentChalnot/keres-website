@@ -1,9 +1,11 @@
 {{ define "title" }}{{ .Title }}{{ end }}
 
 {{ define "main" }}
-<section class="px-4 py-8">
-  <div class="container mx-auto max-w-3xl">
-    {{ .Content }}
+<section class="section">
+  <div class="container-page container-page--narrow">
+    <div class="prose-keres">
+      {{ .Content }}
+    </div>
   </div>
 </section>
 {{ end }}

@@ -26,3 +26,13 @@ disableKinds = ["taxonomy", "term"]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+# Fonts (Carolingia, RomanSerif, Source Serif 4) are served from the design
+# system package so there is a single copy; its CSS refers to /fonts/*.
+[module]
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "node_modules/@vchalnot/keres-design-system/styleguide/fonts"
+    target = "static/fonts"

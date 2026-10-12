@@ -1,23 +1,21 @@
-{{ define "navbar" }}{{ end }}
-
 {{ define "title" }}{{ i18n "home" }}{{ end }}
 
 {{ define "main" }}
 
 {{ $hero := .Site.GetPage "/blocks/hero" }}
 {{ with $hero }}
-<header class="text-center flex flex-col items-center mb-8">
-  <h1>KERES</h1>
-  <p class="hero-baseline">{{ .Params.tagline }}</p>
+<header class="hero">
+  <h1 class="font-display uppercase">KERES</h1>
+  <p class="hero__baseline">{{ .Params.tagline }}</p>
   {{ with .Params.button }}
-    <a href="{{ partial "platform-url.html" $ }}/play" class="inline-flex items-center justify-center rounded-full border border-keres-light text-keres-light font-bold px-6 py-2 text-sm hover:bg-keres-light hover:text-keres-bg transition-colors hover:no-underline shadow-[1px_1px_12px_#000]" target="_blank" rel="noopener">
+    <a href="{{ partial "platform-url.html" $ }}/play" class="btn btn--primary btn--lg" target="_blank" rel="noopener">
       {{ .label }}
     </a>
   {{ end }}
-  <div class="hero-img">
+  <div class="hero__img">
     <img src="{{ .Params.image }}" alt="{{ .Params.alt }}"/>
   </div>
-  <div class="hero-content">
+  <div class="hero__content">
     {{ .Content }}
   </div>
 </header>
@@ -31,7 +29,7 @@
     <h2>{{ .Params.title }}</h2>
     {{ .Content }}
   </div>
-  <div class="section-img">
+  <div class="section__img">
     {{ if .Params.lightbox }}
       <a href="{{ .Params.lightbox }}" class="lightbox-trigger">
         <img src="{{ .Params.image }}" alt="{{ .Params.alt }}"/>
@@ -41,7 +39,7 @@
     {{ end }}
     {{ with $rulesPage }}
       {{ with $concept.Params.button }}
-        <a href="{{ $rulesPage.RelPermalink }}" class="btn inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-5 py-2 text-sm hover:no-underline hover:opacity-90 transition-opacity">
+        <a href="{{ $rulesPage.RelPermalink }}" class="btn btn--primary btn--sm">
           {{ .label }}
         </a>
       {{ end }}
@@ -68,7 +66,7 @@
     <h4>{{ .Params.title }}</h4>
     {{ .Content }}
     {{ with .Params.button }}
-      <a href="{{ .url }}" class="btn inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-5 py-2 text-sm hover:no-underline hover:opacity-90 transition-opacity">
+      <a href="{{ .url }}" class="btn btn--primary btn--sm">
         {{ .label }}
       </a>
     {{ end }}
@@ -82,15 +80,15 @@
   <div>
     <h5>{{ .Params.title }}</h5>
     <form>
-      <div class="mb-4">
-        <label class="block text-sm mb-1" for="newsletter">{{ i18n "newsletter_label" }}</label>
-        <input class="w-full px-3 py-2 rounded bg-keres-surface border border-keres-dark text-keres-light placeholder:text-gray-500 focus:outline-none focus:border-keres-primary" type="email" id="newsletter" placeholder="{{ i18n "newsletter_placeholder" }}" required/>
+      <div class="field">
+        <label class="label" for="newsletter">{{ i18n "newsletter_label" }}</label>
+        <input class="input" type="email" id="newsletter" placeholder="{{ i18n "newsletter_placeholder" }}" required/>
       </div>
-      <button type="submit" class="inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-5 py-2 text-sm hover:opacity-90 transition-opacity">
+      <button type="submit" class="btn btn--primary">
         {{ i18n "newsletter_cta" }}
       </button>
     </form>
-    <div class="mt-4 text-sm text-gray-400">{{ .Content }}</div>
+    <div class="help mt-4">{{ .Content }}</div>
   </div>
 </section>
 {{ end }}
@@ -129,36 +127,27 @@
     document.addEventListener("keydown", e => { if (e.key === "Escape" && lightbox.classList.contains("is-active")) close(); });
   });
 </script>
-
-<style>
-  .hero-img img {
-    margin-top: -130px;
-    margin-bottom: -200px;
-  }
-</style>
 {{ end }}
 
 {{ define "footer" }}
-<footer class="bg-transparent text-keres-light py-8 text-center border-t border-keres-dark">
-  <div>
-    <p>{{ i18n "footer_copyright" }}</p>
-    <nav>
-      {{ with .Site.GetPage "/legal-notice" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_legal" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/terms-of-use" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_terms" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/privacy-policy" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_privacy" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/trust" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_trust" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/contact" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_contact" }}</a>
-      {{ end }}
-    </nav>
-  </div>
+<footer class="footer">
+  <p class="mb-2">{{ i18n "footer_copyright" }}</p>
+  <nav>
+    {{ with .Site.GetPage "/legal-notice" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_legal" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/terms-of-use" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_terms" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/privacy-policy" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_privacy" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/trust" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_trust" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/contact" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_contact" }}</a>
+    {{ end }}
+  </nav>
 </footer>
 {{ end }}

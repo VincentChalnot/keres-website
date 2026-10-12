@@ -1,7 +1,7 @@
 <div class="piece-card">
-  <div class="piece-name"><i class="piece-icon primary {{ .key }}"></i> {{ .name }} ({{ .symbol }})</div>
+  <div class="piece-card__name"><i class="piece-icon piece-icon--primary piece-icon--{{ .key }}"></i> {{ .name }} ({{ .symbol }})</div>
   <img src="/images/movesets/{{ .image }}.svg" alt="{{ .name }} moves" />
-  <p class="piece-description">
+  <p class="piece-card__desc">
     {{ .movement }}<br>
     {{ if .note }}<strong>{{ .note }}</strong>{{ end }}
   </p>

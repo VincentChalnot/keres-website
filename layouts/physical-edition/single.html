@@ -1,19 +1,19 @@
 {{ define "title" }}{{ .Title }}{{ end }}
 
 {{ define "main" }}
-  <section class="px-4 py-8">
-    <div class="container mx-auto max-w-2xl">
-      <h1 class="text-3xl font-bold mb-4">{{ i18n "waitlist_title" }}</h1>
+  <section class="section">
+    <div class="container-page max-w-2xl">
+      <h1 class="page-title mb-6">{{ i18n "waitlist_title" }}</h1>
 
-      <div class="section-img mb-6">
+      <div class="section__img mb-6">
         <img src="/images/real_board_full.webp" alt="The Keres board, physical prototype" />
       </div>
 
       <p class="mb-6">{{ i18n "waitlist_intro" }}</p>
 
-      <div id="waitlist-status" class="hidden mb-4 rounded p-3"></div>
+      <div id="waitlist-status" class="alert" role="status" hidden></div>
 
-      <form id="waitlist-form" class="space-y-4">
+      <form id="waitlist-form">
         <!-- Honeypot: must stay empty -->
         <div class="hidden" aria-hidden="true">
           <label>Website (leave empty)
@@ -21,22 +21,22 @@
           </label>
         </div>
 
-        <div>
-          <label class="block text-sm mb-1" for="email">{{ i18n "waitlist_email_label" }}</label>
-          <input class="w-full px-3 py-2 rounded bg-keres-surface border border-keres-dark" type="email" id="email" name="email" required />
+        <div class="field">
+          <label class="label" for="email">{{ i18n "waitlist_email_label" }}</label>
+          <input class="input" type="email" id="email" name="email" required />
         </div>
 
-        <div>
-          <label class="block text-sm mb-1" for="name">{{ i18n "waitlist_name_label" }}</label>
-          <input class="w-full px-3 py-2 rounded bg-keres-surface border border-keres-dark" type="text" id="name" name="name" />
+        <div class="field">
+          <label class="label" for="name">{{ i18n "waitlist_name_label" }}</label>
+          <input class="input" type="text" id="name" name="name" />
         </div>
 
-        <div>
-          <label class="block text-sm mb-1" for="note">{{ i18n "waitlist_note_label" }}</label>
-          <textarea class="w-full px-3 py-2 rounded bg-keres-surface border border-keres-dark" id="note" name="note" rows="3"></textarea>
+        <div class="field">
+          <label class="label" for="note">{{ i18n "waitlist_note_label" }}</label>
+          <textarea class="textarea" id="note" name="note" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-5 py-2 text-sm hover:opacity-90 transition-opacity">
+        <button type="submit" class="btn btn--primary">
           {{ i18n "waitlist_submit" }}
         </button>
       </form>
@@ -51,7 +51,7 @@
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      status.classList.add("hidden");
+      status.hidden = true;
 
       var payload = {
         email:   form.email.value,
@@ -67,18 +67,18 @@
           body: JSON.stringify(payload),
         });
         if (res.ok) {
-          status.textContent = {{ i18n "waitlist_success" | jsonify }};
-          status.className = "mb-4 rounded p-3 bg-green-900/50 text-green-200";
+          status.textContent = {{ i18n "waitlist_success" | jsonify | safeJS }};
+          status.className = "alert alert--success";
           form.reset();
         } else {
-          status.textContent = {{ i18n "waitlist_error" | jsonify }};
-          status.className = "mb-4 rounded p-3 bg-red-900/50 text-red-200";
+          status.textContent = {{ i18n "waitlist_error" | jsonify | safeJS }};
+          status.className = "alert alert--danger";
         }
       } catch (err) {
-        status.textContent = {{ i18n "waitlist_error" | jsonify }};
-        status.className = "mb-4 rounded p-3 bg-red-900/50 text-red-200";
+        status.textContent = {{ i18n "waitlist_error" | jsonify | safeJS }};
+        status.className = "alert alert--danger";
       }
-      status.classList.remove("hidden");
+      status.hidden = false;
     });
   })();
   </script>

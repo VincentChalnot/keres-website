@@ -5,7 +5,7 @@
 
   {{ if not ($.contentOnly | default false) }}
     {{ with .Params.image }}
-      <div class="section-img">
+      <div class="section__img">
         {{ if $block.Params.lightbox }}
           <a href="{{ $block.Params.lightbox }}" class="lightbox-trigger">
             <img src="{{ . }}" alt="{{ $alt }}" />
@@ -22,7 +22,7 @@
 
     {{ $btnUrl := $.buttonUrl | default .Params.button.url }}
     {{ with .Params.button }}
-      <a href="{{ $btnUrl }}" class="btn inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-5 py-2 text-sm hover:no-underline hover:opacity-90 transition-opacity">
+      <a href="{{ $btnUrl }}" class="btn btn--primary btn--sm">
         {{ .label }}
       </a>
     {{ end }}

@@ -8,6 +8,14 @@
   other = "Connexion"
 [nav_logout]
   other = "Déconnexion"
+[nav_main]
+  other = "Navigation principale"
+[nav_home]
+  other = "Accueil Keres"
+[nav_menu]
+  other = "Afficher le menu"
+[nav_language]
+  other = "Langue"
 [footer_copyright]
   other = "© Keres 2025-2026"
 [footer_legal]

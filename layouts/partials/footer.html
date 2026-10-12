@@ -1,20 +1,18 @@
-<footer class="bg-transparent text-keres-light py-8 text-center border-t border-keres-dark">
-  <div>
-    <p>{{ i18n "footer_copyright" }}</p>
-    <nav>
-      {{ with .Site.GetPage "/legal-notice" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_legal" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/terms-of-use" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_terms" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/privacy-policy" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_privacy" }}</a>
-      {{ end }}
-      {{ with .Site.GetPage "/trust" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-primary mx-3 hover:underline">{{ i18n "footer_trust" }}</a>
-      {{ end }}
-      <a href="{{ partial "platform-url.html" . }}/contact" class="text-keres-primary mx-3 hover:underline" target="_blank" rel="noopener">{{ i18n "footer_contact" }}</a>
-    </nav>
-  </div>
+<footer class="footer">
+  <p class="mb-2">{{ i18n "footer_copyright" }}</p>
+  <nav>
+    {{ with .Site.GetPage "/legal-notice" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_legal" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/terms-of-use" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_terms" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/privacy-policy" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_privacy" }}</a>
+    {{ end }}
+    {{ with .Site.GetPage "/trust" }}
+    <a href="{{ .RelPermalink }}">{{ i18n "footer_trust" }}</a>
+    {{ end }}
+    <a href="{{ partial "platform-url.html" . }}/contact" target="_blank" rel="noopener">{{ i18n "footer_contact" }}</a>
+  </nav>
 </footer>

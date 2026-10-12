@@ -1,46 +1,43 @@
-<nav class="sticky top-0 z-[100] bg-keres-bg/70 backdrop-blur border-b border-keres-dark" role="navigation" aria-label="Main navigation">
-  <div class="container mx-auto px-4 flex items-center justify-between h-14">
-    <a class="flex items-center gap-3 hover:no-underline" href="{{ "" | relLangURL }}" aria-label="Keres home">
-      <img src="/logo.svg" alt="" width="32" height="32" aria-hidden="true">
-      <span class="font-carolingia text-[2.4rem] text-keres-light leading-none pt-1">Keres</span>
-    </a>
-
-    <div class="flex items-center gap-4">
-      {{ with .Site.GetPage "/rules" }}
-      <a href="{{ .RelPermalink }}" class="text-keres-light hover:text-keres-primary hover:no-underline transition-colors">
-        {{ i18n "nav_rules" }}
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6h10M11 12h10M11 18h10"/></symbol>
+  <symbol id="i-king" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2h2v2h2v2h-2v2.2c3.4.8 6 3.7 6 7.3V19H3v-3.5c0-3.6 2.6-6.5 6-7.3V6H9V4h2zM4 20h16v2H4z"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+</svg>
+<nav class="navbar" aria-label="{{ i18n "nav_main" }}">
+  <div class="container-page navbar__inner">
+    <div class="navbar__brand">
+      <a class="navbar__logo" href="{{ "" | relLangURL }}" aria-label="{{ i18n "nav_home" }}">
+        <img src="/logo.svg" alt="" width="32" height="32" aria-hidden="true">
+        <span class="navbar__logo-text">Keres</span>
       </a>
-      {{ end }}
+      <button class="navbar__burger" type="button" aria-label="{{ i18n "nav_menu" }}" aria-expanded="false" aria-controls="navbar-menu" data-burger><span></span><span></span><span></span><span></span></button>
+    </div>
 
-      <a href="{{ partial "platform-url.html" . }}/play" class="inline-flex items-center justify-center rounded-full bg-keres-primary text-keres-bg font-bold px-4 py-1 text-sm hover:no-underline hover:opacity-90 transition-opacity" target="_blank" rel="noopener">
-        {{ i18n "nav_play" }}
-      </a>
-
-      <a href="{{ partial "platform-url.html" . }}/login" class="flex items-center text-keres-light hover:text-keres-primary transition-colors text-sm px-3 py-1 border border-keres-dark rounded-full hover:no-underline">
-        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-4-4m0 0l-6 6m6-6l-6-6"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12H9"/>
-        </svg>
-        {{ i18n "nav_login" }}
-      </a>
-
-      <div class="border-l border-keres-dark h-6 mx-1"></div>
-
-      {{ $target := cond (eq .Lang "en") "fr" "en" }}
-      {{ $label := cond (eq $target "fr") "FR" "EN" }}
-      {{ $title := cond (eq $target "fr") "Français" "English" }}
-      {{ $href := "" }}
-      {{ range where .Translations "Lang" $target }}
-        {{ $href = .RelPermalink }}
-      {{ end }}
-      {{ if not $href }}
-        {{ range where .Site.Home.AllTranslations "Lang" $target }}
-          {{ $href = .RelPermalink }}
+    <div class="navbar__menu" id="navbar-menu">
+      <div class="navbar__start">
+        {{ with .Site.GetPage "/rules" }}
+        <a href="{{ .RelPermalink }}" class="navbar__link"><svg class="navbar__icon is-mobile-only" aria-hidden="true"><use href="#i-list"/></svg><span>{{ i18n "nav_rules" }}</span></a>
         {{ end }}
-      {{ end }}
-      {{ if $href }}
-      <a href="{{ $href }}" class="text-sm text-keres-secondary hover:text-keres-primary hover:no-underline transition-colors" title="{{ $title }}">{{ $label }}</a>
-      {{ end }}
+      </div>
+
+      <div class="navbar__end">
+        <a href="{{ partial "platform-url.html" . }}/play" class="btn btn--primary btn--sm navbar__link navbar__play" target="_blank" rel="noopener"><svg class="navbar__icon is-mobile-only" aria-hidden="true"><use href="#i-king"/></svg><span>{{ i18n "nav_play" }}</span></a>
+
+        {{ partial "lang-switch.html" . }}
+
+        <a href="{{ partial "platform-url.html" . }}/login" class="btn btn--outline btn--sm navbar__link navbar__ghost"><svg class="navbar__icon" aria-hidden="true"><use href="#i-login"/></svg><span>{{ i18n "nav_login" }}</span></a>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  document.querySelectorAll("[data-burger]").forEach(function (burger) {
+    burger.addEventListener("click", function () {
+      var open = !burger.classList.contains("is-active");
+      burger.classList.toggle("is-active", open);
+      burger.setAttribute("aria-expanded", open);
+      document.getElementById(burger.getAttribute("aria-controls")).classList.toggle("is-active", open);
+    });
+  });
+</script>

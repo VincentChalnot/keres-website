@@ -8,6 +8,14 @@
   other = "Login"
 [nav_logout]
   other = "Logout"
+[nav_main]
+  other = "Main navigation"
+[nav_home]
+  other = "Keres home"
+[nav_menu]
+  other = "Toggle menu"
+[nav_language]
+  other = "Language"
 [footer_copyright]
   other = "© Keres 2025-2026"
 [footer_legal]

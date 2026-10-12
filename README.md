@@ -36,7 +36,8 @@ environment (`config/development/`, `config/production/`).
 - **Hugo** (extended) — static site generator, multilingual (`en`/`fr` via
   `i18n/`)
 - **Tailwind CSS** + PostCSS — processed through Hugo's asset pipeline
-  (`assets/css/main.css`, `postcss.config.js`, `tailwind.config.js`)
+  (`assets/css/main.css`, `postcss.config.js`, `tailwind.config.js`), styled
+  by the shared [Keres design system](https://www.npmjs.com/package/@vchalnot/keres-design-system)
 - **Cloudflare Pages** — production hosting, builds directly from this
   repo's git history (not via GitHub Actions — CI here only validates the
   build on PRs)
@@ -49,8 +50,8 @@ environment (`config/development/`, `config/production/`).
   (hero, concept, collector's edition, author, newsletter)
 - `layouts/` — page templates (`_default/`, `rules/`, `contact/`) and
   partials (navbar, footer, piece cards, lightbox, `platform-url.html`)
-- `static/` — images, fonts, favicons, `_headers` (Cloudflare Pages
-  response headers)
+- `static/` — images, favicons, `_headers` (Cloudflare Pages
+  response headers); fonts come from the design-system package (see `hugo.toml`)
 - `config/_default/`, `config/development/`, `config/production/` — Hugo
   environment configs (`baseURL` is the only value that changes between them)
 

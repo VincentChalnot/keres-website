@@ -1,0 +1,17 @@
+{{/* Language switcher: each language links to the current page's translation, or to that language's home when the page has none. */}}
+{{ $page := . }}
+<span class="lang-switch lang-switch--navbar" role="group" aria-label="{{ i18n "nav_language" }}">
+  {{ range $page.Site.Home.AllTranslations }}
+    {{ $lang := .Language.Lang }}
+    {{ $label := upper $lang }}
+    {{ if eq $lang $page.Lang }}
+      <span class="lang-switch__item is-current" lang="{{ $lang }}">{{ $label }}</span>
+    {{ else }}
+      {{ $href := .RelPermalink }}
+      {{ range where $page.AllTranslations "Lang" $lang }}
+        {{ $href = .RelPermalink }}
+      {{ end }}
+      <a class="lang-switch__item" href="{{ $href }}" lang="{{ $lang }}" hreflang="{{ $lang }}">{{ $label }}</a>
+    {{ end }}
+  {{ end }}
+</span>

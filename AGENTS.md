@@ -48,8 +48,8 @@ always call the partial, so the domain stays defined exactly once.
   `{{ i18n "key" (dict ...) }}` for pieces with placeholders — see
   `piece-card.html` usage in `layouts/rules/single.html`). Adding text to a
   layout directly (instead of an i18n key) breaks translation parity.
-- **Keep `en.toml` and `fr.toml` in lockstep.** Both currently have the
-  same key count (270) — adding a key to one without the other leaves a
+- **Keep `en.toml` and `fr.toml` in lockstep.** Both define the same set of
+  keys — adding a key to one without the other leaves a
   raw key rendered on the missing-language page.
 - **Images**: `static/images/`, referenced as absolute paths (`/images/...`)
   since Hugo serves `static/` at the site root. `static/_headers` sets
@@ -65,10 +65,24 @@ always call the partial, so the domain stays defined exactly once.
   site itself never reads from the platform. `favicon*.png`/`.ico` and
   `apple-touch-icon.png` are rasters of `logo.svg` (ImageMagick) and must be
   re-exported by hand.
-- **Tailwind** via Hugo's PostCSS pipeline (`assets/css/main.css`,
-  `postcss.config.js`, `tailwind.config.js`) — do not add a separate build
-  step; Hugo's resource pipeline (`resources.PostCSS`) handles it using
-  `node_modules` from this repo's `package.json`.
+- **Styling comes from the Keres design system**
+  ([`@vchalnot/keres-design-system`](https://www.npmjs.com/package/@vchalnot/keres-design-system),
+  source in `../keres-design-system`): tokens, base styles, components and
+  print rules. `assets/css/main.css` only `@import`s
+  `@vchalnot/keres-design-system/src/keres.css` (postcss-import ignores the
+  package `exports` map, so the physical `src/` path is required) plus the few
+  site-specific overrides. `tailwind.config.js` loads the package preset and
+  adds its CSS to `content` so every component class is kept. Use the DS
+  component classes (`btn btn--primary`, `field`/`label`/`input`, `alert`,
+  `navbar__*`, `hero`, `section-flex`, `piece-card`, `callout`, `prose-keres`,
+  `footer`…) and DS colour names (`text-primary`, `bg-surface`, `text-muted`…)
+  rather than ad-hoc utility stacks or hex values; the legacy `keres-*`
+  aliases are not used here. Colours are re-themed in the DS tokens, never in
+  this repo. Fonts (Carolingia, RomanSerif, Source Serif 4) are not in
+  `static/`: `hugo.toml` mounts them from the package at `/fonts/`. Bump the
+  `@vchalnot/keres-design-system` version to pick up DS changes. Do not add a
+  separate build step; Hugo's resource pipeline (`resources.PostCSS`) handles
+  it using `node_modules` from this repo's `package.json`.
 - **No JavaScript framework.** The one piece of client-side JS
   (`layouts/contact/single.html`'s inline contact-form handler) is vanilla,
   inline, and uses Hugo's `jsonify`/`safeJS` template functions to safely
